@@ -184,6 +184,8 @@ PreviewLog
 
 액션: `Explore PreviewLog ↗` → `https://previewlog.bldnex.com`
 
+PreviewLog 회사 사이트 콘텐츠 기준은 `/Users/sangkim/Desktop/BLDNEX/previewlog-landing/deploy/index.html`을 사용한다. `site/index.html`의 이전 문구나 구조를 기준으로 재작성하지 않는다.
+
 두 번째 카드:
 
 ```text
@@ -276,6 +278,45 @@ Have something worth building?
 - 협업 개발자 네트워크 소개
 - 일하는 방식
 - 문의 CTA
+
+### PreviewLog 제품 정보 기준
+
+PreviewLog의 공식 제품 페이지는 다음 메시지와 기능 구조를 사용한다.
+
+```text
+프리뷰부터 편집용 자료까지 더 빠르게.
+
+프록시 촬영본을 로컬에서 분석해 대표 컷, 한국어 전사,
+타임코드와 촬영 품질 경고를 정리합니다.
+감독·PD·편집자에게 전달할 프리뷰 자료를 더 빠르게 준비하세요.
+```
+
+핵심 기능:
+
+- 장면별 대표 컷
+- 한국어 대사와 타임코드
+- 장면 설명과 검토 정보
+- 컷 선택 및 정리
+- 대사·비디오 로그 직접 수정
+- 무음·흐림·노출 등 검토 경고
+- HTML, PDF, CSV, SRT, VTT, JSON, SQLite 내보내기
+- 로컬 우선 처리와 원본 파일 읽기 전용 관리
+
+제품 페이지의 사용자 흐름은 `DRAFT YOUR PREVIEW → REVIEW & REFINE → DELIVER TO EDITING` 순서로 반영한다.
+
+지원 환경 및 가격은 제품 페이지 기준을 따른다.
+
+- Apple Silicon M1 이상
+- macOS 13 이상
+- 최소 8GB RAM, 16GB 권장
+- 앱과 기본 모델 약 2GB
+- 480p 이상 프록시 영상 권장
+- Windows 버전 출시 예정
+- 14일 또는 고유 원본 5시간 체험
+- 연간 구독 ₩120,000 + VAT
+- 출시 전에는 대기자 등록 폼을 사용
+
+PreviewLog 지원 이메일은 `BLDNEX.DEV@GMAIL.COM`으로 연결한다.
 
 ### Services
 

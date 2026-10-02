@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="흩어진 생각을 연결해 보관하는 개인 위키 메모리" />
+    <title>위키메모리</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">✦</span><span>위키메모리</span></div>
+        <button class="new-note" id="newNoteButton">+ 새 문서</button>
+        <nav class="nav" aria-label="주 메뉴">
+          <button class="nav-item active" data-filter="all">⌂ <span>모든 문서</span><b id="allCount">0</b></button>
+          <button class="nav-item" data-filter="favorite">★ <span>즐겨찾기</span><b id="favoriteCount">0</b></button>
+          <button class="nav-item" data-filter="recent">◷ <span>최근 수정</span></button>
+        </nav>
+        <div class="sidebar-section">
+          <div class="section-label">태그 <button id="clearTag" title="태그 필터 해제">＋</button></div>
+          <div id="tagList" class="tag-list"></div>
+        </div>
+        <div class="sidebar-bottom"><span class="status-dot"></span> 브라우저에 안전하게 저장됨</div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="mobile-brand">✦ 위키메모리</div>
+          <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="문서와 내용을 검색하세요" /><kbd>⌘ K</kbd></label>
+          <button id="themeButton" class="icon-button" title="테마 전환">☼</button>
+        </header>
+
+        <section class="workspace">
+          <div class="list-panel">
+            <div class="list-heading"><div><p class="eyebrow">MY KNOWLEDGE BASE</p><h1 id="listTitle">모든 문서</h1></div><span id="resultCount"></span></div>
+            <div id="noteList" class="note-list"></div>
+            <div id="emptyState" class="empty-state hidden"><div class="empty-icon">✦</div><h2>아직 문서가 없습니다</h2><p>생각, 배운 것, 자주 쓰는 정보를<br />작은 문서로 남겨보세요.</p><button class="new-note" id="emptyNewButton">첫 문서 만들기</button></div>
+          </div>
+
+          <article class="editor-panel" id="editorPanel">
+            <div class="editor-empty"><div class="large-mark">✦</div><h2>문서를 선택하세요</h2><p>왼쪽 목록에서 문서를 열거나<br />새 문서를 만들어 지식을 쌓아보세요.</p><button class="outline-button" id="editorNewButton">+ 새 문서 만들기</button></div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

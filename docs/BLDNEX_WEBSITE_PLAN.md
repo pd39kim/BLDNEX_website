@@ -1,6 +1,6 @@
 # BLDNEX 공식 웹사이트 기획서
 
-> 내부 바이브코딩 개발용 · v0.1 · 2026-10-02
+> 내부 바이브코딩 개발용 · v0.2 · 2026-10-02
 
 ## 0. 한 줄 정의
 
@@ -428,11 +428,13 @@ Tell us what you're building.
 
 ## 8. 기술 구현 제안
 
-### 권장 구성
+### 확정 구성
 
 ```text
-Frontend: Astro 또는 Vite + React + TypeScript
-Styling: CSS Modules 또는 vanilla CSS tokens
+Public site: Astro + TypeScript
+Interactive islands: React + TypeScript (@astrojs/react)
+Admin: React + TypeScript (별도 앱 또는 /admin island)
+Styling: vanilla CSS tokens, CSS Modules 선택
 Hosting: Cloudflare Pages
 API: Cloudflare Workers
 Database: Cloudflare D1
@@ -443,7 +445,15 @@ Email: Resend 또는 Cloudflare Email Routing + Worker 연동
 Analytics: Cloudflare Web Analytics 또는 별도 privacy-friendly analytics
 ```
 
-단순 정적 페이지가 중심이므로 초기에는 Astro를 우선 추천한다. 인터랙션이 많은 제품 목업/폼 상태 관리에 React가 필요할 때만 island/component 단위로 사용한다.
+Astro는 공개 사이트의 페이지·콘텐츠·SEO·정적 생성을 담당한다. React는 모바일 메뉴, 문의 폼, 포트폴리오 필터, 관리자 에디터처럼 브라우저 상태가 필요한 영역에만 사용한다. Vite는 Astro 내부 개발 도구로 사용되며, 공개 사이트 전체를 Vite + React SPA로 구성하지 않는다. 관리자 기능이 커지면 `/admin`을 별도의 React 앱으로 분리한다.
+
+이 결정의 이유:
+
+- BLDNEX 공개 사이트는 회사 소개·제품·포트폴리오·블로그 중심이다.
+- 첫 로딩과 검색 노출이 중요하다.
+- 모든 화면을 React로 hydration할 필요가 없다.
+- 향후 관리자와 SaaS 제품에는 React의 상태 관리·컴포넌트 생태계를 활용할 수 있다.
+- 기존 HTML 시안은 Astro 컴포넌트로 옮기기 쉽고, PreviewLog 시안의 실제 콘텐츠도 재사용할 수 있다.
 
 ### Cloudflare 구성
 
@@ -578,8 +588,8 @@ CREATE TABLE inquiry_files (
 
 ### Phase 1 — 브랜드·정적 사이트
 
-1. 로고·컬러·도메인 확정
-2. Astro/Vite 프로젝트 초기화
+1. 로고·컬러·법적 공개 정보 확정
+2. Astro + TypeScript 프로젝트 초기화
 3. 공통 layout, nav, footer, design tokens
 4. Home, About, Services, Works 목록
 5. PreviewLog/Shuffo 상세 페이지
@@ -684,3 +694,379 @@ CREATE TABLE inquiry_files (
 - 대표가 관리자 페이지에서 문의를 확인하고 상태를 바꿀 수 있다.
 - 대표가 Markdown 기반 블로그 글을 작성·발행할 수 있다.
 - 빌드, 링크, 접근성, 폼, R2 업로드 테스트가 통과한다.
+
+## 14. 페이지·라우트 구현 명세
+
+| 경로 | 페이지 | 렌더링 | 핵심 데이터 | 1차 CTA |
+| --- | --- | --- | --- | --- |
+| `/` | Home | 정적/사전 생성 | 사이트 설정, Featured Works | 프로젝트 문의 |
+| `/about` | About | 정적/사전 생성 | 회사 소개 설정 | 프로젝트 문의 |
+| `/services` | Services | 정적/사전 생성 | 서비스 목록 | 상담 시작 |
+| `/works` | Works 목록 | 정적/사전 생성 | Work 콘텐츠 | 상세 보기 |
+| `/works/previewlog` | PreviewLog 상세 | 정적/사전 생성 | PreviewLog 콘텐츠 | 제품 사이트 방문 |
+| `/works/shuffo` | Shuffo 상세 | 정적/사전 생성 | App Store 자료 | App Store 방문 |
+| `/blog` | Blog 목록 | D1/API 또는 사전 생성 | 발행 글 목록 | 글 읽기 |
+| `/blog/[slug]` | Blog 상세 | 동적/사전 생성 | 발행 글 본문 | 프로젝트 문의 |
+| `/contact` | Contact | 정적 + React island | 문의 폼 | 문의 제출 |
+| `/privacy` | Privacy Policy | 정적 | 법적 고지 | 없음 |
+| `/admin/inquiries` | 문의 관리자 | React 앱 | D1 inquiries | 상태 변경 |
+| `/admin/posts` | 블로그 관리자 | React 앱 | D1 blog_posts | 발행/수정 |
+
+초기 공개 릴리스에는 `/`, `/about`, `/services`, `/works`, `/works/previewlog`, `/works/shuffo`, `/contact`, `/privacy`를 포함한다. Blog와 Admin은 API 안정화 후 활성화한다.
+
+### 페이지별 콘텐츠 우선순위
+
+#### Home
+
+1. Hero: BLDNEX가 무엇을 만드는지와 프로젝트 문의 CTA
+2. Proof: PreviewLog·Shuffo 실제 제품
+3. Services: 주력 3개를 먼저, 전체 서비스는 보조 노출
+4. Process: Understand → Shape → Build → Ship
+5. Studio: 작은 팀, 높은 완성도
+6. Blog: 글이 있을 때만 노출
+7. Final CTA
+
+#### Works
+
+자체 제품을 먼저 보여주고 고객 프로젝트는 공개 승인된 자료만 추가한다. 각 상세 페이지는 “문제 → 만든 것 → 핵심 경험 → 결과물 → 링크” 순서를 사용한다.
+
+#### Contact
+
+폼 자체가 영업 자료가 되도록 “무엇을 만들고 싶은지”와 “현재 어디까지 진행했는지”를 자연스럽게 묻는다. 서버 검증 오류와 성공 상태를 사용자가 명확히 이해할 수 있어야 한다.
+
+## 15. 콘텐츠 데이터 모델
+
+### 정적 사이트 설정
+
+`src/data/site.ts`에 다음을 둔다.
+
+```ts
+export const site = {
+  name: 'BLDNEX',
+  legalName: '빌드넥스',
+  tagline: "BUILD WHAT'S NEXT",
+  email: 'BLDNEX.DEV@GMAIL.COM',
+  businessNumber: '374-02-03692',
+  siteUrl: 'https://bldnex.com',
+  previewlogUrl: 'https://previewlog.bldnex.com',
+  shuffoUrl: 'https://apps.apple.com/kr/app/shuffo/id6814380886',
+} as const;
+```
+
+이 정보는 화면·SEO·푸터·문의 완료 화면에서 공통으로 사용하고 여러 파일에 문자열을 복사하지 않는다.
+
+### Work 모델
+
+```ts
+type Work = {
+  slug: string;
+  title: string;
+  category: 'product' | 'game' | 'website' | 'webapp' | 'mobile';
+  summary: string;
+  description: string;
+  cover: string;
+  gallery: string[];
+  role: string[];
+  stack?: string[];
+  externalUrl?: string;
+  status: 'published' | 'draft';
+};
+```
+
+PreviewLog와 Shuffo는 먼저 `published`로 넣고, 고객 프로젝트는 실제 자료가 등록될 때까지 `draft`로 둔다.
+
+### Blog 모델
+
+블로그 본문은 Markdown으로 작성하고 D1에는 검증된 Markdown을 저장한다.
+
+```ts
+type BlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: 'development' | 'product-update';
+  contentMarkdown: string;
+  coverR2Key?: string;
+  status: 'draft' | 'published';
+  publishedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+```
+
+초기에는 글이 없으면 Home의 Blog 섹션을 렌더링하지 않는다. `Coming soon` 카드는 실제 운영 의지가 확정된 경우에만 사용한다.
+
+## 16. 권장 프로젝트 구조
+
+현재 루트의 `index.html`, `app.js`, `styles.css`는 이전 위키메모리 프로토타입이다. BLDNEX 공개 사이트 구현 시 Home으로 재사용하지 않으며, 구현 전에 별도 `prototype/` 폴더로 이동하거나 보관한다.
+
+```text
+BLDNEX_website/
+├── public/
+│   ├── assets/
+│   │   ├── brand/
+│   │   ├── previewlog/
+│   │   └── shuffo/
+│   ├── favicon.svg
+│   ├── robots.txt
+│   └── sitemap.xml
+├── src/
+│   ├── components/
+│   │   ├── common/
+│   │   ├── home/
+│   │   ├── works/
+│   │   └── contact/
+│   ├── content/
+│   │   ├── works/
+│   │   └── config.ts
+│   ├── data/site.ts
+│   ├── layouts/BaseLayout.astro
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── about.astro
+│   │   ├── services.astro
+│   │   ├── works/index.astro
+│   │   ├── works/[slug].astro
+│   │   ├── blog/index.astro
+│   │   ├── blog/[slug].astro
+│   │   ├── contact.astro
+│   │   └── privacy.astro
+│   ├── styles/tokens.css
+│   └── lib/
+│       ├── api.ts
+│       ├── seo.ts
+│       └── validation.ts
+├── worker/
+│   ├── src/index.ts
+│   ├── migrations/
+│   └── wrangler.toml
+├── docs/
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
+
+컴포넌트 원칙:
+
+- `.astro`: 정적 레이아웃·콘텐츠·SEO
+- `.tsx`: 상태·이벤트·브라우저 API가 필요한 UI
+- `src/data`: 사이트 전체에서 공유하는 확정 정보
+- `src/content`: Markdown 기반 공개 콘텐츠
+- `worker/`: 공개 페이지 코드와 분리된 API·보안 로직
+
+## 17. 인터랙션 명세
+
+### Header
+
+- 데스크톱: 로고, 5개 네비게이션, 문의 CTA
+- 모바일: 로고, 메뉴 버튼, 열린 상태에서 화면 전체 또는 패널 메뉴
+- 스크롤 방향에 따라 숨기는 효과는 사용하지 않는다. 문의 CTA 접근성을 유지한다.
+- 현재 경로 또는 섹션을 active 상태로 표시한다.
+
+### Hero
+
+- 최초 로드 시 텍스트·제품 그래픽이 순차적으로 나타난다.
+- 제품 그래픽은 실제 제품 정보를 보조하는 수준으로만 움직인다.
+- `prefers-reduced-motion`에서는 정적인 화면으로 제공한다.
+
+### Works
+
+- 카드 hover: 이미지 1.02배 확대, 제목/화살표 위치만 미세 이동
+- 카드 클릭: 상세 페이지 또는 외부 링크
+- 이미지가 없으면 무작위 그래픽 대신 제품명·카테고리 중심의 텍스트 커버 사용
+
+### Contact
+
+상태는 다음 네 가지로 정의한다.
+
+```text
+idle → editing → submitting → success
+                         ↘ error
+```
+
+- 제출 중 버튼 비활성화와 진행 문구 표시
+- 성공 시 접수 번호와 대표 이메일을 표시
+- 실패 시 입력값을 보존하고 재시도 가능
+- 첨부파일은 파일명·크기·삭제 버튼을 미리 표시
+- 서버 오류 내용을 그대로 노출하지 않고 사용자용 메시지로 변환
+
+## 18. API·데이터 흐름 명세
+
+### 문의 제출
+
+```text
+Contact React island
+  → Turnstile token 발급
+  → POST /api/contact/upload-url (첨부파일이 있을 때)
+  → R2 직접 업로드
+  → POST /api/contact
+  → D1 inquiries / inquiry_files 저장
+  → 이메일 알림
+  → 접수 완료 응답
+```
+
+`POST /api/contact` 요청에는 파일 자체가 아니라 검증된 R2 key만 전달한다. 이메일 발송 실패는 문의 저장 실패로 처리하지 않으며, 재전송 가능한 로그를 남긴다.
+
+### Blog 공개 조회
+
+- 공개 API는 `status = 'published'`만 반환한다.
+- 목록에는 `id`, `slug`, `title`, `excerpt`, `category`, `publishedAt`, `coverUrl`만 반환한다.
+- 본문은 상세 요청에서만 반환한다.
+- `Cache-Control`을 설정해 공개 글 목록과 상세의 불필요한 D1 요청을 줄인다.
+- 관리자 API는 Cloudflare Access JWT가 없으면 401을 반환한다.
+
+## 19. 환경변수와 시크릿
+
+값은 GitHub에 커밋하지 않는다.
+
+```text
+PUBLIC_SITE_URL=https://bldnex.com
+PUBLIC_PREVIEWLOG_URL=https://previewlog.bldnex.com
+PUBLIC_SHUFFO_URL=https://apps.apple.com/kr/app/shuffo/id6814380886
+PUBLIC_TURNSTILE_SITE_KEY=...
+TURNSTILE_SECRET_KEY=...
+RESEND_API_KEY=...
+CONTACT_NOTIFICATION_EMAIL=BLDNEX.DEV@GMAIL.COM
+R2_PUBLIC_BASE_URL=...
+```
+
+D1·R2 바인딩 이름은 `DB`, `ASSETS`처럼 짧고 일관되게 유지한다. 로컬 개발에서는 `.dev.vars` 또는 Wrangler secret을 사용하고 `.gitignore`에 등록한다.
+
+## 20. 테스트와 검수 기준
+
+### 기능
+
+- 모든 공개 라우트가 200 응답을 반환한다.
+- 로고 클릭이 Home으로 이동한다.
+- PreviewLog와 Shuffo 외부 링크가 정확하다.
+- 문의 필수값·이메일·동의·파일 제한을 검증한다.
+- 중복 제출을 방지한다.
+- D1 저장 후 이메일 알림이 발송된다.
+- 관리자만 문의와 블로그 데이터를 볼 수 있다.
+
+### 화면
+
+- 375px, 768px, 1280px 이상에서 레이아웃이 깨지지 않는다.
+- 스크린샷과 텍스트가 과도하게 잘리지 않는다.
+- 다크 배경의 본문·보조 텍스트 대비를 확인한다.
+- hover만으로 핵심 정보가 사라지지 않는다.
+- 키보드 Tab 순서가 시각적 순서와 일치한다.
+
+### 성능·SEO
+
+- 공개 페이지의 JavaScript는 필요한 island만 포함한다.
+- 이미지에는 적절한 width/height와 lazy loading을 적용한다.
+- `title`, description, canonical, OG image가 페이지별로 존재한다.
+- sitemap과 robots가 실제 도메인을 가리킨다.
+- Lighthouse 또는 동등한 도구로 모바일 성능을 확인한다.
+
+### 보안
+
+- 서버에서도 모든 입력과 파일 타입·용량을 재검증한다.
+- R2 파일이 공개 URL로 노출되지 않는다.
+- Markdown HTML을 sanitize한다.
+- 관리자 API에 Access JWT 검증과 rate limit을 적용한다.
+- 개인정보처리방침과 동의 문구가 실제 저장 필드와 일치한다.
+
+## 21. 구현 마일스톤
+
+### Milestone 0 — 정리
+
+- [ ] 로고 원본 수령
+- [ ] 법적 공개 정보(대표자명·주소·보호책임자) 확정
+- [ ] 기존 위키메모리 프로토타입 보관 위치 결정
+- [ ] Astro 프로젝트 초기화
+- [ ] 도메인·Cloudflare Pages 프로젝트 연결
+
+### Milestone 1 — 공개 사이트 뼈대
+
+- [ ] BaseLayout·Header·Footer
+- [ ] 디자인 토큰과 다크 테마
+- [ ] Home·About·Services
+- [ ] Works 목록·상세
+- [ ] 모바일 메뉴와 기본 모션
+
+### Milestone 2 — 제품 신뢰 증명
+
+- [ ] PreviewLog 상세에 `deploy/index.html` 기준 콘텐츠 반영
+- [ ] Shuffo 공식 App Store 이미지 반영
+- [ ] 실제 로고·favicon·OG 이미지 적용
+- [ ] 외부 링크·이미지 alt 검수
+
+### Milestone 3 — 문의 운영
+
+- [ ] Contact island
+- [ ] Workers `/api/contact`
+- [ ] D1 migration
+- [ ] Turnstile·R2·이메일
+- [ ] 대표용 문의 관리자
+
+### Milestone 4 — 블로그·출시
+
+- [ ] Blog 공개 목록·상세
+- [ ] Cloudflare Access 관리자
+- [ ] Markdown 편집·발행
+- [ ] SEO·접근성·모바일·보안 QA
+- [ ] bldnex.com 실서비스 배포
+
+## 22. 현재 확정 상태와 보류 상태
+
+### 확정
+
+- 회사명: 빌드넥스 / BLDNEX
+- 슬로건: `BUILD WHAT'S NEXT`
+- 회사 사이트: `https://bldnex.com`
+- PreviewLog: `https://previewlog.bldnex.com`
+- 대표 이메일: `BLDNEX.DEV@GMAIL.COM`
+- 사업자등록번호: `374-02-03692`
+- 공개 사이트 기술 방향: Astro + TypeScript + 선택적 React
+- 인프라 방향: Cloudflare Pages / Workers / D1 / R2
+
+### 보류
+
+- 로고 파일 및 실제 브랜드 컬러
+- 대표자명·사업장 주소·개인정보 보호책임자
+- PreviewLog와 SHUFFO 외 추가 포트폴리오 상세
+- 대표 이메일의 발송 서비스(Resend 등)
+- 블로그 1차 게시글과 공개 시점
+- 문의 데이터 보존 기간
+
+## 23. 구현 시작 프롬프트 v0.2
+
+```text
+BLDNEX 공식 웹사이트를 Astro + TypeScript로 구현한다.
+
+중요한 기술 결정:
+- 공개 사이트는 Astro를 사용한다.
+- 정적 콘텐츠와 SEO는 Astro가 담당한다.
+- React는 모바일 메뉴, 문의 폼, 필터, 관리자처럼 상태가 필요한 영역에만 사용한다.
+- 공개 사이트 전체를 Vite + React SPA로 만들지 않는다.
+- Cloudflare Pages에 정적 배포하고, API는 별도 Cloudflare Workers로 둔다.
+
+브랜드:
+- 회사명: 빌드넥스 / BLDNEX
+- 슬로건: BUILD WHAT'S NEXT
+- 메시지: 빠른 실행, 높은 완성도, 기획부터 개발까지
+- 다크톤, 전문적이고 조용한 자신감
+- AI 생성물처럼 보이는 무작위 그라디언트·3D·글리치 금지
+- 영문 headline + 자연스러운 한글 설명
+
+페이지:
+- /, /about, /services, /works, /works/previewlog, /works/shuffo
+- /blog, /blog/[slug], /contact, /privacy
+- Footer에 PreviewLog·Shuffo·Privacy Policy 링크
+
+자료 기준:
+- PreviewLog는 /Users/sangkim/Desktop/BLDNEX/previewlog-landing/deploy/index.html을 기준으로 한다.
+- SHUFFO 자료는 public/assets/shuffo/의 App Store 공식 이미지와 README를 사용한다.
+- 자료가 없는 고객 포트폴리오는 내용을 만들지 않고 draft/placeholder로 둔다.
+
+완료 조건:
+- 공개 라우트와 모바일 레이아웃 완성
+- 문의 폼의 클라이언트·서버 검증
+- D1 저장·R2 업로드·이메일 알림
+- Cloudflare Access 관리자
+- SEO·접근성·reduced-motion·보안 검증
+- pnpm build, typecheck, lint, 링크 검사 통과
+```

@@ -101,7 +101,7 @@ FROM IDEA TO LAUNCH
 ├── Blog / Insights
 │   └── /blog/:slug
 ├── Contact
-├── previewlog.blldnex.com (별도 제품 사이트)
+├── previewlog.bldnex.com (별도 제품 사이트)
 ├── Shuffo App Store 링크
 └── Privacy Policy
 ```
@@ -182,7 +182,7 @@ PreviewLog
 
 > PreviewLog는 프록시 영상을 로컬에서 분석해 대표 컷, 장면 설명, 음성 전사와 편집용 프리뷰 로그를 만들어주는 데스크톱 앱이다. 현재 M1 이상 Mac을 지원하며 Windows 버전은 준비 중이다.
 
-액션: `Explore PreviewLog ↗` → `https://previewlog.blldnex.com` (도메인 철자 확정 필요)
+액션: `Explore PreviewLog ↗` → `https://previewlog.bldnex.com`
 
 두 번째 카드:
 
@@ -408,8 +408,8 @@ Analytics: Cloudflare Web Analytics 또는 별도 privacy-friendly analytics
 
 #### Pages
 
-- `bldnex.com` 또는 확정된 공식 도메인: BLDNEX 회사 사이트
-- `previewlog.blldnex.com` 또는 확정된 서브도메인: PreviewLog 제품 페이지
+- `bldnex.com`: BLDNEX 회사 사이트
+- `previewlog.bldnex.com`: PreviewLog 제품 페이지
 - PreviewLog 제품 사이트는 별도 프로젝트로 유지하고 BLDNEX Works에서 연결
 
 #### Workers
@@ -625,8 +625,8 @@ CREATE TABLE inquiry_files (
 
 구현 시작 전에 다음 세 가지만 확정한다.
 
-- 회사 공식 도메인 철자: `bldnex.com`인지 `blldnex.com`인지
-- PreviewLog 연결 주소: 사용자 제공 주소는 `previewlog.blldnex.com`이며, 실제 도메인 등록 상태 확인 필요
+- 회사 공식 도메인: `bldnex.com` 확정
+- PreviewLog 연결 주소: `https://previewlog.bldnex.com` 확정
 - 문의 알림 수신 이메일: `BLDNEX.DEV@GMAIL.COM`
 - 사업자등록번호: `374-02-03692`
 - Privacy Policy에 대표자명, 사업장 주소, 개인정보 보호책임자 정보 추가 필요

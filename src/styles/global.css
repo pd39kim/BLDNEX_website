@@ -235,6 +235,10 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .contact-preparation li { display: flex; gap: 20px; padding-block: 24px; border-top: 1px solid var(--line); }
 .contact-preparation h3 { font-size: 1rem; margin-bottom: 8px; }
 .contact-preparation .body-copy { font-size: .9rem; }
+.notfound-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.notfound-links nav { display: flex; flex-direction: column; align-items: start; }
+.notfound-links .eyebrow { margin-bottom: 16px; }
+.notfound-links .text-link { min-height: 40px; }
 .privacy-intro { max-width: 700px; margin-top: 50px; }
 .privacy-draft { border: 1px solid var(--accent); background: var(--surface); padding: 24px; margin-top: 28px; }
 .privacy-draft .eyebrow { margin-bottom: 12px; }
@@ -284,6 +288,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 @media (max-width: 900px) {
   .section-wrap, .site-header { width: calc(100% - 48px); }
   .privacy-section { grid-template-columns: 1fr; gap: 16px; }
+  .notfound-links { grid-template-columns: 1fr; gap: 28px; }
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
   .stack-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .check-list { grid-template-columns: 1fr; gap: 0; }

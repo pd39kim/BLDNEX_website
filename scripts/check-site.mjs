@@ -191,4 +191,24 @@ for (const [route, html] of documents) {
   assert(!url.includes('.html'), route + ': canonical must not expose the .html file name');
 }
 
-console.log(`PASS: ${routes.length} pages, ${linkCount} internal references, ${shareImages.size} share images, metadata, structured data, anchors, FAQ, sitemap and privacy guardrails.`);
+// 404 페이지: 없으면 Cloudflare Pages가 없는 주소마다 홈 HTML을 200으로 돌려주어
+// (소프트 404) 검색엔진이 중복 페이지로 수집합니다. 색인되지 않아야 하고 사이트맵에도 없어야 합니다.
+{
+  const notFound = await readFile(join(root, '404.html'), 'utf8');
+  assert.match(notFound, /<html lang="ko">/, '404: Korean document language');
+  assert.equal((notFound.match(/<h1[\s>]/g) ?? []).length, 1, '404: expected one h1');
+  assert.match(notFound, /name="robots" content="noindex/, '404 page must not be indexed');
+  assert(!sitemap.includes('404'), '404 page must stay out of the sitemap');
+  assert(!titles.has(notFound.match(/<title>([^<]+)<\/title>/)?.[1]), '404: duplicate title');
+  // 돌아갈 길이 있어야 합니다.
+  assert.match(notFound, /href="\/"/, '404 page must link back to the home page');
+  for (const match of notFound.matchAll(/\bhref="(\/[^"#]*)"/g)) {
+    const target = match[1].replace(/\/$/, '') || '/';
+    if (documents.has(target)) continue;
+    // 확장자가 있으면 에셋이므로 그대로, 없으면 페이지이므로 .html 을 붙여 확인합니다.
+    const file = target === '/' ? 'index.html' : (/\.[a-z0-9]+$/i.test(target) ? target : target + '.html');
+    await access(join(root, file));
+  }
+}
+
+console.log(`PASS: ${routes.length} pages + 404, ${linkCount} internal references, ${shareImages.size} share images, metadata, structured data, anchors, FAQ, sitemap and privacy guardrails.`);

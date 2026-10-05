@@ -95,6 +95,14 @@ curl -sL -o /dev/null -w '%{num_redirects}\n' https://www.bldnex.com/about  # 1
 
 canonical·`og:url`·sitemap이 모두 슬래시 없는 주소를 쓰므로 `file`이 맞습니다. `check-site.mjs`도 이 형식(`<경로>.html`)을 기준으로 읽습니다.
 
+## 404 — 반드시 404.html 이 있어야 합니다
+
+Cloudflare Pages 는 정적 자산에 매칭되지 않는 요청에 `dist/404.html` 을 **404 상태**로 돌려줍니다. 이 파일이 없으면 **모든 없는 주소가 홈 HTML 을 200 으로 반환**합니다(소프트 404). 검색엔진이 오타 주소와 끊긴 외부 링크를 전부 중복 페이지로 수집하게 됩니다.
+
+2026-10-05 공개 직후 실제로 이 상태였고(`/nonexistent-xyz` → 200), `src/pages/404.astro` 를 추가해 해소했습니다. `check-site.mjs` 가 `404.html` 존재·noindex·사이트맵 제외·제목 중복·내부 링크 유효성을 확인합니다.
+
+404 페이지는 공개 페이지 수에 넣지 않습니다. `measure-site.mjs` 가 라우트를 셀 때 `404.html` 과 관리자 셸을 제외합니다.
+
 ## 응답 헤더
 
 `public/_headers`에서 관리하며 빌드 때 `dist`로 복사됩니다. 배포본에서 적용을 확인했습니다.

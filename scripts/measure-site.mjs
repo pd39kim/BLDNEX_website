@@ -58,7 +58,13 @@ async function measure() {
 
   let routes = 0;
   // Public pages only; the authenticated admin shell is not a public portfolio route.
-  for await (const file of walk(root)) if (extname(file) === '.html' && !file.startsWith(join(root, 'admin') + '/')) routes++;
+  // 공개 콘텐츠 페이지만 셉니다. 관리자 셸과 404 오류 페이지는 제외합니다.
+  for await (const file of walk(root)) {
+    if (extname(file) !== '.html') continue;
+    if (file.startsWith(join(root, 'admin') + '/')) continue;
+    if (file === join(root, '404.html')) continue;
+    routes++;
+  }
 
   let fontBytes = 0;
   for (const file of fonts) fontBytes += await raw(join(fontDir, file));

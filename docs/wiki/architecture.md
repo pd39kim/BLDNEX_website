@@ -24,6 +24,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 | `src/data/app-store.json` | Shuffo의 App Store 공개 정보 (스크립트가 갱신) |
 | `src/components/` | Header/Footer, PageHero, SectionHeading, WorkCard, Process, FAQ, CallToAction |
 | `src/layouts/BaseLayout.astro` | 공통 HTML, SEO 메타, OG, JSON-LD, 폰트 preload |
+| `src/pages/404.astro` | 오류 페이지. 없으면 소프트 404가 발생합니다 |
 | `src/pages/` | 라우트. `works/[slug].astro`는 제품 2종, `works/bldnex-website.astro`는 전용 |
 | `src/styles/global.css` | 다크 디자인 토큰, 반응형 레이아웃, 접근성 기본 |
 | `src/styles/brand.css` | 공식 심볼·워드마크 크기와 브랜드 색상 |

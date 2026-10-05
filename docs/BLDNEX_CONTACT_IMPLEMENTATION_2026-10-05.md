@@ -1,8 +1,8 @@
 # 문의 접수 구현·운영 연결 초안
 
-작성·갱신: 2026-10-05 · 상태: **구현·검증 및 D1/Turnstile 준비 완료 / 운영 선택 승인 / Pages 배포 완료 / 실제 접수 비활성**
+작성·갱신: 2026-10-05 · 상태: **구현·검증 및 운영 연결 완료 / Pages·Worker 배포 완료 / 운영 접수 활성**
 
-사용자의 구현 지시에 따라 [접수 계획](BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md)을 구현했습니다. 후속 “제안대로 진행 후 커밋, 푸시, 빌드” 지시로 관리자·Resend 사용·보관 기준을 확정하고 기존 Cloudflare 계정의 D1/Turnstile 준비를 진행했습니다. 이후 접수 OFF 상태의 Pages 배포까지 완료했습니다. 서비스 가입·DNS 변경·실제 메일 발송·예약 Worker 배포는 실행하지 않았습니다. 현재 Pages는 Direct Upload이므로 Git 푸시가 자동 배포를 유발하지 않습니다.
+사용자의 구현 지시에 따라 [접수 계획](BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md)을 구현했습니다. 후속 “제안대로 진행 후 커밋, 푸시, 빌드” 지시로 관리자·Resend 사용·보관 기준을 확정하고 D1/Turnstile, Access, 발신 도메인, 운영 Worker 연결을 완료했습니다. 현재 Pages는 Direct Upload이므로 Git 푸시가 자동 배포를 유발하지 않습니다.
 
 ## 1. 지금 확인할 화면
 
@@ -13,7 +13,7 @@
 
 준비 상태에서는 제출 버튼이 비활성이고 이메일 문의를 안내합니다. 브라우저 테스트의 가상 성공 응답을 실제 접수로 취급하지 않습니다.
 
-실제 배포 확인: `https://bldnex.com/contact` 200, `/api/contact/config`는 `enabled:false`, `/admin/inquiries`는 `admin_unconfigured`로 차단. 배포 식별자는 `8f3c859e.bldnex-website.pages.dev`입니다.
+실제 배포 확인: `https://bldnex.com/contact` 200, `/api/contact/config`는 `enabled:true`와 운영 Turnstile 사이트 키를 반환하며, `/admin/inquiries`는 Cloudflare Access 로그인으로 리다이렉트됩니다. 운영 Worker가 `system_health.jobs`를 기록하는 것도 확인했습니다. 실제 Gmail 도착 여부와 스테이징 실접수는 별도 검수 대상입니다.
 
 ## 2. 구현 범위
 
@@ -94,9 +94,9 @@ D1 트랜잭션: 문의 원문 + 알림 작업 저장
 - Turnstile은 managed 모드이며 호스트를 환경별로 제한했습니다. 실제 브라우저 검증은 운영 연결 후 별도 수행합니다.
 - 검수 호스트는 `staging` 브랜치 배포에 사용할 예정이며 아직 배포하지 않았습니다. 임의 해시 URL이나 다른 preview 브랜치를 이 설정으로 접수 활성화하지 않습니다.
 - `wrangler.toml`의 기본 DB는 로컬 전용, `env.production`/`env.preview`는 각각 위 원격 DB입니다. 예약 Worker는 기본 운영/`env.staging` 검수이며 모두 OFF입니다.
-- Resend 대시보드에서 발송 전용 권한의 `bldnex-contact-jobs` 키를 생성해 운영·검수 Worker에 `RESEND_API_KEY`로 등록했습니다. 키 값은 문서·Git·채팅에 기록하지 않았습니다. 발신 도메인 `notify.bldnex.com`의 인증 상태는 아직 확인하지 않았고, Worker 코드는 아직 배포하지 않았습니다.
-- 현재 Cloudflare 인증의 Access 설정 권한은 없고 `ACCESS_TEAM_DOMAIN`/`ACCESS_AUD`도 미설정입니다. 관리자 인증을 우회하거나 토큰 권한을 임의 확장하지 않았습니다.
-- 보관 기준 승인은 공급자 처리·국외 이전·복원/삭제·개정 시행일 검토 완료와 다릅니다. `CONTACT_POLICY_APPROVED`, `PUBLIC_CONTACT_POLICY_VERSION`은 미설정 상태입니다.
+- Resend 대시보드에서 발송 전용 권한의 `bldnex-contact-jobs` 키를 생성해 운영·검수 Worker에 `RESEND_API_KEY`로 등록했습니다. 키 값은 문서·Git·채팅에 기록하지 않았습니다. 발신 도메인 `notify.bldnex.com`과 DKIM/CNAME 인증 상태를 확인했습니다.
+- Cloudflare Access 앱 `BLDNEX Contact Admin`을 `/admin/inquiries`와 관리자 API 경로에 연결하고 `BLDNEX.DEV@GMAIL.COM`만 허용했습니다. `ACCESS_TEAM_DOMAIN`/`ACCESS_AUD`는 운영 Pages 변수에 반영했습니다.
+- 운영 Pages의 `CONTACT_POLICY_APPROVED`는 `contact-2026-10-05-v1`로 반영했습니다. 이는 구현 승인 버전이며 공급자 처리·국외 이전·복원/삭제·개정 시행일에 대한 법률 검토 완료를 뜻하지 않습니다.
 
 ## 5. 관리자 동작
 

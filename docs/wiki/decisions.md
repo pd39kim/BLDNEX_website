@@ -109,3 +109,9 @@ DB 저장 성공을 접수 기준으로 삼고 문의와 outbox를 트랜잭션�
 Resend 연결 수단을 확인했고 발송 전용 API 키는 Worker에 등록했습니다. 발신 도메인 `notifications@notify.bldnex.com`은 설정 초안이며 DNS 인증 전에는 발송 가능하다고 주장하지 않습니다. 현재 Cloudflare 인증에 Access 설정 권한이 없어 관리자 도메인/audience를 임의로 만들지 않습니다. 실제 인증·Gmail 수신·공급자 처리와 개정 방침 검토 후에만 접수를 활성화합니다.
 
 Resend 대시보드가 로그인된 상태에서 발송 전용 권한의 `bldnex-contact-jobs` API 키를 생성했고, 값은 노출하지 않은 채 운영·검수 Worker 비밀값 `RESEND_API_KEY`로 등록했습니다. Worker 코드 배포와 `notify.bldnex.com` 도메인 인증은 아직 하지 않았습니다. 발송 전용 키는 도메인 관리 API 조회에는 사용할 수 없으므로, 도메인/DNS 상태는 대시보드와 Cloudflare 권한이 확인된 뒤 검수합니다.
+
+## 2026-10-05 — 문의 운영 연결 완료
+
+운영 Pages 변수에 문의 활성화, 운영 정책 버전, Turnstile, Resend 발신·수신 주소, Cloudflare Access 도메인·audience를 반영했습니다. 운영 D1 `system_health.jobs` 기록을 확인한 뒤 `https://bldnex.com/api/contact/config`가 `enabled:true`를 반환하는 것을 검증했습니다. 실제 사용자 문의를 대신 제출하거나 Gmail 도착을 확인한 것은 아닙니다.
+
+`notify.bldnex.com`의 Resend 발신 도메인과 DKIM/CNAME 레코드는 인증 완료 상태입니다. `bldnex-contact-jobs` Worker는 `JOBS_ENABLED=true`, 5분 cron, 운영 D1, Resend 시크릿으로 배포했습니다. 관리자 앱 `BLDNEX Contact Admin`은 `/admin/inquiries` 및 `/api/admin/*`를 보호하고 `BLDNEX.DEV@GMAIL.COM`만 허용합니다.

@@ -9,7 +9,7 @@ preview_urls = false
 crons = ["*/5 * * * *"]
 
 [vars]
-JOBS_ENABLED = "false"
+JOBS_ENABLED = "true"
 
 [[d1_databases]]
 binding = "CONTACT_DB"

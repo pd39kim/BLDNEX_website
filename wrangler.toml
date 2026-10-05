@@ -21,13 +21,15 @@ database_id = "00000000-0000-0000-0000-000000000001"
 migrations_dir = "migrations"
 
 [env.production.vars]
-CONTACT_ENABLED = "false"
+CONTACT_ENABLED = "true"
 CONTACT_ORIGIN = "https://bldnex.com"
 TURNSTILE_SITE_KEY = "0x4AAAAAAFOIqbFEGmqDXJKm"
 ADMIN_EMAILS = "BLDNEX.DEV@GMAIL.COM"
 NOTIFY_TO = "BLDNEX.DEV@GMAIL.COM"
 NOTIFY_FROM = "notifications@notify.bldnex.com"
-CONTACT_POLICY_APPROVED = ""
+CONTACT_POLICY_APPROVED = "contact-2026-10-05-v1"
+ACCESS_TEAM_DOMAIN = "https://hidden-waterfall-6bf5.cloudflareaccess.com"
+ACCESS_AUD = "02e61386b86e6ffa60a00bb86eac66277b4f2f91f590a86a291e1d3a831f1e42"
 
 [[env.production.d1_databases]]
 binding = "CONTACT_DB"

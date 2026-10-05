@@ -48,7 +48,7 @@ async function configure() {
     const response = await fetch('/api/contact/config', { cache: 'no-store', signal: AbortSignal.timeout(6000) });
     const config = await response.json();
     if (!response.ok || !config.enabled || config.policyVersion !== POLICY_VERSION || !config.siteKey) {
-      notice.textContent = '온라인 접수는 아직 준비 중이거나 일시 중지된 상태입니다. 지금은 이메일로 문의해주세요. 입력 중인 내용은 이 화면에 남아 있습니다.';
+      notice.textContent = '온라인 접수는 아직 준비 중이거나 일시 중지된 상태입니다. 지금은 이메일로 문의해 주세요. 입력 중인 내용은 이 화면에 남아 있습니다.';
       retryConfig.hidden = false; return;
     }
     await loadTurnstile();
@@ -57,13 +57,13 @@ async function configure() {
       sitekey: config.siteKey, action: 'contact', theme: 'dark', size: 'flexible',
       callback: (value: string) => { token = value; submit.disabled = busy; },
       'expired-callback': () => { token = ''; },
-      'error-callback': () => { token = ''; status.textContent = '보안 확인을 완료하지 못했습니다. 연결을 다시 확인하거나 이메일로 문의해주세요.'; retryConfig.hidden = false; },
+      'error-callback': () => { token = ''; status.textContent = '보안 확인을 완료하지 못했습니다. 연결을 다시 확인하거나 이메일로 문의해 주세요.'; retryConfig.hidden = false; },
     });
     else resetChallenge();
     enabled = true; submit.disabled = false;
     notice.textContent = '사이트에서 바로 접수할 수 있습니다. 저장이 완료되면 이 화면에 접수번호가 표시됩니다.';
   } catch {
-    notice.textContent = '온라인 접수 연결을 확인하지 못했습니다. 연결을 다시 확인하거나 이메일로 문의해주세요.';
+    notice.textContent = '온라인 접수 연결을 확인하지 못했습니다. 연결을 다시 확인하거나 이메일로 문의해 주세요.';
     retryConfig.hidden = false;
   }
 }
@@ -79,8 +79,8 @@ form.addEventListener('submit', async (event) => {
     const values = new FormData(form);
     const { data, errors } = validateContact({ ...Object.fromEntries(values), consent: values.has('consent'), optionalConsent: values.has('optionalConsent') });
     showErrors(errors);
-    if (Object.keys(errors).length) { status.textContent = '표시된 항목을 확인해주세요.'; return; }
-    if (!token) { status.textContent = '보안 확인이 완료될 때까지 잠시 기다려주세요.'; resetChallenge(); return; }
+    if (Object.keys(errors).length) { status.textContent = '표시된 항목을 확인해 주세요.'; return; }
+    if (!token) { status.textContent = '보안 확인이 완료될 때까지 잠시 기다려 주세요.'; resetChallenge(); return; }
     // The honeypot remains in the DOM for direct/bot requests, but browser autofill
     // must not turn an otherwise valid human submission into a false positive.
     pending = { key: crypto.randomUUID(), data, website: '' };
@@ -110,16 +110,16 @@ form.addEventListener('submit', async (event) => {
     if (response.status === 422 && result.error === 'validation' && result.fields) {
       fieldValidationFailed = true;
       fields.disabled = false; pending = undefined; showErrors(result.fields);
-      status.textContent = '표시된 항목을 확인해주세요.';
+      status.textContent = '표시된 항목을 확인해 주세요.';
     } else if (result.error === 'captcha') {
-      status.textContent = '보안 확인이 만료되었거나 완료되지 않았습니다. 보안 확인 후 아래 버튼으로 같은 문의를 다시 확인해주세요.';
+      status.textContent = '보안 확인이 만료되었거나 완료되지 않았습니다. 보안 확인을 마친 후 아래 버튼을 눌러 다시 시도해 주세요.';
     } else if (response.status === 429) {
-      status.textContent = '요청이 많아 잠시 접수가 제한되었습니다. 입력 내용은 유지됩니다. 잠시 후 같은 문의를 재시도하거나 이메일로 문의해주세요.';
+      status.textContent = '요청이 많아 잠시 접수가 제한되었습니다. 입력 내용은 유지됩니다. 잠시 후 같은 문의를 재시도하거나 이메일로 문의해 주세요.';
     } else {
-      status.textContent = '접수 결과를 확인하지 못했습니다. 입력 내용을 유지하고 있습니다. 아래 버튼으로 같은 문의의 접수 여부를 다시 확인해주세요. 계속 실패하면 이메일로 문의해주세요.';
+      status.textContent = '접수 결과를 확인하지 못했습니다. 입력 내용을 유지하고 있습니다. 아래 버튼으로 같은 문의의 접수 여부를 다시 확인해 주세요. 계속 실패하면 이메일로 문의해 주세요.';
     }
   } catch {
-    status.textContent = '접수 결과를 확인하지 못했습니다. 입력 내용을 유지하고 있습니다. 아래 버튼으로 같은 문의의 접수 여부를 다시 확인해주세요. 새로고침하면 입력 내용이 사라집니다.';
+    status.textContent = '접수 결과를 확인하지 못했습니다. 입력 내용을 유지하고 있습니다. 아래 버튼으로 같은 문의의 접수 여부를 다시 확인해 주세요. 새로고침하면 입력 내용이 사라집니다.';
   } finally {
     busy = false; form.removeAttribute('aria-busy');
     if (!saved) {

@@ -57,7 +57,7 @@ test('company/phone requires separate optional consent without blocking an empty
   await enable(page); await page.goto('/contact'); await fill(page);
   await page.locator('#company').fill('테스트 회사'); await page.locator('.inquiry-submit').click();
   await expect(page.locator('#optionalConsent')).toBeFocused();
-  await expect(page.locator('#error-optionalConsent')).toContainText('지우거나');
+  await expect(page.locator('#error-optionalConsent')).toContainText('동의가 필요');
 });
 test('unknown network result preserves a frozen snapshot and retries the SAME request key', async ({ page }) => {
   await enable(page); const requests = [];
@@ -77,18 +77,20 @@ test('unknown network result preserves a frozen snapshot and retries the SAME re
 });
 test('double clicks cannot create parallel requests', async ({ page }) => {
   await enable(page); let posts = 0;
-  await page.route('**/api/contact', async (route) => { posts++; await new Promise((resolve) => setTimeout(resolve, 200)); await route.fulfill({ status: 201, json: { receipt } }); });
+  await page.route('**/api/contact', async (route) => {
+    posts++; await new Promise((resolve) => setTimeout(resolve, 200)); await route.fulfill({ status: 201, json: { receipt } });
+  });
   await page.goto('/contact'); await fill(page);
   await page.evaluate(() => { const form = document.querySelector('form'); form.requestSubmit(); form.requestSubmit(); });
   await expect(page.locator('#inquiry-success')).toBeVisible(); expect(posts).toBe(1);
 });
 test('server validation keeps input, unlocks it and displays field errors', async ({ page }) => {
   await enable(page);
-  await page.route('**/api/contact', (route) => route.fulfill({ status: 422, json: { error: 'validation', fields: { email: '이메일 주소를 확인해주세요.' } } }));
+  await page.route('**/api/contact', (route) => route.fulfill({ status: 422, json: { error: 'validation', fields: { email: '이메일 주소를 확인해 주세요.' } } }));
   await page.goto('/contact'); await fill(page); await page.locator('.inquiry-submit').click();
   await expect(page.locator('#email')).toBeEnabled(); await expect(page.locator('#email')).toHaveValue('test@example.test');
   await expect(page.locator('#email')).toBeFocused();
-  await expect(page.locator('#error-email')).toHaveText('이메일 주소를 확인해주세요.');
+  await expect(page.locator('#error-email')).toHaveText('이메일 주소를 확인해 주세요.');
   await expect(page.locator('#inquiry-success')).not.toBeVisible();
 });
 test('CAPTCHA script failure keeps intake disabled and provides fallback', async ({ page }) => {

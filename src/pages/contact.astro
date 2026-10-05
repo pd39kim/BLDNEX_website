@@ -21,10 +21,10 @@ const preparations = [
     <div class="contact-card">
       <p class="eyebrow">PREFER EMAIL?</p>
       <h2 class="ko-heading">이메일이 더 편하시다면.</h2>
-      <p class="body-copy">폼을 이용하기 어렵거나 자료를 함께 보내고 싶다면 이메일로 연락해주세요.</p>
+      <p class="body-copy">폼을 이용하기 어렵거나 자료를 함께 보내고 싶다면 이메일로 연락해 주세요.</p>
       <a class="contact-address email-link" href={contactHref}>{site.email}</a>
       <div class="actions"><a class="button button-primary" href={contactHref}>이메일로 문의하기 <span aria-hidden="true">↗</span></a><button class="text-link copy-email" type="button" data-email={site.email} hidden>이메일 주소 복사</button></div>
-      <p class="contact-help">메일 앱이 열리지 않으면 위 주소를 복사해 보내주세요.</p>
+      <p class="contact-help">메일 앱이 열리지 않으면 위 주소를 복사해 보내 주세요.</p>
       <p class="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
     </aside>
@@ -43,7 +43,7 @@ const preparations = [
         await navigator.clipboard.writeText(button.dataset.email ?? '');
         status.textContent = '이메일 주소를 복사했습니다.';
       } catch {
-        status.textContent = '주소를 복사하지 못했습니다. 위 이메일 주소를 직접 선택해 복사해주세요.';
+        status.textContent = '주소를 복사하지 못했습니다. 위 이메일 주소를 직접 선택해 복사해 주세요.';
       } finally {
         button.disabled = false;
       }

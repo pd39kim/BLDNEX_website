@@ -34,16 +34,16 @@ export function validateContact(raw: unknown): { data: ContactInput; errors: Fie
     optionalConsent: value.optionalConsent === true, policyVersion: str('policyVersion'),
   };
   const errors: FieldErrors = {};
-  if (!owns(projectTypes, data.projectType)) errors.projectType = '프로젝트 유형을 선택해주세요.';
-  if (data.name.length < 2 || data.name.length > 50 || /[\p{Cc}]/u.test(data.name)) errors.name = '이름은 2–50자로 입력해주세요.';
-  if (data.company.length > 100 || /[\p{Cc}]/u.test(data.company)) errors.company = '회사·팀 이름은 100자 이내로 입력해주세요.';
-  if (data.email.length > 254 || !/^[^\s@\p{Cc}]+@[^\s@\p{Cc}]+\.[^\s@\p{Cc}]+$/u.test(data.email)) errors.email = '연락받을 이메일 주소를 확인해주세요.';
-  if (data.phone && !/^[+\d][\d ()+.-]{6,29}$/.test(data.phone)) errors.phone = '연락처는 숫자와 +, -, 괄호로 7–30자 이내로 입력해주세요.';
-  if (!owns(budgets, data.budget)) errors.budget = '예산 범위를 선택해주세요. 미정도 괜찮습니다.';
-  if (!owns(schedules, data.schedule)) errors.schedule = '희망 일정을 선택해주세요. 상담 후 결정도 괜찮습니다.';
-  if (data.description.length < 20 || data.description.length > 5000 || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(data.description)) errors.description = '프로젝트 내용을 20–5,000자로 입력해주세요.';
-  if (!data.consent) errors.consent = '필수 개인정보 수집·이용에 동의해주세요.';
-  if ((data.company || data.phone) && !data.optionalConsent) errors.optionalConsent = '회사·연락처를 지우거나 선택정보 수집·이용에 동의해주세요.';
-  if (data.policyVersion !== POLICY_VERSION) errors.policyVersion = '안내 내용이 변경되었습니다. 입력 내용을 따로 보관한 뒤 페이지를 새로고침해주세요.';
+  if (!owns(projectTypes, data.projectType)) errors.projectType = '프로젝트 유형을 선택해 주세요.';
+  if (data.name.length < 2 || data.name.length > 50 || /[\p{Cc}]/u.test(data.name)) errors.name = '이름은 2–50자로 입력해 주세요.';
+  if (data.company.length > 100 || /[\p{Cc}]/u.test(data.company)) errors.company = '회사·팀 이름은 100자 이내로 입력해 주세요.';
+  if (data.email.length > 254 || !/^[^\s@\p{Cc}]+@[^\s@\p{Cc}]+\.[^\s@\p{Cc}]+$/u.test(data.email)) errors.email = '연락받을 이메일 주소를 확인해 주세요.';
+  if (data.phone && !/^[+\d][\d ()+.-]{6,29}$/.test(data.phone)) errors.phone = '연락처는 숫자와 +, -, 괄호로 7–30자 이내로 입력해 주세요.';
+  if (!owns(budgets, data.budget)) errors.budget = '예산 범위를 선택해 주세요. 미정도 괜찮습니다.';
+  if (!owns(schedules, data.schedule)) errors.schedule = '희망 일정을 선택해 주세요. 상담 후 결정도 괜찮습니다.';
+  if (data.description.length < 20 || data.description.length > 5000 || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(data.description)) errors.description = '프로젝트 내용을 20–5,000자로 입력해 주세요.';
+  if (!data.consent) errors.consent = '필수 개인정보 수집·이용에 동의해 주세요.';
+  if ((data.company || data.phone) && !data.optionalConsent) errors.optionalConsent = '선택 항목(회사·연락처)을 입력하신 경우 동의가 필요합니다. 동의하지 않으시려면 입력을 비워 주세요.';
+  if (data.policyVersion !== POLICY_VERSION) errors.policyVersion = '안내 내용이 변경되었습니다. 입력 내용을 따로 보관한 뒤 페이지를 새로고침해 주세요.';
   return { data, errors };
 }

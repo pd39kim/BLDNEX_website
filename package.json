@@ -17,7 +17,8 @@
     "assets:og": "node scripts/generate-og.mjs",
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
     "fonts:subset": "node scripts/subset-fonts.mjs",
-    "assets:appstore": "node scripts/fetch-appstore.mjs"
+    "assets:appstore": "node scripts/fetch-appstore.mjs",
+    "verify:live": "node scripts/verify-live.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

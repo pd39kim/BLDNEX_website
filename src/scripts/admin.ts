@@ -20,10 +20,10 @@ async function api(path: string, method = 'GET', body?: unknown) {
   return result;
 }
 function report(error: unknown) {
-  if (error instanceof ApiError && [401, 403].includes(error.status)) message.textContent = '관리자 인증이 필요하거나 접근 권한이 없습니다. 로그인 상태와 허용 계정을 확인해주세요.';
+  if (error instanceof ApiError && [401, 403].includes(error.status)) message.textContent = '관리자 인증이 필요하거나 접근 권한이 없습니다. 로그인 상태와 허용 계정을 확인해 주세요.';
   else if (error instanceof ApiError && error.code === 'admin_unconfigured') message.textContent = '관리자 인증 설정이 아직 완료되지 않았습니다. 운영 계정과 Cloudflare Access 연결 후 사용할 수 있습니다.';
-  else if (error instanceof ApiError && error.status === 409) message.textContent = '다른 처리와 겹쳤거나 이미 종료·발송된 문의입니다. 새로고침 후 다시 확인해주세요.';
-  else message.textContent = '요청 결과를 확인하지 못했습니다. 새로고침해 현재 상태를 확인한 뒤 다시 시도해주세요.';
+  else if (error instanceof ApiError && error.status === 409) message.textContent = '다른 처리와 겹쳤거나 이미 종료·발송된 문의입니다. 새로고침 후 다시 확인해 주세요.';
+  else message.textContent = '요청 결과를 확인하지 못했습니다. 새로고침해 현재 상태를 확인한 뒤 다시 시도해 주세요.';
   message.focus();
 }
 async function loadList(append = false) {
@@ -97,7 +97,7 @@ async function change(action: 'status' | 'retry' | 'delete') {
     if (!confirm(expired ? '이전 발송의 중복 방지 기간이 지났습니다. 알림이 중복 수신될 수 있음을 확인하고 다시 발송할까요?' : '예약 작업에 알림 재시도를 요청할까요?')) return;
     body = { acknowledgeDuplicateRisk: expired }; method = 'POST'; suffix = '/retry';
   } else {
-    const confirmed = prompt(`문의를 삭제하면 되돌릴 수 없습니다. 삭제하려면 아래 접수번호를 그대로 입력해주세요.\n${id}`);
+    const confirmed = prompt(`문의를 삭제하면 되돌릴 수 없습니다. 삭제하려면 아래 접수번호를 그대로 입력해 주세요.\n${id}`);
     if (confirmed !== id) return;
     body = { confirmId: confirmed }; method = 'DELETE'; suffix = '';
   }

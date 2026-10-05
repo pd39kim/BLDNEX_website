@@ -81,7 +81,9 @@ form.addEventListener('submit', async (event) => {
     showErrors(errors);
     if (Object.keys(errors).length) { status.textContent = '표시된 항목을 확인해주세요.'; return; }
     if (!token) { status.textContent = '보안 확인이 완료될 때까지 잠시 기다려주세요.'; resetChallenge(); return; }
-    pending = { key: crypto.randomUUID(), data, website: String(values.get('website') ?? '') };
+    // The honeypot remains in the DOM for direct/bot requests, but browser autofill
+    // must not turn an otherwise valid human submission into a false positive.
+    pending = { key: crypto.randomUUID(), data, website: '' };
   }
   // Freeze the snapshot after submission: ambiguous failures must retry identical data with the same key.
   fields.disabled = true; busy = true; submit.disabled = true;

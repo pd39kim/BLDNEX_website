@@ -14,6 +14,7 @@ export function json(value: unknown, status = 200) { return secure(Response.json
 export function failure(error: unknown) {
   // Deliberately do not log request bodies, email addresses, JWTs or provider responses.
   if (error instanceof HttpError) {
+    console.warn(`contact: rejected ${error.status} ${error.code}`);
     const response = json({ error: error.code, ...(error.fields ? { fields: error.fields } : {}) }, error.status);
     if (error.status === 429) response.headers.set('Retry-After', '600');
     return response;

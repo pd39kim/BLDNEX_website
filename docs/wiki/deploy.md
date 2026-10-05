@@ -17,7 +17,7 @@
 
 ## 배포하기
 
-**문의 기능 추가 후 주의:** 현재 소스에는 Pages Functions와 D1 마이그레이션, 별도 예약 Worker가 있습니다. 이번 변경은 아직 배포하지 않았고 `CONTACT_ENABLED=false`입니다. 아래 기존 Pages 배포 명령만 실행한다고 DB·Access·메일·예약 작업이 만들어지지 않습니다. [운영 연결 순서](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md)를 먼저 따라야 합니다.
+**문의 기능 추가 후 현재 상태:** Pages Functions와 D1 마이그레이션이 포함된 Contact 화면을 `CONTACT_ENABLED=false` 상태로 배포했습니다. 2026-10-05 확인 시 `https://bldnex.com/contact`는 200, `/api/contact/config`는 `enabled:false`, `/admin/inquiries`는 Access 미설정으로 503 `admin_unconfigured`를 반환했습니다. 예약 Worker는 배포하지 않았습니다. 아래 명령만으로 DB·Access·메일·예약 작업이 자동으로 만들어지지는 않습니다. [운영 연결 순서](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md)를 먼저 따라야 합니다.
 
 운영/검수 D1 생성·마이그레이션, Turnstile과 Pages 비밀 키 등록은 완료했습니다. Resend·Access·개정 방침·실제 수신 검증은 남아 있습니다. 루트 `wrangler.toml`의 기본 설정은 로컬 전용이며 `env.production`은 운영 DB, `env.preview`는 검수 DB입니다. Pages에는 `account_id`를 넣을 수 없습니다. Worker 설정의 `account_id`와는 다릅니다.
 

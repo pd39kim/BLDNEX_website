@@ -1,8 +1,8 @@
 # 문의 접수 구현·운영 연결 초안
 
-작성·갱신: 2026-10-05 · 상태: **구현·검증 및 D1/Turnstile 준비 완료 / 운영 선택 승인 / 실제 접수 비활성 / 이번 변경 미배포**
+작성·갱신: 2026-10-05 · 상태: **구현·검증 및 D1/Turnstile 준비 완료 / 운영 선택 승인 / Pages 배포 완료 / 실제 접수 비활성**
 
-사용자의 구현 지시에 따라 [접수 계획](BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md)을 구현했습니다. 후속 “제안대로 진행 후 커밋, 푸시, 빌드” 지시로 관리자·Resend 사용·보관 기준을 확정하고 기존 Cloudflare 계정의 D1/Turnstile 준비를 진행했습니다. 기존 공개 사이트는 유지했고, 서비스 가입·DNS 변경·실제 메일 발송·사이트/Worker 배포는 실행하지 않았습니다. 현재 Pages는 Direct Upload이므로 Git 푸시가 자동 배포를 유발하지 않습니다.
+사용자의 구현 지시에 따라 [접수 계획](BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md)을 구현했습니다. 후속 “제안대로 진행 후 커밋, 푸시, 빌드” 지시로 관리자·Resend 사용·보관 기준을 확정하고 기존 Cloudflare 계정의 D1/Turnstile 준비를 진행했습니다. 이후 접수 OFF 상태의 Pages 배포까지 완료했습니다. 서비스 가입·DNS 변경·실제 메일 발송·예약 Worker 배포는 실행하지 않았습니다. 현재 Pages는 Direct Upload이므로 Git 푸시가 자동 배포를 유발하지 않습니다.
 
 ## 1. 지금 확인할 화면
 
@@ -12,6 +12,8 @@
 - 개인정보 개정 초안: `/privacy`
 
 준비 상태에서는 제출 버튼이 비활성이고 이메일 문의를 안내합니다. 브라우저 테스트의 가상 성공 응답을 실제 접수로 취급하지 않습니다.
+
+실제 배포 확인: `https://bldnex.com/contact` 200, `/api/contact/config`는 `enabled:false`, `/admin/inquiries`는 `admin_unconfigured`로 차단. 배포 식별자는 `8f3c859e.bldnex-website.pages.dev`입니다.
 
 ## 2. 구현 범위
 

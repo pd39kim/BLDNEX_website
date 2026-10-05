@@ -8,7 +8,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 
 공개용 정적 페이지 **9개**와 비공개 관리자 셸 **1개**가 빌드됩니다: Home, About, Services, Works 목록, PreviewLog, Shuffo, bldnex.com, Contact, Privacy Policy + `/admin/inquiries`.
 
-기존 사이트는 **2026-10-05 Cloudflare Pages로 공개**했습니다(https://bldnex.com). 이후 문의 폼·Pages Functions/D1·Access 관리자·Resend 알림/파기 Worker를 로컬 구현했으며 **이번 문의 변경은 미배포, 접수 OFF**입니다. 기존 이메일 경로는 남습니다. Privacy는 기존 운영값을 보존하고 폼 개정 초안을 추가했으며 검토 전까지 noindex를 유지합니다. [구현·운영 연결](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md)
+기존 사이트는 **2026-10-05 Cloudflare Pages로 공개**했습니다(https://bldnex.com). 이후 문의 폼·Pages Functions/D1·Access 관리자·Resend 알림/파기 Worker를 구현했으며 접수 OFF 상태로 Pages 배포까지 완료했습니다. 실제 도메인에서 Contact 화면 200·접수 config disabled·관리자 unconfigured 차단을 확인했습니다. 기존 이메일 경로는 남습니다. Privacy는 기존 운영값을 보존하고 폼 개정 초안을 추가했으며 검토 전까지 noindex를 유지합니다. [구현·운영 연결](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md)
 
 후속 승인으로 운영/검수 D1 두 개를 생성·마이그레이션했고 환경별 Turnstile 및 Pages 비밀 키를 등록했습니다. Pages의 기본 설정은 로컬 DB이며 `production`/`preview`를 명시해야 원격 DB를 선택합니다. 예약 Worker도 운영/검수 DB를 분리했으며 아직 배포하지 않았습니다. 관리자·Resend 사용·보관 기간은 확정됐고 실제 Resend/Access 연결 및 정책 검토는 별도입니다.
 

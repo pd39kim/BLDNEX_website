@@ -1,8 +1,8 @@
 // 빌드된 dist에서 실제로 쓰인 글자만 추려 웹폰트를 서브셋합니다.
 // astro build 다음에 실행되며(pnpm build), 결과물은 dist/assets/fonts/에 들어갑니다.
 //
-// 글리프 추출은 HTML 원문을 그대로 훑습니다. 본문 텍스트뿐 아니라
-// aria-label·alt 같은 속성값과 인라인 <script> 안의 문자열도 화면이나
+// 글리프 추출은 HTML·번들 JS 원문을 훑습니다. 본문 텍스트뿐 아니라
+// aria-label·alt 같은 속성값과 스크립트 안의 동적 문자열도 화면이나
 // 보조기기에 노출되므로 전부 포함해야 합니다. 태그 이름과 클래스명이 섞여
 // 들어가지만 모두 ASCII라 결과 크기에는 영향이 없습니다.
 import { readdir, readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
@@ -41,15 +41,17 @@ async function* walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) yield* walk(path);
-    else if (extname(entry.name) === '.html') yield path;
+    else if (['.html', '.js'].includes(extname(entry.name))) yield path;
   }
 }
 
-/** dist의 모든 HTML에서 쓰인 글리프 집합을 만듭니다. */
+/** HTML와 번들 JS의 동적 안내/오류 문구를 모두 포함합니다. 사용자 입력은 시스템 폰트를 씁니다. */
 export async function collectGlyphs(root = new URL('.', dist).pathname) {
   const glyphs = new Set();
   for await (const file of walk(root)) {
-    for (const char of decode(await readFile(file, 'utf8'))) {
+    const source = decode(await readFile(file, 'utf8')).replace(/\\u\{([0-9a-f]{1,6})\}|\\u([0-9a-f]{4})/gi,
+      (_, wide, short) => String.fromCodePoint(parseInt(wide ?? short, 16)));
+    for (const char of source) {
       if (char.codePointAt(0) > 31) glyphs.add(char);
     }
   }

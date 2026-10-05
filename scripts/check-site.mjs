@@ -64,11 +64,17 @@ for (const [route, html] of documents) {
   }
 }
 assert.match(documents.get('/privacy'), /name="robots" content="noindex, follow"/);
-assert(!documents.get('/contact').includes('<form'), 'Email-only contact must not expose an inert form');
+assert.match(documents.get('/contact'), /<form[^>]*action="\/api\/contact"[^>]*method="post"/, 'Contact must point to the real intake endpoint');
+assert.match(documents.get('/contact'), /inquiry-submit[^>]*disabled/, 'Intake must stay disabled until server readiness is confirmed');
+assert(!/<input[^>]*type="checkbox"[^>]*checked/.test(documents.get('/contact')), 'Consent must not be preselected');
+assert.match(documents.get('/contact'), /mailto:/, 'Email fallback must remain available');
+assert.match(await readFile(join(root, 'admin/inquiries.html'), 'utf8'), /name="robots" content="noindex, follow"/);
+assert.deepEqual(JSON.parse(await readFile(join(root, '_routes.json'), 'utf8')).include, ['/api/*', '/admin*']);
 assert.equal((documents.get('/contact').match(/class="faq-item"/g) ?? []).length, 7);
 assert.equal((documents.get('/').match(/class="faq-item"/g) ?? []).length, 3);
 const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');
 assert(!sitemap.includes('/privacy'), 'Unfinished privacy page should be excluded from sitemap');
+assert(!sitemap.includes('/admin'), 'Private admin must be excluded from sitemap');
 assert.equal((sitemap.match(/<loc>/g) ?? []).length, 8);
 for (const route of routes.filter((path) => path !== '/privacy')) assert(sitemap.includes('https://bldnex.com' + route + '</loc>'));
 assert.match(await readFile(join(root, 'robots.txt'), 'utf8'), /Sitemap: https:\/\/bldnex.com\/sitemap.xml/);
@@ -102,8 +108,8 @@ assert.match(documents.get('/'), /content="index, follow, max-image-preview:larg
   for (const match of documents.get('/').matchAll(/<link rel="preload" as="font"[^>]*href="([^"]+)"/g)) {
     await access(join(root, match[1]));
   }
-  const cssFile = (await readdir(join(root, '_astro'))).find((name) => name.endsWith('.css'));
-  const css = await readFile(join(root, '_astro', cssFile), 'utf8');
+  const cssFiles = (await readdir(join(root, '_astro'))).filter((name) => name.endsWith('.css'));
+  const css = (await Promise.all(cssFiles.map((name) => readFile(join(root, '_astro', name), 'utf8')))).join('\n');
   // 라틴 폰트는 한글을 담지 않는 것이 정상이므로, 폰트마다 "원본이 그릴 수 있던 글자 중
   // 서브셋에서 사라진 것"이 없는지를 봅니다. 전체 커버리지는 스택 합집합으로 따로 확인합니다.
   const union = new Set();

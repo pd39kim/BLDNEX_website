@@ -1,0 +1,14 @@
+# Template only. Copy to .dev.vars locally; use dashboard/Wrangler secrets in production.
+# No real credentials belong in git or chat. Default: submissions disabled.
+CONTACT_ENABLED="false"
+CONTACT_ORIGIN="https://bldnex.com"
+CONTACT_POLICY_APPROVED=""
+TURNSTILE_SITE_KEY=""
+TURNSTILE_SECRET_KEY=""
+RATE_LIMIT_SECRET=""
+# RESEND_API_KEY belongs only to the scheduled Worker, not Pages.
+NOTIFY_FROM="notifications@notify.bldnex.com"
+NOTIFY_TO="BLDNEX.DEV@GMAIL.COM"
+ACCESS_TEAM_DOMAIN=""
+ACCESS_AUD=""
+ADMIN_EMAILS="BLDNEX.DEV@GMAIL.COM"

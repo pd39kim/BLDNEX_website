@@ -57,7 +57,8 @@ async function measure() {
     .reduce((total, match) => total + Buffer.byteLength(match[1]), 0);
 
   let routes = 0;
-  for await (const file of walk(root)) if (extname(file) === '.html') routes++;
+  // Public pages only; the authenticated admin shell is not a public portfolio route.
+  for await (const file of walk(root)) if (extname(file) === '.html' && !file.startsWith(join(root, 'admin') + '/')) routes++;
 
   let fontBytes = 0;
   for (const file of fonts) fontBytes += await raw(join(fontDir, file));

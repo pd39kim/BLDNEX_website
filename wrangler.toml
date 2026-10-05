@@ -3,3 +3,49 @@
 name = "bldnex-website"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-10-05"
+
+# Intake remains OFF until credentials, Access, privacy and the scheduled Worker are verified.
+[vars]
+CONTACT_ENABLED = "false"
+CONTACT_ORIGIN = "http://127.0.0.1:8788"
+ADMIN_EMAILS = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_TO = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_FROM = "notifications@notify.bldnex.com"
+CONTACT_POLICY_APPROVED = ""
+
+# Default is local-only. Remote databases require an explicit named environment.
+[[d1_databases]]
+binding = "CONTACT_DB"
+database_name = "bldnex-contact-local"
+database_id = "00000000-0000-0000-0000-000000000001"
+migrations_dir = "migrations"
+
+[env.production.vars]
+CONTACT_ENABLED = "false"
+CONTACT_ORIGIN = "https://bldnex.com"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFOIqbFEGmqDXJKm"
+ADMIN_EMAILS = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_TO = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_FROM = "notifications@notify.bldnex.com"
+CONTACT_POLICY_APPROVED = ""
+
+[[env.production.d1_databases]]
+binding = "CONTACT_DB"
+database_name = "bldnex-contact-production"
+database_id = "5028c5cb-3bd2-4d83-a228-4fe5b2b7adf3"
+migrations_dir = "migrations"
+
+[env.preview.vars]
+CONTACT_ENABLED = "false"
+CONTACT_ORIGIN = "https://staging.bldnex-website.pages.dev"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFOI0E6VVZNyt2v8"
+ADMIN_EMAILS = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_TO = "BLDNEX.DEV@GMAIL.COM"
+NOTIFY_FROM = "notifications@notify.bldnex.com"
+CONTACT_POLICY_APPROVED = ""
+
+[[env.preview.d1_databases]]
+binding = "CONTACT_DB"
+database_name = "bldnex-contact-staging"
+database_id = "7a84b42d-6620-4c93-ad1f-7a034d5a41b9"
+migrations_dir = "migrations"

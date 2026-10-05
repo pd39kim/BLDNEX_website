@@ -8,7 +8,12 @@
     "build": "astro build && node scripts/subset-fonts.mjs && node scripts/measure-site.mjs",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "pnpm build && node scripts/check-site.mjs",
+    "test": "pnpm test:contact && pnpm build && node scripts/check-site.mjs",
+    "test:contact": "node --import tsx --test tests/contact.test.mjs",
+    "contact:dev": "wrangler pages dev dist --d1 CONTACT_DB=00000000-0000-0000-0000-000000000001 --binding CONTACT_ENABLED=false --binding CONTACT_ORIGIN=http://127.0.0.1:8788 --ip 127.0.0.1 --port 8788",
+    "test:browser": "playwright test",
+    "contact:migrate:local": "wrangler d1 migrations apply CONTACT_DB --local --config wrangler.local.toml",
+    "contact:check": "wrangler pages functions build --outdir .wrangler/contact-check && wrangler deploy --dry-run --env=\"\" --config workers/contact-jobs/wrangler.toml && wrangler deploy --dry-run --env staging --config workers/contact-jobs/wrangler.toml",
     "assets:og": "node scripts/generate-og.mjs",
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
     "fonts:subset": "node scripts/subset-fonts.mjs",
@@ -17,11 +22,16 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "astro": "^5.14.1",
+    "jose": "^6.2.12",
     "sharp": "0.34.5",
     "typescript": "^5.9.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261004.1",
+    "@playwright/test": "^1.63.0",
     "fontkit": "^2.0.4",
-    "subset-font": "^2.9.0"
+    "subset-font": "^2.9.0",
+    "tsx": "^4.23.15",
+    "wrangler": "^4.147.0"
   }
 }

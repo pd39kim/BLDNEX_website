@@ -14,6 +14,8 @@
 | [fonts.md](fonts.md) | 웹폰트 서브셋 셀프호스팅 — 동작 원리, 빌드 검사, 주의점 |
 | [proof-points.md](proof-points.md) | 개발사임을 사이트가 직접 증명하는 장치 (실측 스탬프·자기 참조 작업물·App Store 배지) |
 | [deploy.md](deploy.md) | Cloudflare Pages 배포 절차, 도메인 연결, URL 형식 주의점 |
+| [직접 접수형 문의 폼 계획](../BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md) | 초기 설계 기록. 후속 구현 문서 우선 |
+| [문의 구현·운영 연결](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md) | 운영 선택 승인, D1·Turnstile 준비 완료. Resend·Access·방침 검토 대기, 미배포·접수 OFF |
 | [../BLDNEX_WEBSITE_PLAN.md](../BLDNEX_WEBSITE_PLAN.md) | 상세한 공식 웹사이트 기획 원문 |
 | [콘텐츠 업데이트 제안](../BLDNEX_CONTENT_UPDATE_PLAN_2026-10-03.md) | 2026-10-05 진행 지시에 따라 일반 콘텐츠 적용. 별도 제품·운영 검수 항목 유지 |
 | [실제 게재용 카피 초안](../BLDNEX_WEBSITE_COPY_DRAFT_2026-10-03.md) | 페이지별 원고. 이메일 대안 적용, 정식 폼·법적 운영값은 보류 |

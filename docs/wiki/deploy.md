@@ -9,6 +9,7 @@
 | 프로젝트 | `bldnex-website` |
 | 계정 | pd39kim@gmail.com (`95ea5a60382544303b01bb3210df93a2`) |
 | 프로덕션 브랜치 | `main` |
+| 배포 방식 | Direct Upload (`Git Provider: No`). Git 푸시와 빌드는 배포가 아님 |
 | 배포 URL | https://bldnex-website.pages.dev |
 | 공개 주소 | **https://bldnex.com** (연결 완료) |
 | www | apex로 301 리다이렉트 |
@@ -16,8 +17,17 @@
 
 ## 배포하기
 
+**문의 기능 추가 후 주의:** 현재 소스에는 Pages Functions와 D1 마이그레이션, 별도 예약 Worker가 있습니다. 이번 변경은 아직 배포하지 않았고 `CONTACT_ENABLED=false`입니다. 아래 기존 Pages 배포 명령만 실행한다고 DB·Access·메일·예약 작업이 만들어지지 않습니다. [운영 연결 순서](../BLDNEX_CONTACT_IMPLEMENTATION_2026-10-05.md)를 먼저 따라야 합니다.
+
+운영/검수 D1 생성·마이그레이션, Turnstile과 Pages 비밀 키 등록은 완료했습니다. Resend·Access·개정 방침·실제 수신 검증은 남아 있습니다. 루트 `wrangler.toml`의 기본 설정은 로컬 전용이며 `env.production`은 운영 DB, `env.preview`는 검수 DB입니다. Pages에는 `account_id`를 넣을 수 없습니다. Worker 설정의 `account_id`와는 다릅니다.
+
+검수용 origin은 `https://staging.bldnex-website.pages.dev`로 예약했으며 아직 해당 브랜치를 배포하지 않았습니다. 임의 해시 preview URL은 이 호스트용 CAPTCHA/origin과 일치하지 않으므로 접수 검수에 사용하지 않습니다. DB 작업은 반드시 `--env production` 또는 `--env preview`와 대상 DB 이름을 명시합니다. `workers/contact-jobs/wrangler.toml`은 기본이 운영, `--env staging`이 검수 DB이며 두 환경 모두 예약 작업 OFF입니다.
+
 ```sh
-pnpm test                       # 빌드 + 전체 검사 (실패하면 배포하지 않습니다)
+pnpm check
+pnpm test                       # 로컬 D1 테스트 + 빌드 + 정적 검사
+pnpm contact:check              # Functions 컴파일 + 예약 Worker dry-run
+pnpm test:browser               # Chrome 검사. 실제 발송 검증은 별도
 npx wrangler pages deploy dist --project-name bldnex-website --branch main
 ```
 
@@ -89,6 +99,8 @@ canonical·`og:url`·sitemap이 모두 슬래시 없는 주소를 쓰므로 `fil
 
 `public/_headers`에서 관리하며 빌드 때 `dist`로 복사됩니다. 배포본에서 적용을 확인했습니다.
 
+Functions 응답에는 `_headers`를 의존하지 않습니다. 문의/관리자 API와 관리자 HTML에는 `server/http.ts`가 `no-store`, `nosniff`, `X-Frame-Options: DENY`, `no-referrer`, `X-Robots-Tag`를 설정합니다. `_routes.json`은 `/api/*`와 `/admin*`만 Functions로 보냅니다.
+
 | 경로 | 헤더 |
 | --- | --- |
 | `/*` | `nosniff`, `Referrer-Policy`, `X-Frame-Options: DENY`, HSTS 1년 |
@@ -108,10 +120,13 @@ npx wrangler pages project create bldnex-website --production-branch main --forc
 
 ## 배포 전 점검
 
-- `pnpm test` 통과 (9페이지, 내부 참조 306개, 폰트 커버리지, 실측 수치 일치 등)
+- `pnpm test` 통과 (공개 9페이지, 내부 참조 308개, 폰트 커버리지, 실측 수치 일치 등)
+- 현재 문의 변경: 공개 9페이지 + 관리자 셸 1개, 서버/브라우저 검수 별도. 실제 접수는 운영 연결·방침 검토 후에만 활성화합니다.
 - 개인정보처리방침은 현재 `noindex` + sitemap 제외 + 푸터 "(준비 중)" 유지 상태입니다. 법률 검토 후 [방침 해제](roadmap.md)를 함께 진행합니다.
 - PreviewLog는 공개 배포 상태가 확인되지 않아 외부 링크·다운로드를 노출하지 않습니다.
 
 ## 롤백
 
 대시보드의 **Deployments**에서 이전 배포의 **Rollback**을 누릅니다. 배포마다 고유 URL(`<해시>.bldnex-website.pages.dev`)이 남아 있어 비교한 뒤 되돌릴 수 있습니다.
+
+문의 도입 후에는 먼저 `CONTACT_ENABLED=false`로 신규 접수를 닫습니다. 롤백은 D1 데이터·예약 Worker를 되돌리거나 삭제하지 않습니다. 기존 문의 관리와 만료 파기는 계속해야 합니다. 원격 DB를 임의 초기화하지 않습니다.

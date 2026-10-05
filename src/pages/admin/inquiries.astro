@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { statuses } from '../../../shared/contact';
+import '../../styles/contact.css';
+import '../../styles/admin.css';
+---
+<BaseLayout title="문의 관리 · BLDNEX" description="BLDNEX 운영자를 위한 프로젝트 문의 관리 화면입니다." noindex>
+  <section class="page-hero section-wrap admin-hero">
+    <p class="eyebrow">BLDNEX / PRIVATE</p><h1>Inquiries.</h1>
+    <p class="body-copy">새 문의를 확인하고 진행 상태를 기록합니다. 메일 발송 승인과 실제 수신은 다릅니다.</p>
+    <p class="body-copy">운영 환경에서는 Cloudflare Access 로그인이 필요합니다.</p>
+  </section>
+  <section class="section-wrap admin-section">
+    <div class="admin-controls">
+      <label for="status-filter">문의 상태<select id="status-filter"><option value="">전체</option>{Object.entries(statuses).map(([value, text]) => <option value={value}>{text}</option>)}</select></label>
+      <button class="button" id="admin-refresh" type="button">새로고침</button>
+      <a class="text-link" href="/cdn-cgi/access/logout">로그아웃 ↗</a>
+    </div>
+    <p class="form-status" id="admin-message" role="status" tabindex="-1">접근 권한을 확인하고 있습니다…</p>
+    <p class="admin-health" id="admin-health"></p>
+    <div class="admin-grid">
+      <div><h2 class="ko-heading admin-subtitle">문의 목록</h2><ul id="inquiry-list" class="inquiry-list"></ul><button class="text-link" id="load-more" type="button" hidden>다음 문의 보기 ↓</button></div>
+      <article id="inquiry-detail" class="inquiry-detail" hidden tabindex="-1" aria-label="문의 상세">
+        <p class="eyebrow" id="detail-receipt"></p><h2 class="ko-heading admin-subtitle">문의 상세</h2>
+        <dl id="detail-fields" class="detail-fields"></dl>
+        <h3 class="ko-heading">프로젝트 내용</h3><p id="detail-description" class="detail-description"></p>
+        <h3 class="ko-heading">처리 상태</h3>
+        <div class="admin-controls"><label for="detail-status">상태 변경<select id="detail-status">{Object.entries(statuses).map(([value, text]) => <option value={value}>{text}</option>)}</select></label><button class="button" type="button" id="save-status">상태 저장</button></div>
+        <p class="field-caption">처리 종료는 되돌릴 수 없습니다. 종료 시점부터 보관 기간을 계산합니다.</p>
+        <p class="admin-health" id="detail-notification"></p>
+        <div class="actions"><button class="text-link" type="button" id="retry-notification">알림 재시도</button><button class="text-link danger-link" type="button" id="delete-inquiry">문의 삭제</button></div>
+        <p class="field-caption">삭제는 데이터베이스와 대기 알림에 적용됩니다. 이미 발송된 메일과 공급자 백업은 별도 처리해야 합니다.</p>
+        <h3 class="ko-heading">처리 기록</h3><ul id="detail-audit" class="detail-audit"></ul>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+<script src="../../scripts/admin.ts"></script>

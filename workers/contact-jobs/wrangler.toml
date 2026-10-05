@@ -1,0 +1,35 @@
+name = "bldnex-contact-jobs"
+account_id = "95ea5a60382544303b01bb3210df93a2"
+main = "index.ts"
+compatibility_date = "2026-10-05"
+workers_dev = false
+preview_urls = false
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+JOBS_ENABLED = "false"
+
+[[d1_databases]]
+binding = "CONTACT_DB"
+database_name = "bldnex-contact-production"
+database_id = "5028c5cb-3bd2-4d83-a228-4fe5b2b7adf3"
+migrations_dir = "../../migrations"
+
+[env.staging]
+name = "bldnex-contact-jobs-staging"
+
+[env.staging.vars]
+JOBS_ENABLED = "false"
+
+[env.staging.triggers]
+crons = ["*/5 * * * *"]
+
+[[env.staging.d1_databases]]
+binding = "CONTACT_DB"
+database_name = "bldnex-contact-staging"
+database_id = "7a84b42d-6620-4c93-ad1f-7a034d5a41b9"
+migrations_dir = "../../migrations"
+
+# Secret set separately: RESEND_API_KEY. Do not put it in this file.

@@ -5,16 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/subset-fonts.mjs && node scripts/measure-site.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "test": "pnpm build && node scripts/check-site.mjs",
-    "assets:og": "node scripts/generate-og.mjs"
+    "assets:og": "node scripts/generate-og.mjs",
+    "fonts:fetch": "node scripts/fetch-fonts.mjs",
+    "fonts:subset": "node scripts/subset-fonts.mjs",
+    "assets:appstore": "node scripts/fetch-appstore.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "astro": "^5.14.1",
     "sharp": "0.34.5",
     "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "fontkit": "^2.0.4",
+    "subset-font": "^2.9.0"
   }
 }

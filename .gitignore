@@ -5,3 +5,6 @@ dist/
 .env.*
 !.env.example
 .dev.vars
+
+# 빌드가 생성하는 서브셋 폰트 (원본은 assets/fonts-src/에 있음)
+public/assets/fonts/

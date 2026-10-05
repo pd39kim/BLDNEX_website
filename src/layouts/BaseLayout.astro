@@ -6,44 +6,93 @@ import '../styles/global.css';
 import '../styles/brand.css';
 import '../styles/typography.css';
 
-interface Props { title?: string; description?: string; noindex?: boolean; }
-const { title = pageMeta.home.title, description = pageMeta.home.description, noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site.siteUrl);
-const ogImage = new URL('/assets/brand/og-bldnex.png', site.siteUrl);
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
+  /** 상세 페이지의 상위 경로. 지정하면 BreadcrumbList JSON-LD를 함께 출력합니다. */
+  breadcrumb?: Array<{ name: string; path: string }>;
+  /** 페이지 고유의 추가 JSON-LD (예: 제품 상세의 SoftwareApplication). */
+  schema?: Record<string, unknown>;
+}
+const {
+  title = pageMeta.home.title,
+  description = pageMeta.home.description,
+  noindex = false,
+  ogImage = pageMeta.home.ogImage,
+  ogImageAlt = pageMeta.home.ogImageAlt,
+  ogType = 'website',
+  breadcrumb,
+  schema,
+} = Astro.props;
+
+// build.format: 'file'이면 Astro.url.pathname이 /about.html 처럼 확장자를 포함합니다.
+// 공개 주소는 확장자도 끝 슬래시도 없는 형태이므로 둘 다 떼어 canonical을 만듭니다.
+const path = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '');
+const canonical = new URL(path || '/', site.siteUrl);
+const shareImage = new URL(ogImage, site.siteUrl);
+
 const organization = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: site.name, legalName: site.legalName, url: site.siteUrl, email: site.email,
   logo: new URL('/assets/brand/bldnex-symbol.svg', site.siteUrl).href,
+  sameAs: [site.shuffoUrl],
 };
+const website = {
+  '@context': 'https://schema.org', '@type': 'WebSite',
+  name: site.name, url: site.siteUrl, inLanguage: 'ko-KR',
+  publisher: { '@type': 'Organization', name: site.name, url: site.siteUrl },
+};
+const breadcrumbList = breadcrumb && {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: breadcrumb.map((crumb, index) => ({
+    '@type': 'ListItem', position: index + 1, name: crumb.name,
+    item: new URL(crumb.path, site.siteUrl).href,
+  })),
+};
+const jsonLd = [organization, website, breadcrumbList, schema].filter(Boolean);
+const serialize = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a0b0d" />
-    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/assets/brand/bldnex-symbol.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <meta property="og:type" content="website" />
+
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:secure_url" content={shareImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="BLDNEX — BUILD WHAT'S NEXT. 웹사이트 · SaaS · 모바일 앱" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-    <script type="application/ld+json" set:html={JSON.stringify(organization).replace(/</g, '\\u003c')} />
-    <title>{title}</title>
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    {noindex
+      ? <meta name="robots" content="noindex, follow" />
+      : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+
+    <meta name="theme-color" content="#0a0b0d" />
+    <link rel="icon" type="image/svg+xml" href="/assets/brand/bldnex-symbol.svg" />
+    {/* 모든 화면이 쓰는 본문·한글 제목 폰트만 미리 받습니다. 나머지는 필요한 페이지에서 받습니다. */}
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/pretendard-600.woff2" crossorigin />
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={serialize(data)} />)}
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 바로가기</a>

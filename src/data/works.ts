@@ -1,5 +1,5 @@
 export type Work = {
-  slug: 'previewlog' | 'shuffo';
+  slug: 'previewlog' | 'shuffo' | 'bldnex-website';
   category: string;
   title: string;
   summary: string;
@@ -19,5 +19,11 @@ export const works: Work[] = [
     summary: '좋아하는 사진으로 즐기는 퍼즐.',
     description: '사진을 고르고 조각을 맞추는 모바일 게임.',
     tags: ['사진 선택', '슬라이드 퍼즐', 'iPhone'],
+  },
+  {
+    slug: 'bldnex-website', category: 'WEBSITE', title: 'bldnex.com',
+    summary: '지금 보고 계신 이 웹사이트.',
+    description: '정적 생성, 빌드 단계 폰트 서브셋, 자동 검수까지 직접 만든 회사 웹사이트.',
+    tags: ['Astro 정적 생성', '폰트 서브셋', '빌드 검수'],
   },
 ];

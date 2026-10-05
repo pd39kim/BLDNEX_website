@@ -11,6 +11,9 @@
 | [architecture.md](architecture.md) | 현재 웹사이트 구현 단계와 파일 구조 |
 | [decisions.md](decisions.md) | 이미 합의된 제품·콘텐츠·기술 결정 |
 | [roadmap.md](roadmap.md) | 다음 작업과 미해결 질문 |
+| [fonts.md](fonts.md) | 웹폰트 서브셋 셀프호스팅 — 동작 원리, 빌드 검사, 주의점 |
+| [proof-points.md](proof-points.md) | 개발사임을 사이트가 직접 증명하는 장치 (실측 스탬프·자기 참조 작업물·App Store 배지) |
+| [deploy.md](deploy.md) | Cloudflare Pages 배포 절차, 도메인 연결, URL 형식 주의점 |
 | [../BLDNEX_WEBSITE_PLAN.md](../BLDNEX_WEBSITE_PLAN.md) | 상세한 공식 웹사이트 기획 원문 |
 | [콘텐츠 업데이트 제안](../BLDNEX_CONTENT_UPDATE_PLAN_2026-10-03.md) | 2026-10-05 진행 지시에 따라 일반 콘텐츠 적용. 별도 제품·운영 검수 항목 유지 |
 | [실제 게재용 카피 초안](../BLDNEX_WEBSITE_COPY_DRAFT_2026-10-03.md) | 페이지별 원고. 이메일 대안 적용, 정식 폼·법적 운영값은 보류 |

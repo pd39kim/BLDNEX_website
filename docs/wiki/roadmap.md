@@ -35,13 +35,17 @@
    - 현재 공개·배포·지원 환경 확인. 2026-10-03 외부 주소 HEAD 404 기록만으로 출시 여부를 단정하지 않습니다.
    - 정상 공개 주소가 확인되면 외부 CTA 추가. 미연결 대기자 폼/다운로드 링크 노출 금지.
 2. **개인정보 및 법적 운영 정보**
-   - 대표자명·사업장 주소·개인정보 담당 연락처·보유/파기 기준·사용 서비스 확인.
-   - 이메일 문의 처리도 포함해 방침 완성·검토 후 noindex와 준비 안내 해제.
-   - 이메일 방식이라는 이유로 개인정보 검토가 끝난 것으로 취급하지 않습니다.
+   - 방침 초안은 `src/pages/privacy.astro`와 `src/data/privacy.ts`에 작성했습니다. 개인정보 보호법 제30조 필수 기재사항 9개 항목을 갖췄습니다.
+   - `privacyConfig`에 남은 미확인 값: 대표자명(보호책임자), 사업장 주소, 문의 이메일 보유 기간, 시행일. 호스팅 제공자는 Cloudflare, Inc.로 확정했습니다.
+   - 값이 모두 채워지면 `privacyPending`이 false가 되어 초안 안내가 사라집니다. 그때 noindex 해제, sitemap 추가, 푸터 "(준비 중)" 표기 해제를 함께 진행합니다.
+   - 이메일 방식이라는 이유로 개인정보 검토가 끝난 것으로 취급하지 않습니다. 게시 전 법률 검토를 권장합니다.
 3. **실제 공개 준비**
-   - 사용자 화면·원고 최종 검토, 도메인/호스팅 설정 및 공개 승인.
+   - 호스팅은 Cloudflare Pages로 확정. 빌드 `pnpm build`, 출력 `dist`, 응답 헤더는 `public/_headers`.
+   - Cloudflare Pages 프로젝트 `bldnex-website` 생성·배포 완료 (https://bldnex-website.pages.dev). 절차는 [배포 문서](deploy.md).
+   - `bldnex.com` 연결 완료. www는 apex로 301 리다이렉트. 사이트가 공개 접근 가능한 상태입니다.
+   - 남은 작업: 실기기(iOS Safari·Android Chrome) 점검, Search Console 등록과 사이트맵 제출, 공유 디버거(Facebook·X·카카오)로 OG 카드 수집 확인.
    - 실제 iOS Safari·Android Chrome 기기 점검. 현재 모바일 검수는 Chrome의 반응형 viewport이며 실기기 검수가 아닙니다.
-   - 실제 배포 후 canonical·OG 크롤링·HTTPS·운영 이메일 수신 확인.
+   - 실제 배포 후 확인: HTTPS, `/about/` → `/about` 리다이렉트 동작, 공유 디버거(Facebook·X·카카오)로 페이지별 OG 카드 수집, Google Search Console 색인 및 구조화 데이터, 운영 이메일 수신.
 
 ## 정식 문의 폼을 도입할 때
 
@@ -56,9 +60,11 @@
 
 ## 후속 콘텐츠
 
+- [x] 개발사 증거 요소 — 빌드 실측 스탬프, bldnex.com 작업물, App Store 배지 ([문서](proof-points.md))
 - [ ] 공개 허가가 있는 고객 프로젝트 자료 확보
 - [ ] 실제 자료 기반 Blog / Insights 원고 및 라우트
-- [ ] 필요 시 제품별 전용 OG 이미지 — 현재는 브랜드 공통 이미지
+- [x] 페이지별 전용 OG 이미지 — `scripts/generate-og.mjs`가 7종 생성
+- [x] 웹폰트 서브셋 셀프호스팅 — 1.59 MB → 152 KB, 서드파티 0건 ([문서](fonts.md))
 - [ ] 브랜드 컬러 최종 가이드 — 화면에는 기존 #35a9ff 유지
 
 성과 수치, 고객 후기, 가격, 고정 납기, 팀 경력, 무료 유지보수 조건은 근거 없이 추가하지 않습니다.

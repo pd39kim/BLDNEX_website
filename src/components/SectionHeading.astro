@@ -1,0 +1,12 @@
+---
+interface Props { eyebrow: string; lines: string[]; description?: string; id?: string; }
+const { eyebrow, lines, description, id } = Astro.props;
+---
+<div class="section-heading">
+  <div>
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 class="ko-heading" id={id}>{lines.map((line, index) => <span class:list={{ 'text-muted': index > 0 }}>{line}</span>)}</h2>
+    {description && <p class="section-description body-copy">{description}</p>}
+  </div>
+  <slot />
+</div>

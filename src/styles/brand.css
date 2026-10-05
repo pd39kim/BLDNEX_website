@@ -1,0 +1,31 @@
+:root {
+  --accent: #35a9ff;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wordmark-symbol {
+  width: auto;
+  height: 36px;
+  object-fit: contain;
+}
+
+.wordmark-type {
+  width: auto;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+.site-footer .wordmark-symbol {
+  width: auto;
+  height: 25.2px;
+}
+
+.site-footer .wordmark-type {
+  width: auto;
+  height: 14px;
+}

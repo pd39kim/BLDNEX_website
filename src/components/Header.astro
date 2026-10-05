@@ -1,0 +1,47 @@
+---
+import { navigation, site } from '../data/site';
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+---
+<header class="header-shell">
+  <div class="site-header">
+    <a class="wordmark" href="/" aria-label="BLDNEX 홈">
+      <img class="wordmark-symbol" src="/assets/brand/bldnex-symbol.svg" alt="" width="440" height="583" />
+      <img class="wordmark-type" src="/assets/brand/bldnex-wordmark.svg" alt={site.name} width="1429" height="227" />
+    </a>
+    <nav class="desktop-nav" aria-label="주 메뉴">
+      {navigation.map((item) => <a href={item.href} aria-current={isActive(item.href) ? (pathname === item.href ? 'page' : 'true') : undefined}>{item.label}</a>)}
+    </nav>
+    <a class="header-cta" href="/contact"><span class="cta-full">프로젝트 </span>문의 <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu" id="mobile-menu">
+      <summary>
+        <span class="menu-label-open sr-only">메뉴 열기</span><span class="menu-label-close sr-only">메뉴 닫기</span>
+        <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+      </summary>
+      <nav class="mobile-nav" aria-label="모바일 주 메뉴">
+        {navigation.map((item, index) => <a href={item.href} aria-current={isActive(item.href) ? (pathname === item.href ? 'page' : 'true') : undefined}><span aria-hidden="true">0{index + 1}</span>{item.label}<span aria-hidden="true">↗</span></a>)}
+        <p>아이디어를, 실제로 쓰이는 제품으로.</p>
+      </nav>
+    </details>
+  </div>
+</header>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('#mobile-menu');
+  const trigger = menu?.querySelector('summary');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.open) {
+      menu.open = false;
+      trigger?.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+  });
+  menu?.addEventListener('focusout', (event) => {
+    if (event.relatedTarget instanceof Node && !menu.contains(event.relatedTarget)) menu.open = false;
+  });
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false; }));
+  window.matchMedia('(min-width: 901px)').addEventListener('change', (event) => {
+    if (event.matches && menu) menu.open = false;
+  });
+</script>

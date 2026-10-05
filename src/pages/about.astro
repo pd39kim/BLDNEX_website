@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Process from '../components/Process.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { pageMeta } from '../data/site';
+const principles = [
+  { name: 'MOVE FAST', title: '먼저 확인할 것을 정합니다.', description: '모든 기능을 한 번에 넣기보다 제품의 목적을 확인할 핵심 흐름부터 구체화합니다.' },
+  { name: 'MAKE IT SOLID', title: '보이는 곳과 작동하는 곳을 함께 봅니다.', description: '화면의 가독성, 입력과 오류 처리, 데이터 흐름처럼 실제 사용에 필요한 부분을 챙깁니다.' },
+  { name: 'FROM IDEA TO LAUNCH', title: '다음 사람이 이어갈 수 있게 정리합니다.', description: '출시 준비와 기본 운영에 필요한 내용을 정리하고, 추가 개선 범위를 구분합니다.' },
+];
+---
+<BaseLayout {...pageMeta.about}>
+  <PageHero eyebrow="ABOUT BLDNEX" lines={['Small team.', 'Thoughtful products.']} heading="아이디어가 실제로 쓰이기까지, 제품의 전체 흐름을 봅니다." description="BLDNEX는 웹사이트, SaaS, 모바일 앱과 디지털 제품을 만드는 제품 개발 스튜디오입니다. 기획과 디자인, 개발을 연결해 아이디어를 사용할 수 있는 결과물로 구체화합니다." />
+  <section class="content-section section-wrap editorial-section">
+    <p class="eyebrow">BUILD WHAT’S NEXT</p>
+    <div class="editorial-copy"><h2 class="ko-heading">다음은,<br />지금 필요한 것에서 시작합니다.</h2><p class="body-copy">브랜드를 처음 소개하는 웹사이트일 수도, 반복되는 업무를 줄이는 도구일 수도 있습니다.</p><p class="body-copy">BLDNEX가 생각하는 다음 제품은 새로운 기술을 나열하는 데서 시작하지 않습니다. 누가 어떤 상황에서 사용할지 이해하고, 가장 필요한 경험부터 만드는 데서 시작합니다.</p></div>
+  </section>
+  <section class="content-section section-wrap editorial-section">
+    <p class="eyebrow">OUR OWN PRODUCTS</p>
+    <div class="editorial-copy"><h2 class="ko-heading">제품을 직접 만들며<br /><span class="text-muted">더 구체적인 질문을 쌓습니다.</span></h2><p class="body-copy">PreviewLog에서는 촬영본을 검토하고 전달하는 흐름을, Shuffo에서는 사진을 고르고 퍼즐을 즐기는 흐름을 다룹니다.</p><p class="body-copy">서로 다른 제품을 만들며 화면의 표현, 기능의 동작, 사용자가 다음에 할 일을 함께 생각합니다. 이런 관점으로 의뢰받은 프로젝트의 문제도 살펴봅니다.</p><div class="actions"><a class="text-link" href="/works/previewlog">PreviewLog 보기 ↗</a><a class="text-link" href="/works/shuffo">Shuffo 보기 ↗</a></div></div>
+  </section>
+  <section class="content-section section-wrap" id="working-together">
+    <SectionHeading eyebrow="WORKING TOGETHER" lines={['같은 목표를 보고,', '같은 결과물을 확인합니다.']} description="대표 개발자를 중심으로 프로젝트를 진행하고, 필요한 전문 영역은 협업 개발자들과 함께합니다. 시작할 때 역할과 작업 범위를 정리하고, 진행 중에는 화면과 기능을 기준으로 의견을 나눕니다. 요구사항이 달라지면 일정과 범위에 미치는 영향을 먼저 확인합니다." />
+    <Process />
+  </section>
+  <section class="content-section section-wrap">
+    <SectionHeading eyebrow="OUR PRINCIPLES" lines={['만드는 과정에서도', '기준은 분명하게.']} />
+    <div class="capability-grid">{principles.map((principle) => <article><p class="eyebrow">{principle.name}</p><h3 class="ko-heading">{principle.title}</h3><p class="body-copy">{principle.description}</p></article>)}</div>
+  </section>
+  <CallToAction title="지금 구상 중인 제품이 있나요?" description="현재 상황과 목표를 알려주시면 함께 시작할 지점을 찾겠습니다." />
+</BaseLayout>

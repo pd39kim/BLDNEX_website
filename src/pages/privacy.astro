@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="개인정보처리방침 준비 안내 · BLDNEX" description="BLDNEX 개인정보처리방침 준비 상태와 관련 문의 연락처를 안내합니다." noindex>
+  <section class="page-hero section-wrap">
+    <p class="eyebrow">PRIVACY / NOTICE</p>
+    <h1>Privacy<span class="text-muted">notice.</span></h1>
+    <div class="privacy-note">
+      <h2 class="ko-heading">개인정보처리방침 준비 안내</h2>
+      <p class="body-copy">개인정보처리방침은 운영 정보 확인 후 게시할 예정입니다. 이 페이지는 완성된 개인정보처리방침이 아닙니다.</p>
+      <p class="body-copy">현재 이 웹사이트에는 정보를 제출하는 문의 폼이 없으며, 프로젝트 문의는 이메일로 안내합니다. 이메일 문의를 포함한 정보의 보관·파기 기준과 관련 운영 정보를 확인하고 있습니다.</p>
+      <p class="body-copy">개인정보 관련 질문은 아래 이메일로 보내주세요.</p>
+      <a class="text-link email-link" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </section>
+</BaseLayout>

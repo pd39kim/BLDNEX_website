@@ -2,6 +2,22 @@
 
 > 내부 바이브코딩 개발용 · v0.2 · 2026-10-02
 
+## 최신 적용 기준 — 2026-10-05
+
+사용자의 “업데이트 진행” 지시에 따라 [콘텐츠 업데이트 계획](BLDNEX_CONTENT_UPDATE_PLAN_2026-10-03.md)과 [카피 원고](BLDNEX_WEBSITE_COPY_DRAFT_2026-10-03.md)의 일반 콘텐츠를 로컬 웹사이트에 적용했습니다. 아래 v0.2 원문은 장기 목표와 초기 제안을 포함하므로, 충돌할 때는 이 절과 [Wiki 결정 기록](wiki/decisions.md)을 우선합니다.
+
+- Home: Hero → Works → Services → Process → Studio → FAQ → CTA.
+- About·Services·Works·두 제품 상세·Contact의 실제 원고와 링크를 보강.
+- 3개 주력 서비스 + 3개 연계 역량, 4단계 프로세스와 산출물 예시, 공통 FAQ.
+- 현재 전환은 이메일 문의. 정식 폼·Workers/D1/R2·관리자는 운영 준비 후 별도 구현.
+- Privacy는 완성된 방침이 아니라 준비 안내. noindex와 sitemap 제외 유지, 이메일 문의의 정보 처리까지 공개 전 검토.
+- PreviewLog 자료 경로는 현재 Mac의 `/Users/macsk/Projects/previewlog-landing/deploy/index.html`. 소개 자료 기반 설명과 실제 앱 검증을 구분하며 출시 배지·다운로드·외부 CTA는 보류.
+- Shuffo는 보유 세로 화면과 공식 App Store 링크 사용. 두 제품을 모두 출시했다고 묶어 표현하지 않음.
+- 공식 SVG, 심볼 36px / 워드마크 20px / 간격 6px, 푸터 70% 비율과 기존 폰트·컬러 유지.
+- Blog·추가 고객 사례는 실제 콘텐츠와 공개 허가 확보 후 추가.
+
+[구현·검증 결과 및 남은 사항](BLDNEX_UPDATE_REPORT_2026-10-05.md). 외부 배포는 하지 않았으며 원문 전체의 최종 완료 조건이 충족된 상태는 아닙니다.
+
 ## 0. 한 줄 정의
 
 BLDNEX는 아이디어를 빠르게 검증 가능한 제품으로 만들고, 기획부터 디자인·개발·출시까지 함께하는 제품 개발 스튜디오다.
@@ -799,7 +815,7 @@ type BlogPost = {
 
 ## 16. 권장 프로젝트 구조
 
-현재 루트의 `index.html`, `app.js`, `styles.css`는 이전 위키메모리 프로토타입이다. BLDNEX 공개 사이트 구현 시 Home으로 재사용하지 않으며, 구현 전에 별도 `prototype/` 폴더로 이동하거나 보관한다.
+이 저장소에 있던 `index.html`, `app.js`, `styles.css` 위키메모리 프로토타입은 BLDNEX 공개 사이트와 무관하므로 제거했다. 공개 사이트는 아래 Astro 구조로 새로 구현한다.
 
 ```text
 BLDNEX_website/
@@ -975,7 +991,7 @@ D1·R2 바인딩 이름은 `DB`, `ASSETS`처럼 짧고 일관되게 유지한다
 
 - [ ] 로고 원본 수령
 - [ ] 법적 공개 정보(대표자명·주소·보호책임자) 확정
-- [ ] 기존 위키메모리 프로토타입 보관 위치 결정
+- [x] 기존 위키메모리 프로토타입 제거
 - [ ] Astro 프로젝트 초기화
 - [ ] 도메인·Cloudflare Pages 프로젝트 연결
 

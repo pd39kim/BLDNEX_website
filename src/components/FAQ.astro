@@ -1,0 +1,12 @@
+---
+import { faqs } from '../data/faq';
+const { limit = faqs.length } = Astro.props as { limit?: number };
+---
+<div class="faq-list">
+  {faqs.slice(0, limit).map((faq, index) => (
+    <details class="faq-item">
+      <summary><span class="faq-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{faq.question}</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+      <div class="faq-answer"><p>{faq.answer}</p></div>
+    </details>
+  ))}
+</div>

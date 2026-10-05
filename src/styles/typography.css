@@ -1,0 +1,27 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'DM Sans', 'Pretendard', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.wordmark {
+  font-family: 'Inter Tight', 'Pretendard', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+}
+
+.work-card h3 {
+  font-family: 'Inter Tight', 'Pretendard', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+}
+
+.ko-heading {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}

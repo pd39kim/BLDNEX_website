@@ -1,0 +1,13 @@
+---
+interface Props { eyebrow: string; lines: string[]; heading: string; description: string; }
+const { eyebrow, lines, heading, description } = Astro.props;
+---
+<section class="page-hero section-wrap">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>{lines.map((line, index) => <span class:list={{ 'text-muted': index > 0 }}>{line}</span>)}</h1>
+  <div class="page-intro">
+    <h2 class="ko-heading">{heading}</h2>
+    <p class="body-copy">{description}</p>
+  </div>
+  <slot />
+</section>

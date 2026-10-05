@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { works } from '../../data/works';
+import { pageMeta } from '../../data/site';
+---
+<BaseLayout {...pageMeta.works}>
+  <PageHero eyebrow="SELECTED WORKS" lines={['Products,', 'with a purpose.']} heading="서로 다른 문제를 제품으로 풀어갑니다." description="BLDNEX의 자체 제품을 소개합니다. 어떤 사용 장면을 다루고, 어떤 경험으로 연결했는지 살펴보세요." />
+  <section class="works-grid section-wrap works-list" aria-label="BLDNEX 자체 제품">{works.map((work) => <WorkCard work={work} />)}</section>
+  <CallToAction title="지금 필요한 경험은 무엇인가요?" description="제품의 목적과 사용자가 하게 될 일을 알려주세요." />
+</BaseLayout>

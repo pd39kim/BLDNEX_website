@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, pageMeta, contactHref } from '../data/site';
+const preparations = [
+  { title: '만들고 싶은 것', description: '웹사이트, 웹앱, 모바일 앱 등 생각하고 있는 결과물을 알려주세요.' },
+  { title: '해결하고 싶은 문제', description: '누가 사용하고, 어떤 일을 더 잘할 수 있으면 좋을지 알려주세요.' },
+  { title: '현재 준비된 것', description: '기획서, 디자인, 기존 서비스나 참고 링크가 있다면 함께 알려주세요.' },
+  { title: '희망 일정과 예산', description: '정해진 범위가 있으면 알려주세요. 아직 미정이어도 괜찮습니다.' },
+];
+---
+<BaseLayout {...pageMeta.contact}>
+  <PageHero eyebrow="START A PROJECT" lines={['Tell us what', "you’re building."]} heading="만들고 싶은 것과 지금의 고민을 알려주세요." description="아이디어를 구체화하는 단계도, 이미 운영 중인 제품을 개선하는 단계도 괜찮습니다. 목표와 현재 상황을 들려주시면 필요한 작업 범위를 함께 살펴보겠습니다." />
+  <section class="contact-section section-wrap" aria-labelledby="contact-heading">
+    <div class="contact-card">
+      <p class="eyebrow">LET’S TALK</p>
+      <h2 class="ko-heading" id="contact-heading">이메일로<br />프로젝트를 알려주세요.</h2>
+      <p class="body-copy">만들고 싶은 것, 현재 상황, 희망 일정과 예산을 아는 범위에서 적어주세요. 준비된 기획서나 참고 링크가 있다면 함께 보내주셔도 좋습니다.</p>
+      <a class="contact-address email-link" href={contactHref}>{site.email}</a>
+      <div class="actions"><a class="button button-primary" href={contactHref}>이메일로 문의하기 <span aria-hidden="true">↗</span></a><button class="text-link copy-email" type="button" data-email={site.email} hidden>이메일 주소 복사</button></div>
+      <p class="contact-help">메일 앱이 열리지 않으면 위 주소를 복사해 보내주세요.</p>
+      <p class="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    </div>
+    <div class="contact-preparation"><h2 class="ko-heading">이 정도만 알려주셔도<br />시작할 수 있습니다.</h2><ol>{preparations.map((item, index) => <li><span class="step-number">0{index + 1}</span><div><h3 class="ko-heading">{item.title}</h3><p class="body-copy">{item.description}</p></div></li>)}</ol></div>
+  </section>
+  <section class="content-section section-wrap faq-section" id="faq"><SectionHeading eyebrow="BEFORE WE START" lines={['함께 일하기 전,', '자주 묻는 질문.']} /><FAQ /></section>
+</BaseLayout>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.copy-email');
+  const status = document.querySelector<HTMLElement>('.copy-status');
+  if (button && status && navigator.clipboard?.writeText) {
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      status.textContent = '';
+      try {
+        await navigator.clipboard.writeText(button.dataset.email ?? '');
+        status.textContent = '이메일 주소를 복사했습니다.';
+      } catch {
+        status.textContent = '주소를 복사하지 못했습니다. 위 이메일 주소를 직접 선택해 복사해주세요.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

@@ -6,7 +6,14 @@ const { work } = Astro.props as { work: Work };
 ---
 <article class={`work-card work-card-${work.slug}`}>
   <a class="work-card-link" href={`/works/${work.slug}`} aria-label={`${work.title} — ${work.summary} 살펴보기`}>
-    {work.slug === 'shuffo' ? (
+    {work.slug === 'bldnex-website' ? (
+      <div class="work-visual website-visual" aria-hidden="true">
+        <span class="visual-label">YOU ARE LOOKING AT IT</span>
+        <span class="product-cover-title">bldnex<span class="cover-dot">.com</span></span>
+        <div class="cover-flow"><span>Build</span><i>→</i><span>Measure</span><i>→</i><span>Ship</span></div>
+        <span class="visual-footnote">정적 생성 · 외부 요청 0건</span>
+      </div>
+    ) : work.slug === 'shuffo' ? (
       <div class="work-visual shuffo-visual">
         <span class="visual-label">PHOTO / PLAY / REPEAT</span>
         <Image src={shuffoCover} width={320} widths={[180, 320]} sizes="(max-width: 600px) 105px, 150px" format="webp" alt="Shuffo의 사진 퍼즐 시작 화면" loading="lazy" decoding="async" />

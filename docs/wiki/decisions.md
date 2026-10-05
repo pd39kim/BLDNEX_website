@@ -106,4 +106,6 @@ DB 저장 성공을 접수 기준으로 삼고 문의와 outbox를 트랜잭션�
 
 기존 Cloudflare 계정에 운영/검수 D1을 분리 생성해 마이그레이션 2개를 적용하고, 환경별 Turnstile과 Pages 비밀 키를 등록했습니다. 공개 사이트·예약 Worker는 배포하지 않았고 `CONTACT_ENABLED=false`, `JOBS_ENABLED=false`를 유지합니다. Git 커밋/푸시와 빌드는 사이트 배포·실제 접수 활성화 또는 법적 검토 완료를 뜻하지 않습니다. Direct Upload 프로젝트여서 푸시만으로 자동 배포되지 않습니다.
 
-Resend 연결 수단을 확인해 설치·계정 연결을 제안했으나 연결 완료는 확인되지 않았습니다. 발신 도메인 `notifications@notify.bldnex.com`은 설정 초안이며 DNS 인증 전에는 발송 가능하다고 주장하지 않습니다. 현재 Cloudflare 인증에 Access 설정 권한이 없어 관리자 도메인/audience를 임의로 만들지 않습니다. 실제 인증·Gmail 수신·공급자 처리와 개정 방침 검토 후에만 접수를 활성화합니다.
+Resend 연결 수단을 확인했고 발송 전용 API 키는 Worker에 등록했습니다. 발신 도메인 `notifications@notify.bldnex.com`은 설정 초안이며 DNS 인증 전에는 발송 가능하다고 주장하지 않습니다. 현재 Cloudflare 인증에 Access 설정 권한이 없어 관리자 도메인/audience를 임의로 만들지 않습니다. 실제 인증·Gmail 수신·공급자 처리와 개정 방침 검토 후에만 접수를 활성화합니다.
+
+Resend 대시보드가 로그인된 상태에서 발송 전용 권한의 `bldnex-contact-jobs` API 키를 생성했고, 값은 노출하지 않은 채 운영·검수 Worker 비밀값 `RESEND_API_KEY`로 등록했습니다. Worker 코드 배포와 `notify.bldnex.com` 도메인 인증은 아직 하지 않았습니다. 발송 전용 키는 도메인 관리 API 조회에는 사용할 수 없으므로, 도메인/DNS 상태는 대시보드와 Cloudflare 권한이 확인된 뒤 검수합니다.

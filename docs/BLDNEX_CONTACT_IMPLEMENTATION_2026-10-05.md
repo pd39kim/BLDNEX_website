@@ -94,7 +94,7 @@ D1 트랜잭션: 문의 원문 + 알림 작업 저장
 - Turnstile은 managed 모드이며 호스트를 환경별로 제한했습니다. 실제 브라우저 검증은 운영 연결 후 별도 수행합니다.
 - 검수 호스트는 `staging` 브랜치 배포에 사용할 예정이며 아직 배포하지 않았습니다. 임의 해시 URL이나 다른 preview 브랜치를 이 설정으로 접수 활성화하지 않습니다.
 - `wrangler.toml`의 기본 DB는 로컬 전용, `env.production`/`env.preview`는 각각 위 원격 DB입니다. 예약 Worker는 기본 운영/`env.staging` 검수이며 모두 OFF입니다.
-- Resend 설치·계정 연결 수단을 제안했지만 완료는 확인되지 않았습니다. `RESEND_API_KEY`는 아직 없으며 이후 **예약 Worker에만** 등록합니다.
+- Resend 대시보드에서 발송 전용 권한의 `bldnex-contact-jobs` 키를 생성해 운영·검수 Worker에 `RESEND_API_KEY`로 등록했습니다. 키 값은 문서·Git·채팅에 기록하지 않았습니다. 발신 도메인 `notify.bldnex.com`의 인증 상태는 아직 확인하지 않았고, Worker 코드는 아직 배포하지 않았습니다.
 - 현재 Cloudflare 인증의 Access 설정 권한은 없고 `ACCESS_TEAM_DOMAIN`/`ACCESS_AUD`도 미설정입니다. 관리자 인증을 우회하거나 토큰 권한을 임의 확장하지 않았습니다.
 - 보관 기준 승인은 공급자 처리·국외 이전·복원/삭제·개정 시행일 검토 완료와 다릅니다. `CONTACT_POLICY_APPROVED`, `PUBLIC_CONTACT_POLICY_VERSION`은 미설정 상태입니다.
 
@@ -157,7 +157,7 @@ pnpm test:browser          # Chrome 필요. 서버가 없으면 자동 실행
 2. **운영/검수 D1 생성·마이그레이션 완료.** 후속 원격 작업 전에도 DB 이름·ID·계정을 재확인합니다. DB나 기존 Pages 프로젝트를 재생성하지 않습니다.
 3. **Pages/Worker 환경별 `CONTACT_DB` 소스 설정 완료, 미배포.** 운영 DB는 preview에 상속시키지 않습니다. 비밀 키·공개 설정이 실제 배포 환경에 연결됐는지는 배포 후 다시 검수합니다.
 4. **Turnstile 생성·호스트 제한·키 등록 완료, 실제 챌린지 미검증.** action은 `contact`. 테스트 키나 로컬 우회를 프로덕션에서 쓰지 않습니다.
-5. Resend 가입/연결 후 `notify.bldnex.com` 발신 도메인을 인증합니다. DNS 레코드는 기존 메일 수신 MX를 변경하지 않는 범위로 별도 확인·승인합니다. 발송 전용 권한 키를 만듭니다.
+5. **Resend 발송 전용 키 생성·Worker 비밀값 등록 완료.** `notify.bldnex.com` 발신 도메인 인증 상태를 확인합니다. 필요한 DNS 레코드는 기존 메일 수신 MX를 변경하지 않는 범위로 별도 확인·승인합니다.
 6. Cloudflare Access 애플리케이션 한 개에 운영 호스트의 `/admin*`, `/api/admin/*`를 모두 보호하고 허용 이메일만 지정합니다. 같은 audience로 앱/서버를 맞춥니다. 개발·preview는 별도 정책/DB를 사용하거나 비활성 상태로 둡니다.
 7. `.dev.vars.example`의 변수를 운영 설정으로 등록합니다. 비밀 키는 Pages/Worker 각각 필요한 곳에만 등록합니다. 파일을 커밋하거나 채팅에 붙이지 않습니다.
 8. 개인정보 개정안의 공급자 처리 국가·연락처·항목·보관·이전 근거/거부·시행일을 확인합니다. 폼의 “초안” 표기와 고지 내용을 확정한 뒤 빌드의 `PUBLIC_CONTACT_POLICY_VERSION`과 서버의 `CONTACT_POLICY_APPROVED`를 확정 버전으로 맞춥니다. 단순히 환경변수만 켜서 검토를 대체하면 안 됩니다.

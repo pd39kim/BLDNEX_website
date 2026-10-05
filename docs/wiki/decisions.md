@@ -114,4 +114,4 @@ Resend 대시보드가 로그인된 상태에서 발송 전용 권한의 `bldnex
 
 운영 Pages 변수에 문의 활성화, 운영 정책 버전, Turnstile, Resend 발신·수신 주소, Cloudflare Access 도메인·audience를 반영했습니다. 운영 D1 `system_health.jobs` 기록을 확인한 뒤 `https://bldnex.com/api/contact/config`가 `enabled:true`를 반환하는 것을 검증했습니다. 실제 사용자 문의를 대신 제출하거나 Gmail 도착을 확인한 것은 아닙니다.
 
-`notify.bldnex.com`의 Resend 발신 도메인과 DKIM/CNAME 레코드는 인증 완료 상태입니다. `bldnex-contact-jobs` Worker는 `JOBS_ENABLED=true`, 5분 cron, 운영 D1, Resend 시크릿으로 배포했습니다. 관리자 앱 `BLDNEX Contact Admin`은 `/admin/inquiries` 및 `/api/admin/*`를 보호하고 `BLDNEX.DEV@GMAIL.COM`만 허용합니다.
+`notify.bldnex.com`의 Resend 발신 도메인과 DKIM/CNAME 레코드는 인증 완료 상태입니다. `bldnex-contact-jobs` Worker는 `JOBS_ENABLED=true`, 5분 cron, 운영 D1, Resend 시크릿으로 배포했습니다. 관리자 앱 `BLDNEX Contact Admin`은 `/admin/inquiries` 및 `/api/admin/*`를 보호하고 `BLDNEX.DEV@GMAIL.COM`, `pd39kim@gmail.com`을 허용합니다.

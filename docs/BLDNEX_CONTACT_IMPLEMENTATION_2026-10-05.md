@@ -72,7 +72,7 @@ D1 트랜잭션: 문의 원문 + 알림 작업 저장
 
 | 결정 | 값 | 상태 |
 | --- | --- | --- |
-| 관리자 | `BLDNEX.DEV@GMAIL.COM` 한 계정만 허용 | 승인, `ADMIN_EMAILS` 반영. 실제 Access 연결·로그인은 별도 |
+| 관리자 | `BLDNEX.DEV@GMAIL.COM`, `pd39kim@gmail.com` 허용 | 승인, Access 정책과 `ADMIN_EMAILS` 반영 |
 | 발송 서비스 | Resend, `notifications@notify.bldnex.com` 발신 | 서비스 선택 승인. 계정 연결·도메인 인증·API 키 등록 대기 |
 | 알림 수신 | `BLDNEX.DEV@GMAIL.COM` | 승인, `NOTIFY_TO` 반영 |
 | 폼 보관 | 처리 종료 후 365일, 미종결은 접수 후 최대 730일 | 승인, 화면·방침·서버 동일 값 반영 |

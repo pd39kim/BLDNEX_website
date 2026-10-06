@@ -218,3 +218,23 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
    - 기존 `html`에 정의된 `scroll-padding-top: 112px`가 고정 헤더 높이(데스크톱 88px, 모바일 80px)를 충분히 상쇄하므로 앵커 점프 시 헤더 뒤로 제목이 가려지지 않습니다.
    - 모바일 드롭다운 메뉴(`.mobile-nav`)는 헤더 바로 밑에 붙되, 화면 높이가 작은 기기에서도 스크롤이 가능하도록 `max-height: calc(100dvh - 100%); overflow-y: auto;`를 적용했습니다.
 
+## 2026-10-07 — 가독성 기준 기반 최소 폰트 사이즈(14px) 토큰화 및 상향 적용
+
+사람이 '읽어야 하는' 의미 있는 텍스트는 최소 14px(`0.88rem`, 브라우저 기본 16px 기준) 이상을 보장하고, 14px 미만은 읽지 않아도 사이트 이용과 맥락 이해에 지장이 없는 순수 메타/장식/인덱스에만 제한하도록 타이포그래피 체계를 재정의했습니다.
+
+1. **디자인 토큰 도입 (`src/styles/global.css`)**:
+   - `--text-meta: 0.65rem;` (~10.4px): 순번 인덱스, 장식 라벨
+   - `--text-eyebrow: 0.70rem;` (11.2px): 영문 카테고리 태그
+   - `--text-badge: 0.75rem;` (12px): 상태 뱃지, 도식 각주
+   - `--text-readable-min: 0.88rem;` (14.08px): **사람이 읽어야 하는 최소 가독 기준선 (≥ 14px)**
+   - `--text-sub: 0.94rem;` (15px): 보조 본문, FAQ 답변, 설명문
+   - `--text-base: 1rem;` (16px): 기본 본문 표준
+2. **필독 텍스트 상향 적용**:
+   - 헤더 최우선 전환 버튼(`.header-cta`: 12.5px → 14px)
+   - 문의 폼 핵심 요소(`.form-field label`, `::placeholder`, `.field-caption`, `.field-error`, `.consent-summary`, `.consent-label`, `.receipt-label`: 11.7~13.6px → 14px)
+   - 본문 및 설명문(`.metric-grid .body-copy`, `.store-copy .body-copy`, `.section-tail`, `.tag-list li`, `.screenshot-grid figcaption`, `.contact-help`, `.copy-status`: 11.7~13.6px → 14px~15px)
+   - 내비게이션 및 방침(`.anchor-nav a`, `.privacy-toc a`, `.privacy-table thead th`, `.site-footer`, `.footer-links a`: 11.5~13.6px → 14px)
+3. **가독성 및 회귀 검증**:
+   - 모바일 360px부터 데스크톱 1440px까지 뷰포트 오버플로우 및 요소 깨짐 없이 안정적으로 표시됨을 단위 및 브라우저 E2E 테스트(`pnpm test`, `pnpm test:browser`)로 검증 완료.
+
+

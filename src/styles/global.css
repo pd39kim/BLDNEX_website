@@ -8,6 +8,14 @@
   --muted: #a0a5ae;
   --accent: #35a9ff;
   --max: 1240px;
+
+  /* Typography scale tokens */
+  --text-meta: 0.65rem;          /* ~10.4px: 순번 인덱스, 장식 라벨 */
+  --text-eyebrow: 0.70rem;       /* 11.2px: 영문 카테고리 아이브로우 */
+  --text-badge: 0.75rem;         /* 12px: 상태 뱃지, 도식 각주 */
+  --text-readable-min: 0.88rem;  /* 14.08px: 사람이 읽어야 하는 최소 기준 (>= 14px) */
+  --text-sub: 0.94rem;           /* 15px: 보조 본문, FAQ 답변, 카드 설명 */
+  --text-base: 1rem;             /* 16px: 기본 본문 표준 */
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 112px; }
@@ -49,13 +57,13 @@ h1 em { color: var(--muted); font-style: normal; }
 .desktop-nav a[aria-current] { color: var(--text); }
 .desktop-nav a[aria-current]::after { content: ''; height: 2px; position: absolute; bottom: 6px; left: 0; right: 0; background: var(--accent); }
 .desktop-nav a:hover, .footer-links a:hover, .footer-bottom a:hover { color: var(--accent); }
-.header-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; border: 1px solid var(--accent); color: var(--accent); min-height: 48px; padding: 12px 20px; font-size: .88rem; transition: background .2s, color .2s; }
-.header-cta { min-height: 44px; padding: 10px 15px; font-size: .78rem; gap: 6px; white-space: nowrap; }
+.header-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; border: 1px solid var(--accent); color: var(--accent); min-height: 48px; padding: 12px 20px; font-size: var(--text-readable-min); transition: background .2s, color .2s; }
+.header-cta { min-height: 44px; padding: 10px 16px; font-size: var(--text-readable-min); gap: 6px; white-space: nowrap; }
 .header-cta:hover, .button:hover { background: var(--accent); color: var(--bg); }
 .button-primary { color: var(--bg); background: var(--accent); font-weight: 600; }
 .button-primary:hover { background: #79c6ff; border-color: #79c6ff; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 28px; }
-.text-link { display: inline-flex; gap: 12px; align-items: center; color: var(--accent); font-size: .88rem; min-height: 44px; }
+.text-link { display: inline-flex; gap: 12px; align-items: center; color: var(--accent); font-size: var(--text-readable-min); min-height: 44px; }
 a.text-link:hover, button.text-link:hover { text-decoration: underline; text-underline-offset: 5px; }
 .email-link { overflow-wrap: anywhere; }
 .mobile-menu { display: none; }
@@ -73,7 +81,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .section-heading h2 > span { display: block; }
 .section-description { max-width: 640px; margin-top: 24px; }
 .section-heading > .text-link { flex-shrink: 0; }
-.section-tail { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 30px; color: var(--muted); font-size: .85rem; }
+.section-tail { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 30px; color: var(--muted); font-size: var(--text-readable-min); }
 .section-tail > .text-link { flex-shrink: 0; }
 .works-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .work-card { border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; min-width: 0; }
@@ -101,8 +109,8 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .build-stamp dl { display: flex; flex-wrap: wrap; gap: 16px 28px; margin: 0; flex: 1; }
 .build-stamp dl > div { display: flex; align-items: baseline; gap: 8px; }
 .build-stamp dt { font-size: .68rem; letter-spacing: .06em; color: var(--muted); }
-.build-stamp dd { margin: 0; font-size: .82rem; color: var(--text); font-variant-numeric: tabular-nums; }
-.build-stamp > .text-link { min-height: 0; font-size: .78rem; }
+.build-stamp dd { margin: 0; font-size: var(--text-readable-min); color: var(--text); font-variant-numeric: tabular-nums; }
+.build-stamp > .text-link { min-height: 0; font-size: var(--text-readable-min); }
 
 /* App Store 출시 배지. 앱 정보는 src/data/app-store.json. */
 .store-callout { margin-top: 24px; padding: 24px 28px; border: 1px solid var(--line); background: var(--surface); display: flex; align-items: center; gap: 24px; }
@@ -110,7 +118,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .store-copy { flex: 1; min-width: 0; }
 .store-copy .eyebrow { margin-bottom: 8px; }
 .store-copy h3.ko-heading { font-size: 1.1rem; line-height: 1.5; margin-bottom: 8px; }
-.store-copy .body-copy { font-size: .85rem; }
+.store-copy .body-copy { font-size: var(--text-sub); }
 .store-badge { flex-shrink: 0; display: inline-flex; }
 .store-badge img { height: 40px; width: auto; }
 
@@ -118,7 +126,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 50px; padding-top: 36px; border-top: 1px solid var(--line); }
 .metric-grid .eyebrow { margin-bottom: 12px; }
 .metric-value { font: 300 clamp(1.8rem, 3vw, 2.6rem)/1.1 'Inter Tight', sans-serif; letter-spacing: .025em; color: var(--text); margin: 0 0 10px; font-variant-numeric: tabular-nums; }
-.metric-grid .body-copy { font-size: .82rem; line-height: 1.7; }
+.metric-grid .body-copy { font-size: var(--text-readable-min); line-height: 1.7; }
 .stack-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .stack-grid h3.ko-heading { font-size: 1.1rem; }
 .check-list { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
@@ -133,7 +141,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .work-summary { font-size: 1.1rem; margin-top: 18px; margin-bottom: 8px; word-break: keep-all; }
 .work-card-body > .body-copy { min-height: 3.7em; }
 .tag-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; }
-.tag-list li { color: var(--muted); font-size: .73rem; padding: 5px 10px; border: 1px solid var(--line); }
+.tag-list li { color: var(--muted); font-size: var(--text-readable-min); padding: 5px 10px; border: 1px solid var(--line); }
 .work-card .tag-list { margin-block: 24px 12px; }
 .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .service-card { display: flex; flex-direction: column; padding: 32px 28px; transition: background .2s; }
@@ -185,7 +193,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .capability-grid h3.ko-heading { font-size: 1.3rem; line-height: 1.5; }
 .capability-grid .body-copy { font-size: .95rem; }
 .anchor-nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
-.anchor-nav a { border: 1px solid var(--line); color: var(--muted); font-size: .8rem; min-height: 44px; padding: 10px 16px; display: inline-flex; gap: 24px; align-items: center; }
+.anchor-nav a { border: 1px solid var(--line); color: var(--muted); font-size: var(--text-readable-min); min-height: 44px; padding: 10px 16px; display: inline-flex; gap: 24px; align-items: center; }
 .anchor-nav a:hover { color: var(--accent); border-color: var(--accent); }
 .service-detail { display: grid; grid-template-columns: 1fr 1.15fr; gap: 80px; }
 .service-detail-intro h2 { font-size: clamp(1.6rem, 3vw, 2.35rem); }
@@ -223,7 +231,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .screenshot-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .screenshot-stage { background: #1a1722; padding: 32px; display: flex; justify-content: center; }
 .screenshot-stage img { display: block; width: 100%; max-width: 270px; height: auto; border-radius: 20px; }
-.screenshot-grid figcaption { display: flex; gap: 16px; margin-top: 20px; font-size: .86rem; color: var(--muted); }
+.screenshot-grid figcaption { display: flex; gap: 16px; margin-top: 20px; font-size: var(--text-readable-min); color: var(--muted); }
 .store-section { display: flex; align-items: center; gap: 32px; }
 .store-section > img { width: 72px; height: 72px; border-radius: 16px; }
 .store-section h2 { font-size: clamp(1.4rem, 2.6vw, 2rem); margin-bottom: 12px; }
@@ -235,8 +243,8 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .contact-card .body-copy { font-size: .95rem; }
 .contact-address { display: block; font-size: clamp(1rem, 1.6vw, 1.3rem); margin-block: 32px 24px; }
 .copy-email { background: none; border: 0; padding: 0; text-align: left; }
-.contact-help { font-size: .78rem; color: var(--muted); margin-top: 20px; }
-.copy-status { min-height: 3.4em; margin-top: 12px; font-size: .8rem; color: var(--accent); }
+.contact-help { font-size: var(--text-readable-min); color: var(--muted); margin-top: 20px; }
+.copy-status { min-height: 3.4em; margin-top: 12px; font-size: var(--text-readable-min); color: var(--accent); }
 .contact-preparation { padding-top: 12px; }
 .contact-preparation > h2 { font-size: 1.5rem; line-height: 1.5; margin-bottom: 24px; }
 .contact-preparation ol { list-style: none; padding: 0; }
@@ -253,7 +261,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .privacy-draft .body-copy { font-size: .9rem; }
 .text-strong { color: var(--text); font-weight: 600; }
 .privacy-toc { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 72px; }
-.privacy-toc a { border: 1px solid var(--line); color: var(--muted); font-size: .78rem; min-height: 44px; padding: 10px 16px; display: inline-flex; gap: 18px; align-items: center; }
+.privacy-toc a { border: 1px solid var(--line); color: var(--muted); font-size: var(--text-readable-min); min-height: 44px; padding: 10px 16px; display: inline-flex; gap: 18px; align-items: center; }
 .privacy-toc a:hover { color: var(--accent); border-color: var(--accent); }
 .privacy-section { display: grid; grid-template-columns: 1fr 2.2fr; gap: 40px; padding-block: 44px; border-top: 1px solid var(--line); scroll-margin-top: 110px; }
 .privacy-section > .eyebrow { margin-bottom: 0; }
@@ -268,15 +276,15 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .privacy-table-wrap { margin-top: 24px; overflow-x: auto; }
 .privacy-table { width: 100%; border-collapse: collapse; font-size: .88rem; color: var(--muted); text-align: left; }
 .privacy-table th, .privacy-table td { padding: 14px 16px; border: 1px solid var(--line); vertical-align: top; font-weight: 400; line-height: 1.7; }
-.privacy-table thead th { background: var(--surface); color: var(--text); font-size: .76rem; letter-spacing: .06em; font-weight: 600; white-space: nowrap; }
+.privacy-table thead th { background: var(--surface); color: var(--text); font-size: var(--text-readable-min); letter-spacing: .06em; font-weight: 600; white-space: nowrap; }
 .privacy-table tbody th { color: var(--text); min-width: 140px; }
-.site-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+.site-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-readable-min); }
 .footer-main { display: grid; grid-template-columns: 1.6fr .75fr .85fr 1.1fr; gap: 36px; padding-block: 56px; }
 .footer-tagline { font-size: .65rem; letter-spacing: .12em; color: var(--text); margin-top: 18px; }
 .footer-description { max-width: 240px; margin-top: 12px; line-height: 1.8; }
 .footer-label { font-size: .6rem; letter-spacing: .12em; margin-bottom: 16px; color: var(--muted); }
 .footer-links { display: flex; flex-direction: column; align-items: start; }
-.footer-links a { display: inline-flex; align-items: center; min-height: 36px; color: var(--text); font-size: .85rem; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 36px; color: var(--text); font-size: var(--text-readable-min); }
 .footer-contact a { color: var(--text); display: inline-block; padding-block: 8px; }
 .footer-contact > p:last-child { margin-top: 8px; }
 .footer-bottom { display: flex; gap: 24px; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-block: 24px; font-size: .68rem; }
@@ -321,7 +329,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .mobile-nav > a > span:first-child { font-size: .65rem; color: var(--muted); }
   .mobile-nav > a > span:last-child { margin-left: auto; color: var(--accent); }
   .mobile-nav > a[aria-current], .mobile-nav > a:hover { color: var(--accent); }
-  .mobile-nav > p { font-size: .8rem; color: var(--muted); margin-top: 24px; }
+  .mobile-nav > p { font-size: var(--text-readable-min); color: var(--muted); margin-top: 24px; }
   .hero { min-height: auto; }
   .hero-bottom { margin-top: 0; }
   .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
@@ -353,7 +361,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .screenshot-grid { gap: 16px; }
   .screenshot-stage { padding: 16px; }
   .screenshot-stage img { border-radius: 12px; }
-  .screenshot-grid figcaption { display: block; font-size: .78rem; }
+  .screenshot-grid figcaption { display: block; font-size: var(--text-readable-min); }
   .screenshot-grid figcaption span { display: block; margin-bottom: 8px; }
   .store-section { flex-wrap: wrap; }
   .store-section > div { flex: 1; }
@@ -369,9 +377,9 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .stack-grid { grid-template-columns: 1fr; }
   .store-callout { padding: 20px; }
   .privacy-toc { gap: 8px; }
-  .privacy-toc a { font-size: .72rem; gap: 12px; }
+  .privacy-toc a { font-size: var(--text-readable-min); gap: 12px; }
   .privacy-section { padding-block: 36px; }
-  .privacy-table { font-size: .82rem; }
+  .privacy-table { font-size: var(--text-readable-min); }
   .privacy-table th, .privacy-table td { padding: 12px; }
   .site-header { min-height: 76px; gap: 12px; }
   .header-cta { padding: 9px 12px; }
@@ -417,7 +425,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .service-detail-pair { grid-template-columns: 1fr; gap: 24px; }
   .scope-note { padding: 20px; }
   .anchor-nav { gap: 8px; margin-top: 28px; }
-  .anchor-nav a { font-size: .72rem; gap: 12px; }
+  .anchor-nav a { font-size: var(--text-readable-min); gap: 12px; }
   .works-list { padding-bottom: 56px; }
   .product-hero { padding-top: 24px; }
   .back-link { margin-bottom: 32px; }
@@ -427,7 +435,7 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .screenshot-grid { grid-template-columns: 1fr; gap: 36px; }
   .screenshot-stage { padding: 28px; }
   .screenshot-stage img { max-width: 230px; border-radius: 18px; }
-  .screenshot-grid figcaption { display: flex; font-size: .85rem; }
+  .screenshot-grid figcaption { display: flex; font-size: var(--text-readable-min); }
   .screenshot-grid figcaption span { margin-bottom: 0; }
   .store-section { gap: 24px; }
   .store-section > img { width: 52px; height: 52px; border-radius: 12px; }

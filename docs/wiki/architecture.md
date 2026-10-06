@@ -1,6 +1,6 @@
 # 현재 구조
 
-최종 갱신: 2026-10-05
+최종 갱신: 2026-10-06
 
 ## 현재 단계
 
@@ -16,6 +16,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 
 | 경로 | 역할 |
 | --- | --- |
+| `AGENTS.md` | AI 에이전트 위키 메모리 참조 및 작업 제약 지침 |
 | `src/data/site.ts` | 회사 정보, 페이지별 메타·OG 이미지, 공개 경로 목록 |
 | `src/data/works.ts` | Works 콘텐츠 모델과 데이터 (PreviewLog · Shuffo · bldnex.com) |
 | `src/data/services.ts` | 홈/상세 서비스 원고와 연계 역량 |
@@ -36,7 +37,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 | `public/_headers` | Cloudflare Pages 응답 헤더 (보안·캐시) |
 | `wrangler.toml` | Pages 배포 설정 |
 | `shared/contact.ts` | 공통 검증·필드·동의 버전·승인된 보관 기간 |
-| `src/components/ContactForm.astro`, `src/scripts/contact.ts` | 접수 폼·입력 유지·동일 요청 재시도 |
+| `src/components/ContactForm.astro`, `src/scripts/contact.ts` | 접수 폼·입력 유지·실시간 에러 해제·동일 요청 재시도 |
 | `functions/`, `server/` | 접수/관리자 API, JWT 검증, D1 저장, 알림·파기 로직 |
 | `migrations/` | 문의·알림·감사·요청 제한·작업 상태·동시성 버전 |
 | `src/pages/admin/inquiries.astro`, `src/scripts/admin.ts` | 비공개 문의 관리 |
@@ -53,7 +54,7 @@ pnpm build
   └─ scripts/measure-site.mjs dist 를 실측해 페이지의 수치 토큰 치환
 ```
 
-`pnpm test` = 로컬 D1 서버 테스트 + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`, Functions/Worker 컴파일은 `pnpm contact:check`입니다.
+`pnpm test` = 로컬 D1 서버 테스트(26개) + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`(13개 회귀 테스트), Functions/Worker 컴파일은 `pnpm contact:check`입니다.
 
 | 스크립트 | 실행 시점 | 역할 |
 | --- | --- | --- |

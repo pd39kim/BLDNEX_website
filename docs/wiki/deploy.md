@@ -112,6 +112,18 @@ pnpm verify:live https://...     # 다른 주소
 4. **주소 정규화** — canonical 주소 200, `/about/` 308, 없는 주소 404.
 5. **보안 헤더** — `nosniff`, `X-Frame-Options`.
 
+### Cloudflare 엣지 기능은 켜지 않습니다
+
+Cloudflare 가 응답을 가로채 HTML 을 고치는 기능들은 저장소에 흔적이 남지 않아 빌드 검사로 잡히지 않습니다. 공개 중인 수치와 어긋나거나 기능을 망가뜨리므로 끈 상태를 유지합니다. `pnpm verify:live` 가 재발을 감시합니다.
+
+| 기능 | 왜 끄는가 | 상태 |
+| --- | --- | --- |
+| Web Analytics | 비컨(`static.cloudflareinsights.com`)이 전 페이지에 붙어 "외부 요청 0건"과 방침의 "분석 도구 미사용"이 거짓이 됨 | 2026-10-06 OFF |
+| Email Address Obfuscation | `mailto:` 를 `/cdn-cgi/l/email-protection` 으로 바꾸고 주소를 `[email protected]` 으로 가림. **JS 가 꺼지면 연락 수단이 사라짐** | 2026-10-06 OFF |
+| Rocket Loader | 스크립트 실행 순서를 바꿔 폼·메뉴 동작을 깨뜨릴 수 있음 | 켜지 않음 |
+
+Email Obfuscation 은 보호 효과도 약했습니다. `mailto:` 와 텍스트만 치환해서 같은 페이지의 JSON-LD `email` 과 복사 버튼 `data-email` 에 평문이 그대로 남고, 인코딩도 첫 바이트 XOR 이라 되돌리기 쉽습니다. 얻는 것보다 잃는 것이 큽니다.
+
 ### Web Analytics 는 켜지 않습니다
 
 2026-10-05 공개 직후 Cloudflare Web Analytics 비컨(`static.cloudflareinsights.com`)이 9개 페이지 전부에 주입되고 있었습니다. 홈 스탬프와 `/works/bldnex-website` 의 "외부 요청 0건", 개인정보처리방침의 "방문 분석 도구는 사용하지 않습니다"가 모두 사실이 아닌 상태였습니다. 2026-10-06 비활성화해 해소했습니다.

@@ -54,6 +54,21 @@ function externalOrigins(html) {
 // 사이트가 스스로 외부로 요청하지 않는다고 적어 둔 곳들. 여기 어긋나면 공개 문구가 거짓이 됩니다.
 const allowed = new Set();
 
+/**
+ * Cloudflare 가 엣지에서 끼워 넣는 것들. 같은 출처(/cdn-cgi/...)라 외부 출처 검사에
+ * 걸리지 않으므로 따로 봅니다. 저장소에는 없는 코드가 페이지에서 실행되는 상태이고,
+ * Email Obfuscation 은 JS 가 꺼진 방문자에게서 연락 수단을 없앱니다.
+ */
+function edgeInjections(html) {
+  const found = [];
+  if (/\/cdn-cgi\/scripts\/[^"']*email-decode/.test(html)) found.push('Email Obfuscation (email-decode.min.js)');
+  if (/\/cdn-cgi\/l\/email-protection/.test(html)) found.push('Email Obfuscation (mailto 링크 치환)');
+  if (/__cf_email__/.test(html)) found.push('Email Obfuscation (이메일 표시 가림)');
+  if (/static\.cloudflareinsights\.com/.test(html)) found.push('Web Analytics 비컨');
+  if (/\/cdn-cgi\/scripts\/[^"']*rocket-loader/.test(html)) found.push('Rocket Loader');
+  return [...new Set(found)];
+}
+
 let failures = 0;
 const fail = (message) => { console.error('  FAIL ' + message); failures++; };
 
@@ -67,6 +82,8 @@ const claimed = home.html.match(/외부 요청<\/dt><dd>(\d+)건/)?.[1];
 if (claimed === undefined) fail('홈에서 외부 요청 수치를 찾지 못했습니다');
 
 const seen = new Map();
+const injected = new Map();
+const mailtoCounts = new Map();
 for (const route of routes) {
   const { status, html } = await get(route);
   if (status !== 200) { fail(`${route}: ${status}`); continue; }
@@ -75,7 +92,24 @@ for (const route of routes) {
     if (!seen.has(origin)) seen.set(origin, []);
     seen.get(origin).push(route);
   }
+  for (const injection of edgeInjections(html)) {
+    if (!injected.has(injection)) injected.set(injection, []);
+    injected.get(injection).push(route);
+  }
+  mailtoCounts.set(route, (html.match(/href="mailto:/g) ?? []).length);
 }
+
+// 엣지 주입은 dist 에 없으므로 빌드 검사로는 영영 잡히지 않습니다.
+for (const [injection, where] of injected) {
+  fail(`Cloudflare 엣지 주입 — ${injection} (${where.length}개 페이지)`);
+}
+if (injected.size > 0) {
+  console.error('  대시보드에서 해당 기능을 끄세요. 저장소를 고쳐도 사라지지 않습니다.');
+}
+
+// 연락 경로: mailto 가 평문으로 남아야 JS 가 꺼져도 연락할 수 있습니다.
+const contactMailto = mailtoCounts.get('/contact') ?? 0;
+if (contactMailto === 0) fail('/contact 에 평문 mailto 링크가 없습니다 (JS 없는 환경에서 연락 불가)');
 
 if (seen.size === 0) {
   console.log(`  OK   외부 출처 없음 (공개 수치: ${claimed}건)`);

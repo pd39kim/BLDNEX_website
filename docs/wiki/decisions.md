@@ -195,3 +195,13 @@ Cloudflare Web Analytics 를 끄고, 방문 통계는 zone Analytics(엣지 집�
 포기하는 것은 Core Web Vitals 와 화면 해상도이며, 성능 지표는 Search Console 의 CrUX 로 대체합니다.
 
 이 종류의 불일치는 빌드 검사로 잡히지 않습니다(엣지 주입이라 dist 에 없음). `scripts/verify-live.mjs` 가 배포본을 브라우저처럼 받아 공개 수치·방침 문구와 대조합니다. 배포 후에는 `pnpm verify:live` 를 돌립니다.
+
+## 2026-10-06 — Email Address Obfuscation 끄기
+
+Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
+
+켜져 있는 동안 `/contact` 의 `mailto:` 링크 3개가 모두 `/cdn-cgi/l/email-protection` 으로 바뀌고 화면의 이메일 2곳이 `[email protected]` 으로 가려졌습니다. JS 가 꺼진 방문자는 주소를 볼 수도, 링크를 누를 수도 없었습니다. 문의 폼은 Turnstile 때문에 JS 가 필요하므로 이메일이 유일한 대안인데 그마저 막힌 상태였습니다.
+
+보호 효과도 약했습니다. 같은 페이지의 JSON-LD `email` 과 복사 버튼 `data-email` 에는 평문이 그대로 남아 있었고, 인코딩은 첫 바이트 XOR 이라 쉽게 복원됩니다.
+
+같은 종류의 엣지 주입(Web Analytics, Rocket Loader 포함)을 `scripts/verify-live.mjs` 가 탐지합니다. `/cdn-cgi/` 는 같은 출처라 외부 출처 검사에 걸리지 않으므로 별도로 봅니다.

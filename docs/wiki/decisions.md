@@ -237,4 +237,17 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
 3. **가독성 및 회귀 검증**:
    - 모바일 360px부터 데스크톱 1440px까지 뷰포트 오버플로우 및 요소 깨짐 없이 안정적으로 표시됨을 단위 및 브라우저 E2E 테스트(`pnpm test`, `pnpm test:browser`)로 검증 완료.
 
+## 2026-10-07 — 태그리스트 시인성 개선 및 잔여 텍스트 14px 전면 상향
+
+1. **태그리스트(`.tag-list li`) 칩 디자인 및 대비 강화**:
+   - 다크 배경에서 텍스트와 테두리가 묻히던 문제를 해결하기 위해, 글자색을 고대비 본문색(`var(--text)`), 배경색을 한 단계 밝은 레이어(`var(--raised)`), 테두리를 가시적인 회색(`1px solid #3d444e`), 굵기를 `500(Medium)`, 라운딩을 `4px`로 설정하여 명확한 칩/뱃지 형태로 시인성을 극대화했습니다.
+2. **사람이 읽는 잔여 텍스트(산출물, 푸터, 도식, 각주) 14px 전면 상향**:
+   - 홈 프로세스 카드 산출물 안내(`.step-output` 및 `.step-output span`): 10.6~11.2px → **14.08px (`var(--text-readable-min)`)**
+   - 푸터 슬로건(`.footer-tagline`), 소제목(`.footer-label`), 하단 저작권(`.footer-bottom`): 9.6~10.9px → **14.08px**
+   - 제품 카드 작업 흐름 도식(`.cover-flow`): 12.8px → **14.08px**
+   - 제품 상세 각주 고지문(`.figure-note`): 12px → **14.08px**
+   - 문의 폼 섹션 라벨(`.form-section-label`): 12px → **14.08px**
+   - 관리자 상태 뱃지(`.status-badge`): 12px → **14.08px**
+
+
 

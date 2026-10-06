@@ -5,7 +5,7 @@
 .intake-notice { font-size: var(--text-readable-min); padding: 16px 18px; border-left: 2px solid var(--accent); background: var(--raised); color: var(--muted); margin-top: 28px; }
 .config-retry { background: transparent; border: 0; padding: 8px 0; }
 .inquiry-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
-.form-section-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 32px; margin: 28px 0 22px; border-top: 1px solid var(--line); font-size: .75rem; letter-spacing: .09em; color: var(--muted); }
+.form-section-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 32px; margin: 28px 0 22px; border-top: 1px solid var(--line); font-size: var(--text-readable-min); letter-spacing: .05em; color: var(--muted); }
 .form-section-label > :first-child { color: var(--accent); }
 .form-section-label a { font-size: var(--text-readable-min); letter-spacing: 0; text-decoration: underline; text-underline-offset: 4px; }
 .form-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; }

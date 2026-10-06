@@ -8,7 +8,7 @@ import { site, navigation, contactHref } from '../data/site';
       <p class="footer-tagline">{site.tagline}</p>
       <p class="footer-description">아이디어를 웹사이트, SaaS, 앱으로 만드는 제품 개발 스튜디오.</p>
     </div>
-    <nav class="footer-links" aria-label="푸터 메뉴"><p class="footer-label">EXPLORE</p>{navigation.map((item) => <a href={item.href}>{item.label}</a>)}</nav>
+    <nav class="footer-links" aria-label="푸터 메뉴"><p class="footer-label">EXPLORE</p>{navigation.map((item) => <a href={item.href}>{item.label}</a>)}<a href="/contact">Contact</a></nav>
     <nav class="footer-links" aria-label="제품 메뉴"><p class="footer-label">OUR PRODUCTS</p><a href="/works/previewlog">PreviewLog ↗</a><a href="/works/shuffo">Shuffo ↗</a></nav>
     <div class="footer-contact"><p class="footer-label">LET’S TALK</p><a class="email-link" href={contactHref}>{site.email}</a><p>만들고 싶은 것부터 알려주세요.</p></div>
   </div>

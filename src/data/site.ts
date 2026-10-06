@@ -13,7 +13,6 @@ export const navigation = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/works', label: 'Works' },
-  { href: '/contact', label: 'Contact' },
 ];
 
 export const contactHref = `mailto:${site.email}?subject=${encodeURIComponent('[프로젝트 문의] 프로젝트명 또는 회사·팀 이름')}`;

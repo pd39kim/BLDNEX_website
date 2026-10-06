@@ -262,3 +262,19 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
    - 모바일 미디어 쿼리(`@media (max-width: 600px)`)에서 `.eyebrow`와 `.hero-footnote`를 0.60~0.62rem(9.6~9.9px)으로 강제 축소하던 코드를 제거했습니다. 작은 모바일 화면에서도 최소 11.2px을 유지하여 폰트 뭉개짐과 시각적 파편화를 방지했습니다.
 4. **품질 검증**:
    - Astro 정적 빌드, 웹폰트 서브셋 무결성, 실측 스탬프 자동 측정, Playwright 브라우저 E2E(360/390/768/1440px 뷰포트 오버플로우 검사 포함) 전체 통과.
+
+## 2026-10-07 — 네비게이션 Contact 제거 및 선택 메뉴 활성 상태(Active State) 시각적 차별화
+
+네비게이션 바에서 중복되던 Contact 링크를 정리하고, 현재 머무르고 있는 메뉴가 시각적으로 분명하게 드러나도록 활성 상태 렌더링 및 스타일을 개편했습니다.
+
+1. **헤더 네비게이션 Contact 제거**:
+   - 헤더에 이미 눈에 띄는 "프로젝트 문의 ↗" 버튼(`.header-cta`)이 항상 우측에 배치되어 있으므로, 텍스트 메뉴의 'Contact'는 중복을 피하기 위해 제거했습니다 (`src/data/site.ts`의 `navigation`을 About, Services, Works 3개로 정리).
+   - 단, 푸터의 사이트맵 탐색 편의와 404 페이지를 위해 `EXPLORE` 영역의 Contact 링크는 명시적으로 유지했습니다 (`Footer.astro`, `404.astro`).
+2. **정적 빌드 경로 정규화 버그 수정 (`Header.astro`)**:
+   - `build.format: 'file'` 환경에서 `Astro.url.pathname`이 `/about.html`처럼 확장자를 포함하여, 기존 메뉴 활성 판단(`pathname === item.href`)이 항상 false가 되어 어떤 메뉴도 선택 상태로 표시되지 않던 결함을 수정했습니다 (`replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '')` 적용).
+3. **선택한 메뉴(Active Menu)의 시각적 차별화**:
+   - **데스크톱 주 메뉴(`.desktop-nav a[aria-current]`)**: 선택된 메뉴 텍스트를 브랜드 포인트 컬러인 `var(--accent)` (#35a9ff)와 `font-weight: 600`으로 강조하고, 하단에 2px의 블루 인디케이터 바(`::after`)를 표시해 현재 페이지를 즉각 인지할 수 있도록 했습니다.
+   - **프로젝트 문의 버튼(`.header-cta[aria-current]`)**: `/contact` 페이지 진입 시, 아웃라인 버튼이 채워진 솔리드 블루 배경(`background: var(--accent); color: var(--bg); font-weight: 600`)으로 반전되어 선택 상태를 명확히 알립니다.
+   - **모바일 드롭다운 메뉴(`.mobile-nav > a[aria-current]`)**: 선택된 항목의 텍스트와 번호 인덱스(`01/02/03`)가 모두 `var(--accent)`로 밝게 표시되고 볼드 처리됩니다.
+4. **검증**:
+   - Astro 정적 빌드 HTML 실측 검사(페이지별 `aria-current="page"` 정상 주입 확인) 및 Playwright E2E 브라우저 회귀 테스트 통과.

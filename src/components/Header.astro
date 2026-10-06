@@ -1,6 +1,6 @@
 ---
 import { navigation, site } from '../data/site';
-const pathname = Astro.url.pathname.replace(/\/$/, '');
+const pathname = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
 ---
 <header class="header-shell">
@@ -12,7 +12,7 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
     <nav class="desktop-nav" aria-label="주 메뉴">
       {navigation.map((item) => <a href={item.href} aria-current={isActive(item.href) ? (pathname === item.href ? 'page' : 'true') : undefined}>{item.label}</a>)}
     </nav>
-    <a class="header-cta" href="/contact"><span class="cta-full">프로젝트 </span>문의 <span aria-hidden="true">↗</span></a>
+    <a class="header-cta" href="/contact" aria-current={isActive('/contact') ? 'page' : undefined}><span class="cta-full">프로젝트 </span>문의 <span aria-hidden="true">↗</span></a>
     <details class="mobile-menu" id="mobile-menu">
       <summary>
         <span class="menu-label-open sr-only">메뉴 열기</span><span class="menu-label-close sr-only">메뉴 닫기</span>

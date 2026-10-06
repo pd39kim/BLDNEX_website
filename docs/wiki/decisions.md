@@ -249,5 +249,16 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
    - 문의 폼 섹션 라벨(`.form-section-label`): 12px → **14.08px**
    - 관리자 상태 뱃지(`.status-badge`): 12px → **14.08px**
 
+## 2026-10-07 — 마이크로 타이포그래피(순번 인덱스·라벨) 0.70rem(11.2px) 단일 토큰 표준화
 
+14px 미만 보조 요소(순번 인덱스, 카테고리 아이브로우, 메타 라벨)에 산재해 있던 파편화된 수치 체계를 단일 토큰으로 통합 표준화했습니다.
 
+1. **파편화 제거 및 토큰 단일화**:
+   - 기존에 0.60rem(9.6px)부터 0.72rem(11.5px)까지 6가지로 나뉘어 있던 마이크로 폰트 크기를 폐기하고, 단일 디자인 토큰 `--text-micro: 0.70rem;` (11.2px)으로 통합했습니다 (`src/styles/global.css`).
+2. **표준화 적용 범위**:
+   - **순번 및 인덱스 (Category 1)**: `.step-number` (0.72rem → 0.70rem), `.faq-number` (0.65rem → 0.70rem), 모바일 메뉴 인덱스(`.mobile-nav > a > span:first-child`: 0.65rem → 0.70rem).
+   - **아이브로우 및 메타 라벨 (Category 2)**: `.eyebrow` (0.70rem 표준 유지), `.hero-footnote` (0.68rem → 0.70rem), 카드 비주얼 라벨/각주(`.visual-label`, `.visual-footnote`: 0.60rem → 0.70rem), 실측 스탬프 라벨/용어(`.build-stamp-label`, `.build-stamp dt`: 0.60~0.68rem → 0.70rem), 제품 메타 라벨(`.product-meta > div > span`: 0.62rem → 0.70rem), 연관 제품/흐름 라벨(`.related-product .eyebrow`, `.product-flow .eyebrow`: 0.60~0.62rem → 0.70rem), 관리자 영수증 번호(`#detail-receipt`: 0.65rem → 0.70rem).
+3. **모바일 축소 오버라이드 제거**:
+   - 모바일 미디어 쿼리(`@media (max-width: 600px)`)에서 `.eyebrow`와 `.hero-footnote`를 0.60~0.62rem(9.6~9.9px)으로 강제 축소하던 코드를 제거했습니다. 작은 모바일 화면에서도 최소 11.2px을 유지하여 폰트 뭉개짐과 시각적 파편화를 방지했습니다.
+4. **품질 검증**:
+   - Astro 정적 빌드, 웹폰트 서브셋 무결성, 실측 스탬프 자동 측정, Playwright 브라우저 E2E(360/390/768/1440px 뷰포트 오버플로우 검사 포함) 전체 통과.

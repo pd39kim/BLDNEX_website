@@ -72,7 +72,7 @@
 .detail-title-wrap h2 { margin-bottom: 0; }
 .detail-close-btn { font-size: var(--text-readable-min); padding: 4px 8px; color: var(--muted); cursor: pointer; border: 0; background: none; }
 .detail-close-btn:hover { color: var(--text); }
-#detail-receipt { overflow-wrap: anywhere; font-size: .65rem; }
+#detail-receipt { overflow-wrap: anywhere; font-size: var(--text-micro); }
 .detail-fields { margin: 0 0 32px; }
 .detail-fields div { display: grid; grid-template-columns: 90px minmax(0,1fr); gap: 16px; margin-bottom: 10px; font-size: var(--text-readable-min); }
 .detail-fields dt { color: var(--muted); }

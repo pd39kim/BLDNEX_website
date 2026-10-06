@@ -4,6 +4,8 @@ const message = byId('admin-message');
 const list = byId('inquiry-list');
 const filter = byId<HTMLSelectElement>('status-filter');
 const more = byId<HTMLButtonElement>('load-more');
+const placeholder = byId('detail-placeholder');
+const detailPanel = byId('inquiry-detail');
 type Inquiry = { id: string; name: string; email: string; company: string; phone: string; project_type: keyof typeof projectTypes; budget: keyof typeof budgets; schedule: keyof typeof schedules; status: Status; version: number; description: string; created_at: number; purge_after: number; consent_version: string; consent_at: number; optional_consent: number; notification_state?: string };
 type Notification = { state: string; attempts: number; first_attempt_at: number | null; error_code: string | null };
 const notificationLabels: Record<string, string> = { pending: '알림 대기', processing: '발송 처리 중', retry: '알림 재시도 대기', provider_accepted: '발송 서비스 승인 (수신 확인 아님)', failed: '알림 실패 · 확인 필요' };
@@ -26,6 +28,17 @@ function report(error: unknown) {
   else message.textContent = '요청 결과를 확인하지 못했습니다. 새로고침해 현재 상태를 확인한 뒤 다시 시도해 주세요.';
   message.focus();
 }
+function closeDetail() {
+  current = null;
+  detailGeneration++;
+  detailPanel.hidden = true;
+  if (placeholder) placeholder.hidden = false;
+  list.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', 'false'));
+  history.replaceState(null, '', location.pathname);
+  if (window.innerWidth <= 850) {
+    list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
 async function loadList(append = false) {
   const generation = ++listGeneration;
   more.disabled = true;
@@ -39,11 +52,27 @@ async function loadList(append = false) {
       const li = document.createElement('li'), button = document.createElement('button');
       button.type = 'button'; button.dataset.id = item.id;
       button.setAttribute('aria-pressed', String(current?.id === item.id));
-      const title = document.createElement('strong'), info = document.createElement('span'), mail = document.createElement('span');
+
+      const header = document.createElement('div');
+      header.className = 'inquiry-item-header';
+      const title = document.createElement('strong');
       title.textContent = `${item.name} · ${projectTypes[item.project_type]}`;
-      info.textContent = `${statuses[item.status]} / ${date(item.created_at)}`;
-      mail.textContent = notificationLabels[item.notification_state ?? ''] ?? '알림 상태 미확인';
-      button.append(title, info, mail); button.addEventListener('click', () => { if (!mutating) void loadDetail(item.id); });
+      const badge = document.createElement('span');
+      badge.className = 'status-badge';
+      badge.dataset.status = item.status;
+      badge.textContent = statuses[item.status];
+      header.append(title, badge);
+
+      const meta = document.createElement('div');
+      meta.className = 'inquiry-item-meta';
+      const dateSpan = document.createElement('span');
+      dateSpan.textContent = date(item.created_at);
+      const mailSpan = document.createElement('span');
+      mailSpan.textContent = notificationLabels[item.notification_state ?? ''] ?? '알림 상태 미확인';
+      meta.append(dateSpan, mailSpan);
+
+      button.append(header, meta);
+      button.addEventListener('click', () => { if (!mutating) void loadDetail(item.id); });
       li.append(button); list.append(li);
     }
     cursor = result.nextCursor; more.hidden = !cursor;
@@ -60,7 +89,17 @@ async function loadDetail(id: string) {
     if (generation !== detailGeneration) return;
     current = result.inquiry; notification = result.notification;
     const inquiry = current!;
+    if (placeholder) placeholder.hidden = true;
     byId('detail-receipt').textContent = inquiry.id;
+
+    const badge = byId('detail-status-badge');
+    if (badge) {
+      badge.dataset.status = inquiry.status;
+      badge.textContent = statuses[inquiry.status];
+    }
+    const feedback = byId('status-save-feedback');
+    if (feedback) feedback.textContent = '';
+
     const fields: [string, string][] = [
       ['이름', inquiry.name], ['이메일', inquiry.email], ['회사 · 팀', inquiry.company || '미입력'], ['연락처', inquiry.phone || '미입력'],
       ['프로젝트', projectTypes[inquiry.project_type]], ['예산', budgets[inquiry.budget]], ['일정', schedules[inquiry.schedule]],
@@ -79,9 +118,12 @@ async function loadDetail(id: string) {
     byId('detail-audit').replaceChildren(...(result.audit as { actor: string; action: string; created_at: number }[]).map((event) => {
       const li = document.createElement('li'); li.textContent = `${date(event.created_at)} / ${event.actor} / ${event.action}`; return li;
     }));
-    const panel = byId('inquiry-detail'); panel.hidden = false; panel.focus();
+    detailPanel.hidden = false; detailPanel.focus();
     list.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.id === id)));
     history.replaceState(null, '', `${location.pathname}?id=${encodeURIComponent(id)}`);
+    if (window.innerWidth <= 850) {
+      detailPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   } catch (error) { report(error); }
 }
 async function change(action: 'status' | 'retry' | 'delete') {
@@ -89,9 +131,11 @@ async function change(action: 'status' | 'retry' | 'delete') {
   const id = current.id;
   let body: Record<string, unknown>, method: string, suffix: string;
   if (action === 'status') {
-    const status = byId<HTMLSelectElement>('detail-status').value;
+    const status = byId<HTMLSelectElement>('detail-status').value as Status;
     if (status === 'closed' && !confirm('처리를 종료할까요? 종료는 되돌릴 수 없으며 이 시점부터 1년 후 파기됩니다.')) return;
     body = { status, version: current.version }; method = 'PATCH'; suffix = '/status';
+    const feedback = byId('status-save-feedback');
+    if (feedback) feedback.textContent = '상태 저장 중…';
   } else if (action === 'retry') {
     const expired = notification?.first_attempt_at != null && Date.now() - notification.first_attempt_at >= 23 * 3_600_000;
     if (!confirm(expired ? '이전 발송의 중복 방지 기간이 지났습니다. 알림이 중복 수신될 수 있음을 확인하고 다시 발송할까요?' : '예약 작업에 알림 재시도를 요청할까요?')) return;
@@ -102,18 +146,33 @@ async function change(action: 'status' | 'retry' | 'delete') {
     body = { confirmId: confirmed }; method = 'DELETE'; suffix = '';
   }
   mutating = true;
-  byId('inquiry-detail').setAttribute('aria-busy', 'true');
+  detailPanel.setAttribute('aria-busy', 'true');
   try {
     await api(`/api/admin/inquiries/${id}${suffix}`, method, body);
-    if (action === 'delete') { current = null; detailGeneration++; byId('inquiry-detail').hidden = true; history.replaceState(null, '', location.pathname); }
-    else await loadDetail(id);
-    await loadList(); message.textContent = action === 'delete' ? '데이터베이스의 문의와 대기 알림을 삭제했습니다.' : '요청을 반영했습니다.';
+    if (action === 'delete') {
+      closeDetail();
+    } else {
+      await loadDetail(id);
+      if (action === 'status') {
+        const savedStatus = (body as { status: Status }).status;
+        const feedback = byId('status-save-feedback');
+        if (feedback) {
+          feedback.textContent = `✓ 상태가 '${statuses[savedStatus]}'(으)로 저장되었습니다.`;
+          feedback.classList.remove('flash');
+          void feedback.offsetWidth;
+          feedback.classList.add('flash');
+        }
+      }
+    }
+    await loadList();
+    message.textContent = action === 'delete' ? '데이터베이스의 문의와 대기 알림을 삭제했습니다.' : '요청을 반영했습니다.';
   } catch (error) { report(error); }
-  finally { mutating = false; byId('inquiry-detail').removeAttribute('aria-busy'); }
+  finally { mutating = false; detailPanel.removeAttribute('aria-busy'); }
 }
 byId('save-status').addEventListener('click', () => void change('status'));
 byId('retry-notification').addEventListener('click', () => void change('retry'));
 byId('delete-inquiry').addEventListener('click', () => void change('delete'));
+byId('close-detail')?.addEventListener('click', closeDetail);
 filter.addEventListener('change', () => void loadList());
 byId('admin-refresh').addEventListener('click', async () => { if (!mutating) { await loadList(); if (current) await loadDetail(current.id); } });
 more.addEventListener('click', () => void loadList(true));

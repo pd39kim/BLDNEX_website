@@ -19,13 +19,39 @@ import '../../styles/admin.css';
     <p class="form-status" id="admin-message" role="status" tabindex="-1">접근 권한을 확인하고 있습니다…</p>
     <p class="admin-health" id="admin-health"></p>
     <div class="admin-grid">
-      <div><h2 class="ko-heading admin-subtitle">문의 목록</h2><ul id="inquiry-list" class="inquiry-list"></ul><button class="text-link" id="load-more" type="button" hidden>다음 문의 보기 ↓</button></div>
+      <div class="admin-list-pane">
+        <h2 class="ko-heading admin-subtitle">문의 목록</h2>
+        <ul id="inquiry-list" class="inquiry-list"></ul>
+        <button class="text-link" id="load-more" type="button" hidden>다음 문의 보기 ↓</button>
+      </div>
+      <div id="detail-placeholder" class="detail-placeholder">
+        <div class="placeholder-content">
+          <p class="eyebrow placeholder-tag">INQUIRY DETAIL</p>
+          <h3 class="ko-heading">선택된 문의가 없습니다</h3>
+          <p class="body-copy">왼쪽 목록에서 문의를 선택하면 상세 내용과 처리 상태를 확인하고 변경할 수 있습니다.</p>
+        </div>
+      </div>
       <article id="inquiry-detail" class="inquiry-detail" hidden tabindex="-1" aria-label="문의 상세">
-        <p class="eyebrow" id="detail-receipt"></p><h2 class="ko-heading admin-subtitle">문의 상세</h2>
+        <div class="detail-header">
+          <div>
+            <p class="eyebrow" id="detail-receipt"></p>
+            <div class="detail-title-wrap">
+              <h2 class="ko-heading admin-subtitle" id="detail-title">문의 상세</h2>
+              <span id="detail-status-badge" class="status-badge" data-status="new">새 문의</span>
+            </div>
+          </div>
+          <button type="button" class="text-link detail-close-btn" id="close-detail">&times; 닫기</button>
+        </div>
         <dl id="detail-fields" class="detail-fields"></dl>
         <h3 class="ko-heading">프로젝트 내용</h3><p id="detail-description" class="detail-description"></p>
         <h3 class="ko-heading">처리 상태</h3>
-        <div class="admin-controls"><label for="detail-status">상태 변경<select id="detail-status">{Object.entries(statuses).map(([value, text]) => <option value={value}>{text}</option>)}</select></label><button class="button" type="button" id="save-status">상태 저장</button></div>
+        <div class="status-save-row">
+          <div class="admin-controls">
+            <label for="detail-status">상태 변경<select id="detail-status">{Object.entries(statuses).map(([value, text]) => <option value={value}>{text}</option>)}</select></label>
+            <button class="button" type="button" id="save-status">상태 저장</button>
+          </div>
+          <p id="status-save-feedback" class="status-save-feedback" role="status" aria-live="polite"></p>
+        </div>
         <p class="field-caption">처리 종료는 되돌릴 수 없습니다. 종료 시점부터 보관 기간을 계산합니다.</p>
         <p class="admin-health" id="detail-notification"></p>
         <div class="actions"><button class="text-link" type="button" id="retry-notification">알림 재시도</button><button class="text-link danger-link" type="button" id="delete-inquiry">문의 삭제</button></div>

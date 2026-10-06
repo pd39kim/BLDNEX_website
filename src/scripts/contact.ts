@@ -27,6 +27,28 @@ function showErrors(errors: FieldErrors) {
   const first = Object.keys(errors)[0];
   if (first) document.getElementById(first)?.focus();
 }
+function clearError(key: string) {
+  const message = document.getElementById(`error-${key}`);
+  if (message) message.textContent = '';
+  document.getElementById(key)?.removeAttribute('aria-invalid');
+  if (!form.querySelector('.field-error:not(:empty)')) {
+    if (status.textContent === '표시된 항목을 확인해 주세요.') status.textContent = '';
+  }
+}
+function clearResolvedErrors() {
+  const activeErrors = form.querySelectorAll<HTMLElement>('.field-error:not(:empty)');
+  if (!activeErrors.length) return;
+  const values = new FormData(form);
+  const { errors } = validateContact({
+    ...Object.fromEntries(values),
+    consent: values.has('consent'),
+    optionalConsent: values.has('optionalConsent'),
+  });
+  activeErrors.forEach((node) => {
+    const key = node.id.replace(/^error-/, '');
+    if (!errors[key as keyof ContactInput]) clearError(key);
+  });
+}
 function loadTurnstile() {
   if (window.turnstile) return Promise.resolve();
   if (scriptPromise) return scriptPromise;
@@ -68,6 +90,8 @@ async function configure() {
   }
 }
 textarea.addEventListener('input', () => { document.getElementById('description-count')!.textContent = `${textarea.value.length.toLocaleString('ko-KR')} / 5,000`; });
+form.addEventListener('input', clearResolvedErrors);
+form.addEventListener('change', clearResolvedErrors);
 retryConfig.addEventListener('click', configure);
 window.addEventListener('beforeunload', (event) => {
   if (!saved && (pending || textarea.value.trim())) event.preventDefault();

@@ -93,6 +93,18 @@ test('server validation keeps input, unlocks it and displays field errors', asyn
   await expect(page.locator('#error-email')).toHaveText('이메일 주소를 확인해 주세요.');
   await expect(page.locator('#inquiry-success')).not.toBeVisible();
 });
+test('clears field error in real-time when description reaches 20 chars', async ({ page }) => {
+  await enable(page); await page.goto('/contact'); await fill(page);
+  await page.locator('#description').fill('짧은 내용');
+  await page.locator('.inquiry-submit').click();
+  await expect(page.locator('#error-description')).toHaveText('프로젝트 내용을 20–5,000자로 입력해 주세요.');
+  await expect(page.locator('#description')).toHaveAttribute('aria-invalid', 'true');
+
+  await page.locator('#description').fill('20자 이상으로 프로젝트 내용을 충분히 작성합니다.');
+  await expect(page.locator('#error-description')).toBeEmpty();
+  await expect(page.locator('#description')).not.toHaveAttribute('aria-invalid');
+  await expect(page.locator('#form-status')).toBeEmpty();
+});
 test('CAPTCHA script failure keeps intake disabled and provides fallback', async ({ page }) => {
   await enable(page); await page.route('https://challenges.cloudflare.com/**', (route) => route.abort());
   await page.goto('/contact'); await expect(page.locator('#intake-notice')).toContainText('연결을 확인하지 못했습니다');

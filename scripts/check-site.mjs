@@ -45,7 +45,11 @@ for (const [route, html] of documents) {
   assert(types.includes('Organization'), route + ': missing Organization JSON-LD');
   assert(types.includes('WebSite'), route + ': missing WebSite JSON-LD');
   assert(!html.includes('SEOUL'), route + ': unverified location');
-  assert(!html.includes('href="https://previewlog.bldnex.com'), route + ': unverified product CTA');
+  if (route !== '/works/previewlog') {
+    assert(!html.includes('href="https://previewlog.bldnex.com'), route + ': unexpected product CTA');
+  } else {
+    assert(html.includes('href="https://previewlog.bldnex.com'), route + ': missing verified product CTA');
+  }
   for (const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
     const url = new URL(match[1].replaceAll('&amp;', '&'), 'https://bldnex.com' + route);
     if (url.origin !== 'https://bldnex.com') continue;
@@ -97,7 +101,7 @@ for (const route of ['/works/previewlog', '/works/shuffo', '/works/bldnex-websit
   // 앱은 SoftwareApplication, 웹사이트 자체는 CreativeWork로 기술합니다.
   assert(types.some((type) => type === 'SoftwareApplication' || type === 'CreativeWork'), route + ': missing work schema');
 }
-assert(!documents.get('/works/previewlog').includes('installUrl'), 'PreviewLog has no confirmed public download');
+assert(documents.get('/works/previewlog').includes('installUrl'), 'PreviewLog must include confirmed public download installUrl');
 assert.match(documents.get('/'), /content="index, follow, max-image-preview:large/, 'indexable pages should allow large image previews');
 
 // 폰트: 서브셋이 실제로 쓰인 글자를 모두 담고 있는지 확인합니다.

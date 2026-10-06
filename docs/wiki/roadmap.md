@@ -81,6 +81,7 @@
 
 ## 후속 콘텐츠
 
+- [ ] **홈·상세 페이지 콘텐츠 중복 정리 검토** — 2026-10-06 검토 제안만 기록했으며, 현재 사이트에는 적용하지 않았습니다. [제안 문서](../BLDNEX_CONTENT_DEDUPLICATION_PROPOSAL_2026-10-06.md)
 - [x] 개발사 증거 요소 — 빌드 실측 스탬프, bldnex.com 작업물, App Store 배지 ([문서](proof-points.md))
 - [x] 404 페이지 — 없는 주소가 홈을 200으로 반환하던 소프트 404 해소
 - [x] Cloudflare Web Analytics 비활성화 — 공개 중이던 "외부 요청 0건"과 방침 문구를 사실로 복원 ([배포 문서](deploy.md))

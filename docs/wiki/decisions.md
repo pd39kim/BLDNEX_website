@@ -205,3 +205,16 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
 보호 효과도 약했습니다. 같은 페이지의 JSON-LD `email` 과 복사 버튼 `data-email` 에는 평문이 그대로 남아 있었고, 인코딩은 첫 바이트 XOR 이라 쉽게 복원됩니다.
 
 같은 종류의 엣지 주입(Web Analytics, Rocket Loader 포함)을 `scripts/verify-live.mjs` 가 탐지합니다. `/cdn-cgi/` 는 같은 출처라 외부 출처 검사에 걸리지 않으므로 별도로 봅니다.
+
+## 2026-10-06 — 상단 네비게이션 스티키(Sticky Header) 고정 적용
+
+스크롤 시에도 주 네비게이션과 문의 CTA에 즉시 접근할 수 있도록 헤더를 뷰포트 상단에 고정(`position: sticky; top: 0;`)했습니다.
+
+1. **시각적 완성도 및 심미성 유지**:
+   - 투명도(`rgba(10, 11, 13, 0.88)`)와 배경 블러 필터(`backdrop-filter: blur(14px)`)를 적용하여, 스크롤되는 하단 콘텐츠와 자연스럽게 어우러지면서도 텍스트 가독성을 온전하게 유지합니다.
+   - 뷰포트 전체 너비에 걸친 1px 하단 경계선(`border-bottom: 1px solid var(--line)`)을 `.header-shell`에 부여하고 내부 `.site-header`의 중복 경계선을 제거해 이중선이 생기지 않도록 정돈했습니다.
+2. **레이어 및 레이아웃 안정성**:
+   - `z-index: 50`으로 본문 및 카드 요소 위에 안전하게 배치하고, 접근성 건너뛰기 링크(`.skip-link`, `z-index: 100`) 아래에 두어 키보드 네비게이션 순서를 보존했습니다.
+   - 기존 `html`에 정의된 `scroll-padding-top: 112px`가 고정 헤더 높이(데스크톱 88px, 모바일 80px)를 충분히 상쇄하므로 앵커 점프 시 헤더 뒤로 제목이 가려지지 않습니다.
+   - 모바일 드롭다운 메뉴(`.mobile-nav`)는 헤더 바로 밑에 붙되, 화면 높이가 작은 기기에서도 스크롤이 가능하도록 `max-height: calc(100dvh - 100%); overflow-y: auto;`를 적용했습니다.
+

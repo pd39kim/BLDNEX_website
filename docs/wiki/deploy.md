@@ -95,6 +95,33 @@ curl -sL -o /dev/null -w '%{num_redirects}\n' https://www.bldnex.com/about  # 1
 
 canonical·`og:url`·sitemap이 모두 슬래시 없는 주소를 쓰므로 `file`이 맞습니다. `check-site.mjs`도 이 형식(`<경로>.html`)을 기준으로 읽습니다.
 
+## 배포 후 검증 — `pnpm verify:live`
+
+빌드 검사로는 잡을 수 없는 것이 있습니다. Cloudflare는 일부 스크립트를 **엣지에서 HTML에 주입**하므로 `dist`에도 저장소에도 흔적이 없고, `Accept: text/html` 과 브라우저 User-Agent 로 요청해야만 드러납니다.
+
+```sh
+pnpm verify:live                 # https://bldnex.com
+pnpm verify:live https://...     # 다른 주소
+```
+
+확인 항목:
+
+1. **외부 출처** — 실제 요청을 유발하는 것만 셉니다(`script`/`img`/`iframe`/`link[rel]`/CSS `url()`). `<a href>` 는 누르기 전까지 요청이 없으므로 제외합니다.
+2. **공개 수치 대조** — 홈이 "외부 요청 0건"이라고 공개하는데 외부 출처가 있으면 실패합니다.
+3. **개인정보처리방침 대조** — "분석 도구 미사용"이라고 적고 있는데 외부 출처가 있으면 실패합니다.
+4. **주소 정규화** — canonical 주소 200, `/about/` 308, 없는 주소 404.
+5. **보안 헤더** — `nosniff`, `X-Frame-Options`.
+
+### Web Analytics 는 켜지 않습니다
+
+2026-10-05 공개 직후 Cloudflare Web Analytics 비컨(`static.cloudflareinsights.com`)이 9개 페이지 전부에 주입되고 있었습니다. 홈 스탬프와 `/works/bldnex-website` 의 "외부 요청 0건", 개인정보처리방침의 "방문 분석 도구는 사용하지 않습니다"가 모두 사실이 아닌 상태였습니다. 2026-10-06 비활성화해 해소했습니다.
+
+방문 통계는 **Cloudflare zone Analytics(엣지 집계)** 로 봅니다. 도메인이 프록시를 통하므로 비컨 없이 요청 수·인기 경로·유입 referrer·국가·브라우저·상태 코드를 얻을 수 있고, 방문자 브라우저로 아무것도 보내지 않습니다. 호스팅 제공자의 접속 로그는 이미 개인정보처리방침의 제3자 제공 항목에 적혀 있어 문구를 고칠 필요가 없습니다.
+
+비컨이 주는 것 중 포기하는 것은 **Core Web Vitals(LCP·INP·CLS)** 와 화면 해상도입니다. 성능 지표가 필요하면 Google Search Console 의 CrUX 데이터로 대체합니다.
+
+다시 켜려면 홈 스탬프 수치, `/works/bldnex-website` 설명, 개인정보처리방침 세 곳을 함께 고쳐야 합니다. `pnpm verify:live` 가 이 불일치를 막습니다.
+
 ## 404 — 반드시 404.html 이 있어야 합니다
 
 Cloudflare Pages 는 정적 자산에 매칭되지 않는 요청에 `dist/404.html` 을 **404 상태**로 돌려줍니다. 이 파일이 없으면 **모든 없는 주소가 홈 HTML 을 200 으로 반환**합니다(소프트 404). 검색엔진이 오타 주소와 끊긴 외부 링크를 전부 중복 페이지로 수집하게 됩니다.

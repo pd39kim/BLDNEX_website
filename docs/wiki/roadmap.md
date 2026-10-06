@@ -83,6 +83,7 @@
 
 - [x] 개발사 증거 요소 — 빌드 실측 스탬프, bldnex.com 작업물, App Store 배지 ([문서](proof-points.md))
 - [x] 404 페이지 — 없는 주소가 홈을 200으로 반환하던 소프트 404 해소
+- [x] Cloudflare Web Analytics 비활성화 — 공개 중이던 "외부 요청 0건"과 방침 문구를 사실로 복원 ([배포 문서](deploy.md))
 - [ ] 공개 허가가 있는 고객 프로젝트 자료 확보
 - [ ] 실제 자료 기반 Blog / Insights 원고 및 라우트
 - [x] 페이지별 전용 OG 이미지 — `scripts/generate-og.mjs`가 7종 생성

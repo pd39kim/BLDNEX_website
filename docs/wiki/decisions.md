@@ -141,3 +141,22 @@ Resend 대시보드가 로그인된 상태에서 발송 전용 권한의 `bldnex
 
 - 작업 시작 전 `docs/wiki/`의 문서(맥락, 결정, 아키텍처, 폰트, 실측 증거)를 필독하고, 작업 완료 후 즉시 변경 사항을 위키에 동기화하는 것을 필수 의무로 규정했습니다.
 - 가짜 지표나 허위 성과 날조 금지, 공식 SVG 워드마크 및 타이포그래피 준수, `build.format: 'file'` 유지, 배포 전 `pnpm test` 및 `pnpm test:browser` 자동 검증 무결성을 에이전트 운영 규범으로 명문화했습니다.
+
+## 2026-10-06 — PreviewLog 공식 사이트 배포 및 bldnex.com 연동
+
+`previewlog-landing`의 신규 랜딩페이지(다크 NLE 목업, 14일 무료 체험 스펙, 법적 정책 문서 완비)를 Cloudflare Pages(`previewlog-landing.pages.dev`)에 배포하고, `previewlog.bldnex.com`을 서빙하는 Cloudflare Worker(`previewlog-license-server`)에서 정적 라우트를 투명 역방향 프록시하도록 구성했습니다.
+
+1. **아키텍처 및 도메인 연동**:
+   - `previewlog.bldnex.com`은 데스크톱 앱의 인증/라이선스 D1 DB, R2 릴리스 업데이트, Paddle 웹훅을 처리하는 기존 Worker를 유지하면서, 웹 요청(`/`, `/privacy`, `/terms`, `/refund`, `/styles.css` 등)을 Pages로 프록시하여 데스크톱 API 기능과 웹 브라우징을 완전 공존시켰습니다.
+   - 루트 도메인(`bldnex.com`)의 HSTS `includeSubDomains` 제약에 부합하도록 서브도메인 HTTPS SSL 연결을 검증했습니다.
+2. **bldnex.com 제품 페이지(`works/previewlog`) 연동**:
+   - `src/pages/works/[slug].astro`에서 PreviewLog 공식 웹사이트 연결 버튼(`PreviewLog 웹사이트 보기 ↗`)을 활성화했습니다.
+   - Schema.org `productSchema`에 `operatingSystem: 'macOS'`, `installUrl`, `sameAs`를 정식 반영했습니다.
+   - `scripts/check-site.mjs`의 미검증 링크 차단 단언문을 갱신하여 정적 가드레일 테스트를 통과시켰습니다.
+
+## 2026-10-06 — PreviewLog 프록시 캐시(304 Not Modified) 및 대기자 폼 2단 레이아웃 개선
+
+1. **프록시 캐시(304 Not Modified) 처리**:
+   - 새로고침 시 브라우저가 전송하는 `If-None-Match` 조건부 요청에 대해 업스트림 Pages가 `304 Not Modified`를 응답할 때, `proxyRes.ok`(200~299만 true) 검사로 인해 304가 404로 탈락되어 스타일시트(`styles.css`)가 깨지던 문제를 `proxyRes.status < 400` 조건으로 수정해 완전 해소했습니다.
+2. **다운로드 대기자 등록 카드 레이아웃 정돈**:
+   - `.download-card` 내부를 좌측 안내 정보(`.download-info`)와 우측 독립 카드 형태의 대기자 등록창(`.waitlist-card`)으로 분리하고, `minmax(0, 1.15fr) minmax(360px, 440px)` 2단 그리드로 재정의하여 브라우저 폭 변화에도 우측 카드 레이아웃이 흩어지지 않도록 고정했습니다.

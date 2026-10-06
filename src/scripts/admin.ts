@@ -8,7 +8,13 @@ const placeholder = byId('detail-placeholder');
 const detailPanel = byId('inquiry-detail');
 type Inquiry = { id: string; name: string; email: string; company: string; phone: string; project_type: keyof typeof projectTypes; budget: keyof typeof budgets; schedule: keyof typeof schedules; status: Status; version: number; description: string; created_at: number; purge_after: number; consent_version: string; consent_at: number; optional_consent: number; notification_state?: string };
 type Notification = { state: string; attempts: number; first_attempt_at: number | null; error_code: string | null };
-const notificationLabels: Record<string, string> = { pending: '알림 대기', processing: '발송 처리 중', retry: '알림 재시도 대기', provider_accepted: '발송 서비스 승인 (수신 확인 아님)', failed: '알림 실패 · 확인 필요' };
+const notificationLabels: Record<string, string> = {
+  pending: '관리자 알림 대기',
+  processing: '관리자 알림 발송 중',
+  retry: '관리자 알림 재시도 대기',
+  provider_accepted: '관리자 메일 발송 완료',
+  failed: '관리자 메일 발송 실패 · 확인 필요'
+};
 let cursor: string | null = null, current: Inquiry | null = null, notification: Notification | null = null, mutating = false;
 let listGeneration = 0, detailGeneration = 0;
 const date = (value: number) => new Date(value).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
@@ -113,7 +119,7 @@ async function loadDetail(id: string) {
     byId<HTMLSelectElement>('detail-status').value = inquiry.status;
     byId<HTMLSelectElement>('detail-status').disabled = inquiry.status === 'closed';
     byId<HTMLButtonElement>('save-status').disabled = inquiry.status === 'closed';
-    byId('detail-notification').textContent = notification ? `알림: ${notificationLabels[notification.state]} / 시도 ${notification.attempts}회${notification.error_code ? ` / ${notification.error_code}` : ''}` : '알림 작업 없음';
+    byId('detail-notification').textContent = notification ? `관리자 알림: ${notificationLabels[notification.state]} / 시도 ${notification.attempts}회${notification.error_code ? ` / ${notification.error_code}` : ''}` : '관리자 알림 작업 없음';
     byId<HTMLButtonElement>('retry-notification').disabled = !notification || ['provider_accepted', 'processing'].includes(notification.state);
     byId('detail-audit').replaceChildren(...(result.audit as { actor: string; action: string; created_at: number }[]).map((event) => {
       const li = document.createElement('li'); li.textContent = `${date(event.created_at)} / ${event.actor} / ${event.action}`; return li;
@@ -138,7 +144,7 @@ async function change(action: 'status' | 'retry' | 'delete') {
     if (feedback) feedback.textContent = '상태 저장 중…';
   } else if (action === 'retry') {
     const expired = notification?.first_attempt_at != null && Date.now() - notification.first_attempt_at >= 23 * 3_600_000;
-    if (!confirm(expired ? '이전 발송의 중복 방지 기간이 지났습니다. 알림이 중복 수신될 수 있음을 확인하고 다시 발송할까요?' : '예약 작업에 알림 재시도를 요청할까요?')) return;
+    if (!confirm(expired ? '이전 발송의 중복 방지 기간이 지났습니다. 관리자 알림이 중복 수신될 수 있음을 확인하고 다시 발송할까요?' : '관리자 알림 메일을 다시 발송할까요?')) return;
     body = { acknowledgeDuplicateRisk: expired }; method = 'POST'; suffix = '/retry';
   } else {
     const confirmed = prompt(`문의를 삭제하면 되돌릴 수 없습니다. 삭제하려면 아래 접수번호를 그대로 입력해 주세요.\n${id}`);

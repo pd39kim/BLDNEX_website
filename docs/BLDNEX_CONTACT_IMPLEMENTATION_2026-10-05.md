@@ -1,6 +1,6 @@
 # 문의 접수 구현·운영 연결 초안
 
-작성·갱신: 2026-10-05 · 상태: **구현·검증 및 운영 연결 완료 / Pages·Worker 배포 완료 / 운영 접수 활성**
+작성·갱신: 2026-10-06 · 상태: **구현·검증 및 운영 연결 완료 / Pages·Worker 배포 완료 / 실제 Gmail 수신 검증 완료**
 
 사용자의 구현 지시에 따라 [접수 계획](BLDNEX_CONTACT_FORM_PLAN_2026-10-05.md)을 구현했습니다. 후속 “제안대로 진행 후 커밋, 푸시, 빌드” 지시로 관리자·Resend 사용·보관 기준을 확정하고 D1/Turnstile, Access, 발신 도메인, 운영 Worker 연결을 완료했습니다. 현재 Pages는 Direct Upload이므로 Git 푸시가 자동 배포를 유발하지 않습니다.
 
@@ -13,7 +13,7 @@
 
 준비 상태에서는 제출 버튼이 비활성이고 이메일 문의를 안내합니다. 브라우저 테스트의 가상 성공 응답을 실제 접수로 취급하지 않습니다.
 
-실제 배포 확인: `https://bldnex.com/contact` 200, `/api/contact/config`는 `enabled:true`와 운영 Turnstile 사이트 키를 반환하며, `/admin/inquiries`는 Cloudflare Access 로그인으로 리다이렉트됩니다. 운영 Worker가 `system_health.jobs`를 기록하는 것도 확인했습니다. 실제 Gmail 도착 여부와 스테이징 실접수는 별도 검수 대상입니다.
+실제 배포 확인: `https://bldnex.com/contact` 200, `/api/contact/config`는 `enabled:true`와 운영 Turnstile 사이트 키를 반환하며, `/admin/inquiries`는 Cloudflare Access 로그인으로 리다이렉트됩니다. 운영 Worker가 `system_health.jobs`를 5분 주기로 기록하며, 실제 테스트 접수 건(`BN-3c66d6f8-ed53-475a-805a-8abbfd1c3279`)의 Resend 발송 및 `BLDNEX.DEV@GMAIL.COM` 수신이 2026-10-06 최종 확인되었습니다.
 
 ## 2. 구현 범위
 

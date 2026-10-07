@@ -7,7 +7,7 @@ import { services, capabilities } from '../data/services';
 import { pageMeta } from '../data/site';
 ---
 <BaseLayout {...pageMeta.services}>
-  <PageHero eyebrow="SERVICES" lines={['Built around', 'what you need.']} heading="만들고 싶은 것과 실제로 필요한 것을 연결합니다." description="브랜드 웹사이트부터 업무용 웹앱, SaaS, 모바일 앱까지. 목표와 사용자, 운영 환경을 기준으로 프로젝트에 필요한 범위를 정합니다.">
+  <PageHero eyebrow="SERVICES" lines={['Built around', 'what you need.']} heading="목적에 맞는 범위로, 완성도 높은 제품을 만듭니다." description="브랜드 웹사이트부터 업무용 웹앱, SaaS, 모바일 앱까지. 목표와 사용자, 운영 환경을 기준으로 프로젝트에 필요한 범위를 정합니다.">
     <nav class="anchor-nav" aria-label="서비스 바로가기">{services.map((service) => <a href={`#${service.id}`}>{service.number} / {service.name} <span aria-hidden="true">↓</span></a>)}</nav>
   </PageHero>
   {services.map((service) => (

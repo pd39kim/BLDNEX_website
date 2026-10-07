@@ -22,7 +22,7 @@ const cards = [
   { file: 'og-previewlog.png', path: '/works/previewlog', eyebrow: 'DESKTOP PRODUCT', headline: 'PreviewLog.', headlineSize: 91, sub: '촬영본을 편집용 프리뷰 자료로.' },
   { file: 'og-shuffo.png', path: '/works/shuffo', eyebrow: 'MOBILE GAME', headline: 'Shuffo.', headlineSize: 91, sub: '좋아하는 사진이 작은 퍼즐이 됩니다.' },
   { file: 'og-contact.png', path: '/contact', eyebrow: 'START A PROJECT', headline: 'Tell us what you’re building.', headlineSize: 60, sub: 'BLDNEX.DEV@GMAIL.COM' },
-  { file: 'og-bldnex-website.png', path: '/works/bldnex-website', eyebrow: 'WEBSITE / BLDNEX OWN PRODUCT', headline: 'bldnex.com', headlineSize: 91, sub: '만든 걸 보시려면, 지금 보고 계신 게 그겁니다.' },
+  { file: 'og-bldnex-website.png', path: '/works/bldnex-website', eyebrow: 'WEBSITE / BLDNEX OWN PRODUCT', headline: 'bldnex.com', headlineSize: 91, sub: '만든 제품을 보시려면, 지금 보고 계신 이 사이트를 확인해 주세요.' },
 ];
 
 const render = ({ eyebrow, headline, headlineSize, sub, path }) => `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">

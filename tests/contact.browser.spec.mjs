@@ -129,8 +129,8 @@ test('URL query parameter preselects project type chip and dropdown', async ({ p
   await expect(page.locator('.chip-btn[data-value="mobile"]')).toHaveAttribute('aria-pressed', 'true');
 
   await page.goto('/services');
-  await page.locator('a[href="/contact?type=webapp"]').click();
-  await expect(page).toHaveURL(/.*\/contact\?type=webapp/);
+  await page.locator('a[href^="/contact?type=webapp"]').click();
+  await expect(page).toHaveURL(/.*\/contact\?type=webapp#inquiry/);
   await expect(page.locator('#projectType')).toHaveValue('webapp');
   await expect(page.locator('.chip-btn[data-value="webapp"]')).toHaveAttribute('aria-pressed', 'true');
 });

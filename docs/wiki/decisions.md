@@ -372,4 +372,16 @@ About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동
    - 데스크톱 4열 그리드, 모바일 2열(초소형 기기 1열)의 반응형 세그먼트 그리드로 재배치했습니다.
    - 유효성 검사 실패 시 칩 테두리 에러 하이라이트(`.form-field:has(#projectType[aria-invalid="true"]) .chip-btn`)를 연동했습니다.
 
+## 2026-10-07 — 서비스 상세 문의 버튼 클릭 시 Contact 폼(#inquiry) 자동 스크롤 연동
+
+서비스 페이지에서 특정 분야의 프로젝트 문의 버튼을 클릭했을 때, Contact 상단 PageHero에 머무르지 않고 방금 선택된 칩과 폼이 즉시 시야에 들어오도록 자동 스크롤을 연동했습니다.
+
+1. **앵커 및 네비게이션 구조**:
+   - `src/components/ContactForm.astro`: 폼 카드(`.inquiry-card`)에 `id="inquiry"`를 부여.
+   - `src/pages/services.astro`: 각 문의 버튼 URL을 `/contact?type=${service.projectType}#inquiry`로 연결.
+2. **부드러운 스크롤 및 여백 최적화**:
+   - `src/scripts/contact.ts`: URL 파라미터 감지 시 `scrollIntoView({ behavior: 'smooth', block: 'start' })`로 부드럽게 폼 위치로 정렬.
+   - `src/styles/contact.css`: `.inquiry-card`에 `scroll-margin-top: 32px`를 지정하고 글로벌 `html { scroll-padding-top: 112px; }`과 연계하여, 상단 헤더에 가려지지 않고 "프로젝트에 대해 알려주세요" 제목과 활성화된 칩이 한 화면에 바로 들어오도록 배치.
+
+
 

@@ -12,7 +12,7 @@ import { pageMeta } from '../data/site';
   </PageHero>
   {services.map((service) => (
     <section class="content-section section-wrap service-detail" id={service.id}>
-      <div class="service-detail-intro"><p class="eyebrow">{service.number} / {service.name.toUpperCase()}</p><h2 class="ko-heading">{service.heading.map((line) => <span>{line}</span>)}</h2><p class="body-copy">{service.description}</p><a class="button" href={`/contact?type=${service.projectType}`}>{service.cta} <span aria-hidden="true">↗</span></a></div>
+      <div class="service-detail-intro"><p class="eyebrow">{service.number} / {service.name.toUpperCase()}</p><h2 class="ko-heading">{service.heading.map((line) => <span>{line}</span>)}</h2><p class="body-copy">{service.description}</p><a class="button" href={`/contact?type=${service.projectType}#inquiry`}>{service.cta} <span aria-hidden="true">↗</span></a></div>
       <div class="service-detail-body">
         <div><h3 class="ko-heading">이런 상황에 적합합니다</h3><ul class="plain-list">{service.situations.map((situation) => <li>{situation}</li>)}</ul></div>
         <div><h3 class="ko-heading">함께 만드는 범위</h3><ul class="tag-list">{service.scope.map((scope) => <li>{scope}</li>)}</ul></div>

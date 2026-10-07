@@ -122,6 +122,8 @@ function applyPreselectedType() {
     projectTypeSelect.value = mapped;
     syncChips(mapped);
     clearError('projectType');
+    const targetCard = document.getElementById('inquiry') || form;
+    targetCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 applyPreselectedType();

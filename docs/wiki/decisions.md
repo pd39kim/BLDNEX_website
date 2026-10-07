@@ -321,4 +321,17 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
 5. **FAQ (`faq.ts`) & 메타데이터 (`site.ts`, `generate-og.mjs`)**:
    - 진행 상황 확인 답변을 동작하는 프리뷰 화면 공유 기반으로 명확화하고, 페이지별 메타 설명 및 OG 이미지 카피를 개선 내용에 맞춰 완전 동기화.
 
+## 2026-10-07 — About 페이지 WORKING TOGETHER와 OUR PRINCIPLES 중복 해소 및 WORKING STANDARDS 통합
+
+About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동작 화면 검증, 출시 후 운영 대비)을 위아래로 반복하던 `OUR PRINCIPLES` 3개 카드를 완전히 삭제하고, 구체적 실전 협업 4원칙을 담은 `WORKING STANDARDS` 섹션으로 단일 통합했습니다.
+
+1. **중복 섹션 제거 및 통합**:
+   - `OUR PRINCIPLES` (MOVE FAST, MAKE IT SOLID, FROM IDEA TO LAUNCH)를 폐기하고, 실무 규칙(Rule)이 명시된 4대 카드(`collaborationStandards`)를 회사의 일하는 기준이자 협업 원칙으로 일원화했습니다.
+2. **섹션 네이밍 및 앵커 변경**:
+   - Eyebrow: `WORKING STANDARDS` (일하는 기준과 협업 원칙)
+   - Headline: `['만드는 과정에서도,', '협업의 기준은 분명하게.']`
+   - Description: `자체 제품을 만들고 운영하며 검증한 기준을 고객의 프로젝트에도 그대로 적용합니다. 기획부터 배포, 인수인계까지 신뢰를 만드는 4가지 실무 원칙입니다.`
+   - HTML Anchor: `#working-together` → `#working-standards`로 변경하고, 이를 참조하는 홈(`/about#working-standards`) 및 Services(`/about#working-standards`)의 링크와 라벨을 일치시켰습니다.
+
+
 

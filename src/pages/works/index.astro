@@ -7,7 +7,7 @@ import { works } from '../../data/works';
 import { pageMeta } from '../../data/site';
 ---
 <BaseLayout {...pageMeta.works}>
-  <PageHero eyebrow="SELECTED WORKS" lines={['Products,', 'with a purpose.']} heading="서로 다른 문제를 제품으로 풀어갑니다." description="BLDNEX의 자체 제품을 소개합니다. 어떤 사용 장면을 다루고, 어떤 경험으로 연결했는지 살펴보세요." />
+  <PageHero eyebrow="OUR PRODUCTS" lines={['Products,', 'with a purpose.']} heading="서로 다른 문제를 제품으로 풀어갑니다." description="기획부터 디자인, 개발, 배포 및 운영까지 BLDNEX가 직접 거치며 검증한 제품 목록입니다. 각 제품의 상세 페이지에서 기획 의도와 사용 흐름을 확인해 보세요." />
   <section class="works-grid section-wrap works-list" aria-label="BLDNEX 자체 제품">{works.map((work) => <WorkCard work={work} />)}</section>
-  <CallToAction title="지금 필요한 경험은 무엇인가요?" description="제품의 목적과 사용자가 하게 될 일을 알려주세요." />
+  <CallToAction title="직접 운영하는 제품처럼 만들고 싶다면," description="화면 하나, 기능 하나의 실제 사용성까지 함께 고민할 제품 개발 파트너를 찾고 계신가요? 아이디어 단계부터 편하게 문의해 주세요." label="프로젝트 문의" />
 </BaseLayout>

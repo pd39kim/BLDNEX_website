@@ -166,6 +166,13 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
 .process-grid .body-copy { font-size: .9rem; margin-bottom: 24px; }
 .step-output { color: var(--muted); font-size: var(--text-readable-min); border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto; line-height: 1.6; }
 .step-output span { display: block; font-size: var(--text-readable-min); font-weight: 600; margin-bottom: 8px; color: var(--accent); }
+.collaboration-grid { padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+.collaboration-grid > li { display: flex; flex-direction: column; border-top: 1px solid var(--line); padding-top: 20px; }
+.collaboration-grid h3 { font-size: 1.15rem; margin-block: 28px 16px; letter-spacing: .02em; }
+.collaboration-grid .step-title { font-size: 1.02rem; margin-bottom: 12px; font-weight: 600; min-height: 3.2em; word-break: keep-all; }
+.collaboration-grid .body-copy { font-size: .92rem; margin-bottom: 24px; line-height: 1.8; }
+.collab-rule { color: var(--text); font-size: var(--text-readable-min); border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto; line-height: 1.6; }
+.collab-rule span { display: block; font-size: var(--text-micro); font-weight: 600; margin-bottom: 6px; color: var(--accent); letter-spacing: .08em; }
 .studio-section { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; }
 .studio-copy { padding-top: 38px; }
 .studio-copy p + p { margin-top: 18px; }
@@ -341,8 +348,8 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .mobile-nav > p { font-size: var(--text-readable-min); color: var(--muted); margin-top: 24px; }
   .hero { min-height: auto; }
   .hero-bottom { margin-top: 0; }
-  .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
-  .step-title { min-height: 0; }
+  .process-grid, .collaboration-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+  .step-title, .collaboration-grid .step-title { min-height: 0; }
   .service-grid { grid-template-columns: 1fr; }
   .service-card { display: grid; grid-template-columns: .8fr 1fr; gap: 12px 32px; padding: 28px 12px; }
   .service-card + .service-card { border-left: 0; border-top: 1px solid var(--line); }
@@ -419,8 +426,9 @@ a.text-link:hover, button.text-link:hover { text-decoration: underline; text-und
   .service-card .text-link { align-self: start; }
   .section-tail { display: block; margin-top: 24px; }
   .section-tail > a { margin-top: 12px; }
-  .process-grid { grid-template-columns: 1fr; gap: 32px; }
+  .process-grid, .collaboration-grid { grid-template-columns: 1fr; gap: 32px; }
   .process-grid h3 { margin-block: 20px 16px; }
+  .collaboration-grid h3 { margin-block: 20px 12px; }
   .studio-section, .faq-section { gap: 28px; }
   .faq-item summary { font-size: .94rem; gap: 10px; grid-template-columns: 18px 1fr 20px; }
   .faq-answer { padding-left: 28px; padding-right: 24px; }

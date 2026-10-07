@@ -278,3 +278,20 @@ Cloudflare Scrape Shield 의 Email Address Obfuscation 을 껐습니다.
    - **모바일 드롭다운 메뉴(`.mobile-nav > a[aria-current]`)**: 선택된 항목의 텍스트와 번호 인덱스(`01/02/03`)가 모두 `var(--accent)`로 밝게 표시되고 볼드 처리됩니다.
 4. **검증**:
    - Astro 정적 빌드 HTML 실측 검사(페이지별 `aria-current="page"` 정상 주입 확인) 및 Playwright E2E 브라우저 회귀 테스트 통과.
+
+## 2026-10-07 — 홈·서브 페이지 콘텐츠 중복 해소 및 역할 분리 (feat/page-differentiation)
+
+홈과 서브 페이지(About, Works, Services) 간의 심한 내용·디자인 유사성과 기시감을 해소하기 위해, 홈은 쇼케이스(Teaser)로 경량화하고 서브 페이지는 고유한 심화 정보(Deep Dive)를 제공하도록 역할을 명확히 분리했습니다.
+
+1. **홈 Selected Works 선별 축소 및 /works 차별화**:
+   - 홈에는 자체 개발 소프트웨어 제품 2종(`PreviewLog`, `Shuffo`)만 선별하여 좌우 2열 카드로 균형감 있게 배치했습니다.
+   - `bldnex.com` 카드는 히어로의 실측 스탬프에서 바로 연결되므로 홈 카드 중복을 없앴으며, `/works` 페이지로 이동했을 때 비로소 전체 제품 아카이브 3종을 확인할 수 있도록 역할을 분리했습니다.
+2. **자체 제품 운영 철학 About 집중 및 홈 Studio 경량화**:
+   - 홈의 Studio 섹션은 핵심 메시지(“직접 만들고 운영하며 축적한 실전 기준”)와 한 줄 요약으로 가볍게 압축하고 About 링크로 유도했습니다.
+   - PreviewLog와 Shuffo의 구체적인 개발·운영 비하인드는 About 페이지에 집중시켜, About을 방문할 명확한 이유를 부여했습니다.
+3. **프로세스 홈 요약 vs About 협업 운영 기준 분리**:
+   - 홈의 Process는 4단계의 핵심 맥락(`Understand → Shape → Build → Ship`)만 간결하게 보여주고, 산출물 박스 반복을 제거해 스캔 속도를 높였습니다.
+   - About의 Working Together 섹션에는 실제 외주 의뢰 시 신뢰를 주는 4가지 실무 협업 기준(`collaborationStandards`: 시작 기준 합의, 작동 화면 기반 검토, 투명한 변경 관리, 출시 후 인수 운영 준비)을 신설하여 실질적 콘텐츠 가치를 제공했습니다.
+4. **페이지별 하단 CallToAction 문구 맥락 맞춤화**:
+   - 모든 페이지에 동일하게 복제되어 있던 하단 CTA 카피를 각 페이지의 주제와 맥락에 맞게 차별화했습니다 (홈: 제품 시작 정리, About: 일하는 방식 공감 및 협업 제안, Services: 서비스 범위 및 준비 상태 문의, Works: 제품 파트너십 문의).
+

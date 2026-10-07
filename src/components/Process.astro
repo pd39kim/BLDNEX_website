@@ -1,5 +1,9 @@
 ---
 import { processSteps } from '../data/process';
+interface Props {
+  showOutputs?: boolean;
+}
+const { showOutputs = false } = Astro.props;
 ---
 <ol class="process-grid">
   {processSteps.map((step, index) => (
@@ -8,7 +12,8 @@ import { processSteps } from '../data/process';
       <h3>{step.name}</h3>
       <p class="step-title">{step.title}</p>
       <p class="body-copy">{step.description}</p>
-      <p class="step-output"><span>산출물 예시</span>{step.output}</p>
+      {showOutputs && <p class="step-output"><span>산출물 예시</span>{step.output}</p>}
     </li>
   ))}
 </ol>
+

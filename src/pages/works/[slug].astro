@@ -4,6 +4,8 @@ import { Image } from 'astro:assets';
 import photoSelect from '../../../public/assets/shuffo/04-photo-select-travel.jpg';
 import mainPuzzle from '../../../public/assets/shuffo/01-main-puzzle.jpg';
 import travelGame from '../../../public/assets/shuffo/03-game-travel.jpg';
+import cutSummary from '../../../public/assets/previewlog/01-cut-summary.png';
+import dialogueReview from '../../../public/assets/previewlog/02-dialogue-review.png';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import CallToAction from '../../components/CallToAction.astro';
@@ -22,6 +24,10 @@ const previewSteps = [
   { name: 'DRAFT YOUR PREVIEW', title: '먼저, 검토할 초안을 만듭니다.', description: '프록시 촬영본에서 대표 컷, 한국어 전사와 타임코드, 장면 정보를 정리합니다.' },
   { name: 'REVIEW & REFINE', title: '필요한 컷과 내용을 직접 고릅니다.', description: '컷과 대사를 확인하고 로그를 수정합니다. 무음·흐림·노출 등 검토 항목을 살펴 전달할 내용을 정합니다.' },
   { name: 'DELIVER TO EDITING', title: '검토한 내용을 결과물로 전달합니다.', description: '선택한 컷과 수정한 로그를 편집·검토 목적에 맞는 파일로 내보냅니다.' },
+];
+const previewScreenshots = [
+  { image: cutSummary, caption: '프록시 영상 분석 및 컷 요약 화면', alt: 'PreviewLog의 촬영 파일 분석 및 컷 요약 화면' },
+  { image: dialogueReview, caption: '타임코드별 대사 검토 및 재생 화면', alt: 'PreviewLog의 오디오 로그 및 대사 검토 화면' },
 ];
 const shuffoSteps = [
   { title: '사진을 고릅니다.', description: '보관함의 사진이나 여행·동물·명화 이미지로 시작합니다.' },
@@ -82,6 +88,10 @@ const productSchema = {
       <section class="content-section section-wrap editorial-section">
         <p class="eyebrow">THE CONTEXT</p>
         <div class="editorial-copy"><h2 class="ko-heading">촬영 다음에는<br /><span class="text-muted">다시 보고 정리하는 일이 남습니다.</span></h2><p class="body-copy">촬영본을 편집자에게 전달하려면 어떤 장면인지, 어떤 대사가 있는지, 다시 확인할 지점은 어디인지 함께 정리해야 합니다.</p><p class="body-copy">PreviewLog는 이 정보를 검토 가능한 초안으로 모으고, 사람이 확인한 내용을 다음 작업에 전달하는 흐름을 다룹니다.</p></div>
+      </section>
+      <section class="screenshot-section section-wrap" aria-labelledby="preview-screens-heading">
+        <SectionHeading id="preview-screens-heading" eyebrow="A CLOSER LOOK" lines={['프록시 컷 요약부터,', '대사 검토와 영상 확인까지.']} description="실제 PreviewLog 앱에서 프록시 영상을 불러와 장면과 컷을 정리하고, 대사와 품질을 검토하는 화면입니다." />
+        <div class="screenshot-grid previewlog-screenshot-grid">{previewScreenshots.map((screenshot, index) => <figure><div class="screenshot-stage previewlog-stage"><Image src={screenshot.image} width={900} widths={[450, 900, 1350]} sizes="(max-width: 600px) 100vw, (max-width: 900px) 90vw, 580px" format="webp" alt={screenshot.alt} loading="lazy" decoding="async" /></div><figcaption><span class="step-number">0{index + 1}</span>{screenshot.caption}</figcaption></figure>)}</div>
       </section>
       <section class="content-section section-wrap">
         <SectionHeading eyebrow="THE PRODUCT FLOW" lines={['초안에서 검토로,', '검토에서 편집용 자료로.']} />

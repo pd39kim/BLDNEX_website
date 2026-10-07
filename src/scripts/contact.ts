@@ -89,6 +89,25 @@ async function configure() {
     retryConfig.hidden = false;
   }
 }
+const projectTypeSelect = form.querySelector<HTMLSelectElement>('#projectType');
+const typeChips = form.querySelectorAll<HTMLButtonElement>('.chip-btn');
+function syncChips(val: string) {
+  typeChips.forEach((btn) => {
+    btn.setAttribute('aria-pressed', btn.dataset.value === val ? 'true' : 'false');
+  });
+}
+typeChips.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    if (!projectTypeSelect) return;
+    const targetVal = btn.dataset.value || '';
+    projectTypeSelect.value = projectTypeSelect.value === targetVal ? '' : targetVal;
+    syncChips(projectTypeSelect.value);
+    projectTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+});
+projectTypeSelect?.addEventListener('change', () => {
+  syncChips(projectTypeSelect.value);
+});
 textarea.addEventListener('input', () => { document.getElementById('description-count')!.textContent = `${textarea.value.length.toLocaleString('ko-KR')} / 5,000`; });
 form.addEventListener('input', clearResolvedErrors);
 form.addEventListener('change', clearResolvedErrors);

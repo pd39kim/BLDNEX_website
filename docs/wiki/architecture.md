@@ -33,6 +33,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 | `src/pages/sitemap.xml.ts`, `robots.txt.ts` | 공개 8개 경로. Privacy는 sitemap 제외 |
 | `assets/fonts-src/` | 원본 웹폰트와 OFL 라이선스 전문 (커밋) |
 | `public/assets/brand/` | 공식 SVG + 페이지별 OG PNG 7종 |
+| `public/assets/previewlog/` | PreviewLog 스크린샷 2종 및 커버 WebP |
 | `public/assets/shuffo/` | Shuffo 스크린샷, 앱 아이콘, App Store 배지 |
 | `public/_headers` | Cloudflare Pages 응답 헤더 (보안·캐시) |
 | `wrangler.toml` | Pages 배포 설정 |
@@ -54,7 +55,7 @@ pnpm build
   └─ scripts/measure-site.mjs dist 를 실측해 페이지의 수치 토큰 치환
 ```
 
-`pnpm test` = 로컬 D1 서버 테스트(26개) + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`(13개 회귀 테스트), Functions/Worker 컴파일은 `pnpm contact:check`입니다.
+`pnpm test` = 로컬 D1 서버 테스트(26개) + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`(14개 회귀 테스트), Functions/Worker 컴파일은 `pnpm contact:check`입니다.
 
 | 스크립트 | 실행 시점 | 역할 |
 | --- | --- | --- |

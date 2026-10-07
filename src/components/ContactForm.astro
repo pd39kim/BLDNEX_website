@@ -19,6 +19,11 @@ const choiceFields = [
       <div class="form-section-label"><span>01 / PROJECT</span><span>별표(*)는 필수 항목</span></div>
       <div class="form-field">
         <label for="projectType">프로젝트 유형 <span aria-hidden="true">*</span></label>
+        <div class="project-type-chips" role="group" aria-label="빠른 유형 선택">
+          {Object.entries(projectTypes).map(([value, label]) => (
+            <button type="button" class="chip-btn" data-value={value} aria-pressed="false">{label}</button>
+          ))}
+        </div>
         <select id="projectType" name="projectType" required aria-describedby="error-projectType"><option value="">어떤 프로젝트를 생각하고 계신가요?</option>{Object.entries(projectTypes).map(([value, label]) => <option value={value}>{label}</option>)}</select>
         <p class="field-error" id="error-projectType"></p>
       </div>

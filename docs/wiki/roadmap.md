@@ -29,8 +29,12 @@
 - [x] title·description·canonical·OG·favicon·sitemap·robots·Organization
 - [x] 미완성 Privacy 안내에 noindex, sitemap 제외, 준비 상태 명시
 - [x] 사이트 전 페이지 카피 검토, 문장 구조 정돈, 보조용언 띄어쓰기 규범 통일
-- [x] 문의 폼 오류 실시간 해제(Reward Early UX) 및 브라우저 회귀 테스트(13개) 추가
+- [x] 문의 폼 오류 실시간 해제(Reward Early UX) 및 브라우저 회귀 테스트(14개) 추가
 - [x] AI 에이전트 위키 메모리 지속 운영 지침(AGENTS.md) 수립
+- [x] 사이트 전반 AI 문체 패턴 정밀 분석 및 실무 빌더 보이스로 전면 정돈
+- [x] About 페이지 중복 원칙 제거 및 WORKING STANDARDS 4대 실무 원칙 단일 통합
+- [x] PreviewLog 실제 제품 UI 쇼케이스(카드 목업 프레임 및 상세 갤러리 2종) & 비주얼 뎁스/글로우 고도화
+- [x] Contact 폼 프로젝트 유형 퀵 셀렉션 칩(Quick Chips) 및 양방향 동기화 구현
 - [x] 타입 검사·빌드·내부 링크 검사·5개 화면 폭 40개 조합·주요 상호작용 검수
 
 ## 다음 우선순위 — 공개 전 실제 자료 필요

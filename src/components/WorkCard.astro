@@ -2,6 +2,7 @@
 import type { Work } from '../data/works';
 import { Image } from 'astro:assets';
 import shuffoCover from '../../public/assets/shuffo/01-main-puzzle.jpg';
+import previewlogCover from '../../public/assets/previewlog/02-dialogue-review.png';
 const { work } = Astro.props as { work: Work };
 ---
 <article class={`work-card work-card-${work.slug}`}>
@@ -20,11 +21,12 @@ const { work } = Astro.props as { work: Work };
         <span class="visual-footnote">iPhone · App Store 출시</span>
       </div>
     ) : (
-      <div class="work-visual previewlog-visual" aria-hidden="true">
-        <span class="visual-label">FROM FOOTAGE TO EDITING</span>
-        <span class="product-cover-title">PreviewLog<span class="cover-dot">.</span></span>
-        <div class="cover-flow"><span>Draft</span><i>→</i><span>Review</span><i>→</i><span>Deliver</span></div>
-        <span class="visual-footnote">촬영본에서 편집용 자료까지</span>
+      <div class="work-visual previewlog-visual">
+        <span class="visual-label">DESKTOP / MAC OS</span>
+        <div class="mockup-frame">
+          <Image src={previewlogCover} width={480} widths={[280, 480]} sizes="(max-width: 600px) 240px, 380px" format="webp" alt="PreviewLog의 영상 분석 및 대사 검토 화면" loading="lazy" decoding="async" />
+        </div>
+        <span class="visual-footnote">로컬 기본 분석 · 편집용 내보내기</span>
       </div>
     )}
     <div class="work-card-body">

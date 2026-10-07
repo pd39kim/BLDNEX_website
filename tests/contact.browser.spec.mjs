@@ -105,6 +105,18 @@ test('clears field error in real-time when description reaches 20 chars', async 
   await expect(page.locator('#description')).not.toHaveAttribute('aria-invalid');
   await expect(page.locator('#form-status')).toBeEmpty();
 });
+test('project type chips sync bidirectionally with select dropdown', async ({ page }) => {
+  await enable(page);
+  await page.goto('/contact');
+  const chip = page.locator('.chip-btn[data-value="webapp"]');
+  await chip.click();
+  await expect(page.locator('#projectType')).toHaveValue('webapp');
+  await expect(chip).toHaveAttribute('aria-pressed', 'true');
+
+  await page.locator('#projectType').selectOption('mobile');
+  await expect(chip).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.chip-btn[data-value="mobile"]')).toHaveAttribute('aria-pressed', 'true');
+});
 test('CAPTCHA script failure keeps intake disabled and provides fallback', async ({ page }) => {
   await enable(page); await page.route('https://challenges.cloudflare.com/**', (route) => route.abort());
   await page.goto('/contact'); await expect(page.locator('#intake-notice')).toContainText('연결을 확인하지 못했습니다');

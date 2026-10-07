@@ -333,5 +333,16 @@ About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동
    - Description: `자체 제품을 만들고 운영하며 검증한 기준을 고객의 프로젝트에도 그대로 적용합니다. 기획부터 배포, 인수인계까지 신뢰를 만드는 4가지 실무 원칙입니다.`
    - HTML Anchor: `#working-together` → `#working-standards`로 변경하고, 이를 참조하는 홈(`/about#working-standards`) 및 Services(`/about#working-standards`)의 링크와 라벨을 일치시켰습니다.
 
+## 2026-10-07 — 디자인 & UI 고도화: 실제 제품 UI 쇼케이스, 비주얼 뎁스, 퀵 칩 인터랙션
 
-
+1. **PreviewLog 실제 제품 UI 쇼케이스 적용**:
+   - 실물 데스크톱 화면 캡처(대사 검토 화면, 컷 요약 화면)를 최적화(WebP/PNG 포맷, 고해상도 반응형)하여 `public/assets/previewlog/`에 배치.
+   - Works 목록 및 홈 카드(`WorkCard.astro`): 데스크톱 앱 창 프레임(`.mockup-frame`)을 추가하여 Shuffo와 대등한 수준의 실물 제품 시각화 달성.
+   - PreviewLog 상세 페이지(`src/pages/works/[slug].astro`): `A CLOSER LOOK` 실물 화면 갤러리 섹션을 신설하여 컷 요약과 대사 검토의 실제 작업 흐름을 선명하게 제시.
+2. **비주얼 뎁스 및 앰비언트 글로우(Ambient Glow)**:
+   - Hero 영역에 과하지 않은 블루-사이언 계열 래디얼 그라디언트(`.hero::before`)를 추가하여 깊이감 조성.
+   - `.work-card`에 호버 시 부드러운 엘리베이션 및 은은한 글로우 효과(`box-shadow: 0 16px 36px rgba(0,0,0,0.45), 0 0 24px rgba(53,169,255,0.08)`) 적용.
+3. **Contact 폼 프로젝트 유형 퀵 셀렉션 칩(Quick Chips)**:
+   - 드롭다운만 있던 프로젝트 유형 선택 영역에 4종 빠른 선택 칩 버튼(`.project-type-chips`)을 추가.
+   - 칩 클릭과 네이티브 `<select>` 드롭다운 간의 완벽한 양방향 동기화(`aria-pressed`, 이벤트 디스패치) 구현.
+   - 브라우저 회귀 테스트에 칩-드롭다운 양방향 동기화 검증(`tests/contact.browser.spec.mjs`) 추가하여 14개 테스트 전원 통과 확인.

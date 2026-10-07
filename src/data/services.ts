@@ -1,6 +1,6 @@
 export const services = [
   {
-    id: 'websites', number: '01', name: 'Websites',
+    id: 'websites', projectType: 'website', number: '01', name: 'Websites',
     shortTitle: '방문자의 이해를 문의로 연결합니다.',
     summary: '회사와 서비스의 강점을 정리하고, 방문자가 필요한 정보를 찾아 행동할 수 있는 웹사이트를 만듭니다.',
     linkLabel: '웹사이트 제작 보기',
@@ -13,7 +13,7 @@ export const services = [
     cta: '웹사이트 프로젝트 문의',
   },
   {
-    id: 'web-apps', number: '02', name: 'Web Apps & SaaS',
+    id: 'web-apps', projectType: 'webapp', number: '02', name: 'Web Apps & SaaS',
     shortTitle: '반복되는 업무를 제품으로 바꿉니다.',
     summary: '업무 도구, 관리자 화면, 구독형 서비스처럼 사용자의 행동과 데이터가 연결되는 웹앱을 만듭니다.',
     linkLabel: '웹앱·SaaS 개발 보기',
@@ -26,7 +26,7 @@ export const services = [
     cta: '웹앱·SaaS 프로젝트 문의',
   },
   {
-    id: 'mobile-apps', number: '03', name: 'Mobile Apps',
+    id: 'mobile-apps', projectType: 'mobile', number: '03', name: 'Mobile Apps',
     shortTitle: '직관적인 인터페이스와 안정적인 동작.',
     summary: 'iOS와 Android 환경에 맞춰 불필요한 터치를 줄이고, 매끄럽게 동작하는 모바일 앱을 설계하고 개발합니다.',
     linkLabel: '모바일 앱 개발 보기',

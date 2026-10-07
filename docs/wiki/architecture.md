@@ -55,7 +55,7 @@ pnpm build
   └─ scripts/measure-site.mjs dist 를 실측해 페이지의 수치 토큰 치환
 ```
 
-`pnpm test` = 로컬 D1 서버 테스트(26개) + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`(14개 회귀 테스트), Functions/Worker 컴파일은 `pnpm contact:check`입니다.
+`pnpm test` = 로컬 D1 서버 테스트(26개) + `pnpm build` + `scripts/check-site.mjs`. 브라우저 검수는 `pnpm test:browser`(15개 회귀 테스트), Functions/Worker 컴파일은 `pnpm contact:check`입니다.
 
 | 스크립트 | 실행 시점 | 역할 |
 | --- | --- | --- |

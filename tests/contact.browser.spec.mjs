@@ -117,6 +117,23 @@ test('project type chips sync bidirectionally with select dropdown', async ({ pa
   await expect(chip).toHaveAttribute('aria-pressed', 'false');
   await expect(page.locator('.chip-btn[data-value="mobile"]')).toHaveAttribute('aria-pressed', 'true');
 });
+test('URL query parameter preselects project type chip and dropdown', async ({ page }) => {
+  await enable(page);
+  await page.goto('/contact?type=website');
+  await expect(page.locator('#projectType')).toHaveValue('website');
+  await expect(page.locator('.chip-btn[data-value="website"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.chip-btn[data-value="webapp"]')).toHaveAttribute('aria-pressed', 'false');
+
+  await page.goto('/contact?type=mobile');
+  await expect(page.locator('#projectType')).toHaveValue('mobile');
+  await expect(page.locator('.chip-btn[data-value="mobile"]')).toHaveAttribute('aria-pressed', 'true');
+
+  await page.goto('/services');
+  await page.locator('a[href="/contact?type=webapp"]').click();
+  await expect(page).toHaveURL(/.*\/contact\?type=webapp/);
+  await expect(page.locator('#projectType')).toHaveValue('webapp');
+  await expect(page.locator('.chip-btn[data-value="webapp"]')).toHaveAttribute('aria-pressed', 'true');
+});
 test('CAPTCHA script failure keeps intake disabled and provides fallback', async ({ page }) => {
   await enable(page); await page.route('https://challenges.cloudflare.com/**', (route) => route.abort());
   await page.goto('/contact'); await expect(page.locator('#intake-notice')).toContainText('연결을 확인하지 못했습니다');

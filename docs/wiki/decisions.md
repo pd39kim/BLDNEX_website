@@ -346,3 +346,17 @@ About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동
    - 드롭다운만 있던 프로젝트 유형 선택 영역에 4종 빠른 선택 칩 버튼(`.project-type-chips`)을 추가.
    - 칩 클릭과 네이티브 `<select>` 드롭다운 간의 완벽한 양방향 동기화(`aria-pressed`, 이벤트 디스패치) 구현.
    - 브라우저 회귀 테스트에 칩-드롭다운 양방향 동기화 검증(`tests/contact.browser.spec.mjs`) 추가하여 14개 테스트 전원 통과 확인.
+
+## 2026-10-07 — 서비스 분야별 문의 링크와 Contact 폼 사전 선택(Preselection) 연동
+
+서비스 페이지(`/services`)의 각 분야별 문의 버튼을 클릭했을 때, Contact 페이지(`/contact`)에서 해당 프로젝트 유형이 칩과 드롭다운 모두에 자동으로 미리 선택되도록 연동했습니다.
+
+1. **서비스 데이터 모델 및 링크 갱신**:
+   - `src/data/services.ts`: 각 서비스 데이터에 `projectType`(`website`, `webapp`, `mobile`) 필드 명시.
+   - `src/pages/services.astro`: 각 서비스 카드의 문의 CTA 버튼을 `href={`/contact?type=${service.projectType}`}`로 설정.
+2. **Contact 폼 클라이언트 파라미터 파싱 및 동기화**:
+   - `src/scripts/contact.ts`: URL의 `type` 파라미터(별칭 `websites`, `web-apps`, `mobile-apps` 등 유연 지원)를 감지하는 `applyPreselectedType()` 구현.
+   - 파라미터에 해당하는 값으로 `<select id="projectType">`의 value를 지정하고, 해당 빠른 선택 칩의 `aria-pressed`를 `true`로 자동 활성화.
+3. **검증 및 브라우저 테스트 확장**:
+   - `tests/contact.browser.spec.mjs`에 URL 파라미터 기반 칩/드롭다운 사전 선택 및 서비스 상세 페이지 버튼 클릭 후 이동 시 자동 선택 E2E 검증 추가 (15개 브라우저 회귀 테스트 통과).
+

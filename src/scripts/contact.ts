@@ -108,6 +108,24 @@ typeChips.forEach((btn) => {
 projectTypeSelect?.addEventListener('change', () => {
   syncChips(projectTypeSelect.value);
 });
+function applyPreselectedType() {
+  const params = new URLSearchParams(window.location.search);
+  const rawType = params.get('type') || params.get('projectType');
+  if (!rawType || !projectTypeSelect) return;
+  const clean = rawType.toLowerCase().trim();
+  let mapped = '';
+  if (clean === 'website' || clean === 'websites') mapped = 'website';
+  else if (clean === 'webapp' || clean === 'web-apps' || clean === 'web-app' || clean === 'webapps') mapped = 'webapp';
+  else if (clean === 'mobile' || clean === 'mobile-apps' || clean === 'mobile-app' || clean === 'mobileapps') mapped = 'mobile';
+  else if (clean === 'other') mapped = 'other';
+  if (mapped && projectTypeSelect) {
+    projectTypeSelect.value = mapped;
+    syncChips(mapped);
+    clearError('projectType');
+  }
+}
+applyPreselectedType();
+window.addEventListener('popstate', applyPreselectedType);
 textarea.addEventListener('input', () => { document.getElementById('description-count')!.textContent = `${textarea.value.length.toLocaleString('ko-KR')} / 5,000`; });
 form.addEventListener('input', clearResolvedErrors);
 form.addEventListener('change', clearResolvedErrors);

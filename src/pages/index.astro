@@ -40,7 +40,7 @@ const featuredWorks = works.filter((work) => work.slug !== 'bldnex-website');
       <img class="store-icon" src="/assets/shuffo/app-icon.webp" alt="Shuffo 앱 아이콘" width="192" height="192" loading="lazy" decoding="async" />
       <div class="store-copy">
         <p class="eyebrow">SHIPPED ON THE APP STORE</p>
-        <h3 class="ko-heading">만들어 본 것이 아니라, 출시해 운영 중입니다.</h3>
+        <h3 class="ko-heading">기획부터 스토어 심사 통과까지, 실제 제품으로 완성했습니다.</h3>
         <p class="body-copy">{appStore.genre === 'Games' ? '게임' : appStore.genre} · iOS {appStore.minimumOs} 이상 · {appStore.releaseDate.slice(0, 4)}년 {Number(appStore.releaseDate.slice(5, 7))}월 출시 · 최신 버전 {appStore.version}</p>
       </div>
       <a class="store-badge" href={appStore.url} target="_blank" rel="noopener noreferrer">

@@ -9,30 +9,52 @@
 .form-section-label > :first-child { color: var(--accent); }
 .form-section-label a { font-size: var(--text-readable-min); letter-spacing: 0; text-decoration: underline; text-underline-offset: 4px; }
 .form-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; }
-.form-field { margin-bottom: 22px; min-width: 0; }
+.form-field { margin-bottom: 22px; min-width: 0; position: relative; }
 .form-field label { display: block; font-size: var(--text-readable-min); margin-bottom: 9px; }
 .form-field label > span[aria-hidden] { color: var(--accent); }
-.project-type-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.project-type-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 4px; }
 .chip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 14px;
   background: var(--bg);
   border: 1px solid #444a54;
   color: var(--muted);
-  padding: 8px 14px;
-  font-size: var(--text-readable-min);
-  font-family: inherit;
+  font: 500 15px/1.4 system-ui, sans-serif;
+  text-align: center;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 2px;
+  border-radius: 0;
   user-select: none;
 }
-.chip-btn:hover { border-color: var(--accent); color: var(--text); }
+.chip-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(53, 169, 255, 0.04); }
 .chip-btn[aria-pressed="true"] {
   background: rgba(53, 169, 255, 0.12);
   border-color: var(--accent);
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .chip-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.form-field:has(#projectType[aria-invalid="true"]) .chip-btn { border-color: #f0a697; }
+.form-field:has(#projectType:focus-visible) .project-type-chips { outline: 2px solid var(--accent); outline-offset: 4px; }
+.project-type-select-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
 .form-field input, .form-field select, .form-field textarea, .admin-controls select { display: block; width: 100%; min-height: 50px; border: 1px solid #444a54; border-radius: 0; background: var(--bg); color: var(--text); padding: 13px 14px; font: 400 16px/1.6 system-ui,sans-serif; color-scheme: dark; }
 .form-field textarea { resize: vertical; min-height: 190px; }
 .form-field ::placeholder { color: #9298a3; opacity: 1; font-size: var(--text-readable-min); }
@@ -62,4 +84,7 @@
 .inquiry-aside .contact-address { font-size: .95rem; margin-block: 20px 12px; }
 @media (max-width: 960px) { .contact-section.inquiry-layout { gap: 32px; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); } }
 @media (max-width: 780px) { .contact-section.inquiry-layout { grid-template-columns: 1fr; } .inquiry-aside { max-width: 650px; } }
+@media (max-width: 680px) { .project-type-chips { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; gap: 0; } .inquiry-card { padding: 28px 20px; } .form-section-label { margin-top: 20px; } }
+@media (max-width: 380px) { .project-type-chips { grid-template-columns: 1fr; } }
+

@@ -383,5 +383,10 @@ About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동
    - `src/scripts/contact.ts`: URL 파라미터 감지 시 `scrollIntoView({ behavior: 'smooth', block: 'start' })`로 부드럽게 폼 위치로 정렬.
    - `src/styles/contact.css`: `.inquiry-card`에 `scroll-margin-top: 32px`를 지정하고 글로벌 `html { scroll-padding-top: 112px; }`과 연계하여, 상단 헤더에 가려지지 않고 "프로젝트에 대해 알려주세요" 제목과 활성화된 칩이 한 화면에 바로 들어오도록 배치.
 
+## 2026-10-07 — mailto 문의 링크 제목 군더더기 텍스트 제거 및 간소화
+
+기존 `contactHref`의 mailto 제목에 포함되어 있던 안내용 플레이스홀더(`[프로젝트 문의] 프로젝트명 또는 회사·팀 이름`)는 메일 앱 실행 시 사용자가 직접 텍스트를 지워야 하는 번거로움과 어색함이 있었습니다. 사용자의 확인을 거쳐 불필요한 안내 문구를 모두 제거하고 깔끔한 카테고리 태그인 `[프로젝트 문의]`만 심플하게 남기도록 정돈했습니다 (`mailto:BLDNEX.DEV@GMAIL.COM?subject=%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%AC%B8%EC%9D%98%5D`).
+
+
 
 

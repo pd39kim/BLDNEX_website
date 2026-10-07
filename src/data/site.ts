@@ -15,7 +15,7 @@ export const navigation = [
   { href: '/works', label: 'Works' },
 ];
 
-export const contactHref = `mailto:${site.email}?subject=${encodeURIComponent('[프로젝트 문의] 프로젝트명 또는 회사·팀 이름')}`;
+export const contactHref = `mailto:${site.email}?subject=${encodeURIComponent('[프로젝트 문의]')}`;
 
 /**
  * ogImage는 scripts/generate-og.mjs가 만드는 페이지별 공유 이미지(1200×630)입니다.

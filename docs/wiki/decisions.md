@@ -400,6 +400,8 @@ PreviewLog의 법률 및 랜딩 페이지 내 잔여 표현("녹화본")을 실�
 3. **Cloudflare Workers 배포 완료**:
    - `previewlog-license-server` (기본/샌드박스: `https://previewlog.bldnex.com`)
    - `previewlog-license-live` (라이브: `https://previewlog-license-live.bldnex.com`)
+4. **후속 과제 등록**:
+   - `docs/wiki/roadmap.md`에 Wiki Memory 자동화 도구(`.wiki-memory` CLI) 연동 검토 및 PreviewLog 데스크톱 릴리스 패키징 과제를 추가 개발 항목으로 등록.
 
 
 

@@ -44,3 +44,11 @@
 
 4. **검증 및 무결성 검사**:
    * 모든 수정 후에는 반드시 `pnpm test` 및 `pnpm test:browser`를 실행하여 폰트 커버리지, 링크, 실측 수치, 브라우저 상호작용 검증을 통과해야 합니다.
+
+<!-- wiki-memory:start -->
+## Wiki Memory
+
+Read "/Users/macsk/Projects/BLDNEX_website/.wiki-memory/START.md" at session start/resume and when the user asks to enable Wiki Memory.
+The canonical project root is "/Users/macsk/Projects/BLDNEX_website". Check its current memory.config.json; do not use a stale worktree copy.
+This instruction installs the workflow, not permission to enable it. Do not broadcast unless the user has explicitly selected use.
+<!-- wiki-memory:end -->

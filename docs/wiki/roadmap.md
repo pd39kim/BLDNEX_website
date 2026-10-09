@@ -88,7 +88,7 @@
 
 ## 후속 콘텐츠 및 개발 과제
 
-- [ ] **Wiki Memory 자동화 도구 연동 검토** — 현재 `docs/wiki/` 마크다운 문서 기반 수동 운용 체계에서, `previewlog` 프로젝트와 동일한 형태의 `.wiki-memory` CLI 자동화 도구(`memory.config.json`) 도입 및 세션 자동 연동 체계 검토.
+- [x] **Wiki Memory 자동화 도구 연동 완료** — `.wiki-memory` CLI 도구 설치, `AGENTS.md` 지침 블록 주입, `memory.config.json`(`enabled: true`), `memory.local.json`, `bldnex-website-memory` 공용 저장소 연동 완료.
 - [ ] **PreviewLog 데스크톱 앱 패키징 및 릴리스 배포 검토** — 서버 측 법률/랜딩 카피 통일("촬영본") 완료 이후 필요에 따른 데스크톱 앱 신규 패키징(`desktop:release`) 및 배포.
 - [ ] **홈·상세 페이지 콘텐츠 중복 정리 검토** — 2026-10-06 검토 제안만 기록했으며, 현재 사이트에는 적용하지 않았습니다. [제안 문서](../BLDNEX_CONTENT_DEDUPLICATION_PROPOSAL_2026-10-06.md)
 - [x] 개발사 증거 요소 — 빌드 실측 스탬프, bldnex.com 작업물, App Store 배지 ([문서](proof-points.md))

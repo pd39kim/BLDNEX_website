@@ -387,6 +387,21 @@ About 페이지에서 사실상 동일한 내용(핵심 우선순위 정의, 동
 
 기존 `contactHref`의 mailto 제목에 포함되어 있던 안내용 플레이스홀더(`[프로젝트 문의] 프로젝트명 또는 회사·팀 이름`)는 메일 앱 실행 시 사용자가 직접 텍스트를 지워야 하는 번거로움과 어색함이 있었습니다. 사용자의 확인을 거쳐 불필요한 안내 문구를 모두 제거하고 깔끔한 카테고리 태그인 `[프로젝트 문의]`만 심플하게 남기도록 정돈했습니다 (`mailto:BLDNEX.DEV@GMAIL.COM?subject=%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%AC%B8%EC%9D%98%5D`).
 
+## 2026-10-09 — PreviewLog 법률 및 제품 카피 "촬영본" 용어 통일 및 라이선스 서버 배포
+
+PreviewLog의 법률 및 랜딩 페이지 내 잔여 표현("녹화본")을 실제 제품 판매 및 안내 표준 용어인 "촬영본"으로 일괄 통일하고 Cloudflare Workers에 배포했습니다.
+
+1. **용어 수정 반영 (`previewlog` 저장소)**:
+   - `server/src/legal/homepage.ts`: "촬영 녹화본의 컷을 찾고" → "촬영본의 컷을 찾고"
+   - `server/src/legal/privacy.ts`: "촬영 현장에서 녹화본을" → "촬영 현장에서 촬영본을"
+   - `server/src/legal/terms.ts`: "촬영 현장에서 녹화본을" → "촬영 현장에서 촬영본을"
+2. **테스트 및 검증**:
+   - `server/test/legal_pages.test.ts`의 HTML 단언문에 공백 정규화를 적용해 개행 포맷팅 변경에 대한 내구성을 확보하고 114개 테스트 전체 통과.
+3. **Cloudflare Workers 배포 완료**:
+   - `previewlog-license-server` (기본/샌드박스: `https://previewlog.bldnex.com`)
+   - `previewlog-license-live` (라이브: `https://previewlog-license-live.bldnex.com`)
+
+
 
 
 

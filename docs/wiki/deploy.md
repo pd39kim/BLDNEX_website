@@ -169,8 +169,7 @@ npx wrangler pages project create bldnex-website --production-branch main --forc
 
 - `pnpm test` 통과 (공개 9페이지, 내부 참조 308개, 폰트 커버리지, 실측 수치 일치 등)
 - 현재 문의 변경: 공개 9페이지 + 관리자 셸 1개, 서버/브라우저 검수 별도. 실제 접수는 운영 연결·방침 검토 후에만 활성화합니다.
-- 개인정보처리방침은 현재 `noindex` + sitemap 제외 + 푸터 "(준비 중)" 유지 상태입니다. 법률 검토 후 [방침 해제](roadmap.md)를 함께 진행합니다.
-- PreviewLog는 공개 배포 상태가 확인되지 않아 외부 링크·다운로드를 노출하지 않습니다.
+- PreviewLog 공식 랜딩(`previewlog.bldnex.com`)이 배포 완료되어 `/works/previewlog`에서 공식 웹사이트 연결 링크 및 스키마가 활성화된 상태입니다.
 
 ## 롤백
 

@@ -403,6 +403,25 @@ PreviewLog의 법률 및 랜딩 페이지 내 잔여 표현("녹화본")을 실�
 4. **후속 과제 등록**:
    - `docs/wiki/roadmap.md`에 Wiki Memory 자동화 도구(`.wiki-memory` CLI) 연동 검토 및 PreviewLog 데스크톱 릴리스 패키징 과제를 추가 개발 항목으로 등록.
 
+## 2026-10-12 — PreviewLog 화면 분석 모델 4bit 양자화(2.9 GB) 교체 및 스펙 동기화
+
+PreviewLog의 화면 분석 모델이 MLX 최적화 4bit 양자화 모델로 교체됨에 따라, 제품 기획 원문(`docs/BLDNEX_WEBSITE_PLAN.md`)과 랜딩 사이트(`previewlog.bldnex.com`)의 스펙 표기를 동기화했습니다.
+
+1. **모델 교체 및 실측 데이터**:
+   - 모델: 기존 비양자화 `Qwen/Qwen3-VL-4B-Instruct` (다운로드 약 8.9 GB, 피크 RSS 8.90 GiB)에서 `mlx-community/Qwen3-VL-4B-Instruct-4bit` (revision `2fd8dacb`, 다운로드 2.89~2.90 GiB / 약 2.9 GB, 피크 RSS 3.59~4.74 GiB / 평균 약 3.8 GiB)로 공식 교체되었습니다.
+   - 추론 속도: 프레임당 1.7초 → 0.8초 (2.1배 고속화).
+   - 품질 평가: 70장 블라인드 평가에서 60승 10패로 4bit 모델이 우수 (비양자화의 좁은 샷 편향 해소, 롱샷·풀샷 정상 인식).
+   - 런타임: 번역기 없는 한국어 직접 생성 유지, Apple Silicon MLX 하드웨어 가속 전용.
+
+2. **웹사이트 및 기획서 스펙 정정**:
+   - 랜딩페이지(`previewlog-landing`의 `site/index.html` L276, `site/requirements.html` L71-73): 화면 분석 모델 저장공간 표기를 `약 8.9 GB`에서 `약 2.9 GB`로 정정 (`앱 약 0.5 GB · 음성 전사 모델 약 575 MB · 화면 분석 모델 약 2.9 GB · 작업 공간 별도`). 초기 모델 다운로드 총합이 약 9.5 GB에서 약 3.5 GB 수준으로 대폭 완화.
+   - BLDNEX 기획 원문(`docs/BLDNEX_WEBSITE_PLAN.md` L328): 저장공간 항목을 최신 실측 수치(약 2.9 GB)로 일치 동기화.
+
+3. **메모리(RAM) 및 지원 플랫폼 정책 (현행 유지)**:
+   - 메모리: 4bit 도입으로 피크 RSS가 약 3.8 GiB로 감소했으나, 내부 요구사항 문서(`SYSTEM_REQUIREMENTS.md`)의 "8 GB 기기 실측이 완료되기 전까지는 16 GB 권장 사양을 유지하고 8 GB 지원을 단정하지 않는다"는 규칙에 따라 **최소 8 GB · 16 GB 권장** 표기를 그대로 유지.
+   - 지원 플랫폼: Apple Silicon M1 이상 전용 (MLX 프레임워크 전용 구동, Intel Mac 정식 제외 유지).
+
+
 
 
 

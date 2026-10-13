@@ -36,6 +36,7 @@ BLDNEX 공식 웹사이트를 구현하는 Astro + TypeScript 프로젝트입니
 | `public/assets/previewlog/` | PreviewLog 스크린샷 2종 및 커버 WebP |
 | `public/assets/shuffo/` | Shuffo 스크린샷, 앱 아이콘, App Store 배지 |
 | `public/_headers` | Cloudflare Pages 응답 헤더 (보안·캐시) |
+| `public/app-ads.txt` | Shuffo 앱의 AdMob 소유권 확인용 공개 파일. 스토어 개발자 웹사이트 호스트와 일치해야 함 |
 | `wrangler.toml` | Pages 배포 설정 |
 | `shared/contact.ts` | 공통 검증·필드·동의 버전·승인된 보관 기간 |
 | `src/components/ContactForm.astro`, `src/scripts/contact.ts` | 접수 폼·입력 유지·실시간 에러 해제·동일 요청 재시도 |

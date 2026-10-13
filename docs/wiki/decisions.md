@@ -445,3 +445,6 @@ PreviewLog의 화면 분석 모델이 MLX 최적화 4bit 양자화 모델로 교
 2. **단일 진실 공급원 및 문서 동기화**:
    - `docs/BLDNEX_WEBSITE_PLAN.md` 및 `docs/wiki/context.md`: 대표 전화번호 일괄 동기화.
 
+## 2026-10-13 — Shuffo 스토어 개발자 웹사이트와 `app-ads.txt` 호스트
+
+Shuffo의 App Store 개발자 웹사이트를 `https://bldnex.com`으로 정했습니다. AdMob은 스토어 개발자 웹사이트 호스트의 루트 `/app-ads.txt`로 소유권을 확인하므로, 이 사이트가 `public/app-ads.txt`에 `google.com, pub-3667866402702958, DIRECT, f08c47fec0942fa0`을 게시합니다. Shuffo Worker의 같은 경로는 유지하되 소유권 확인 기준은 `bldnex.com`입니다.

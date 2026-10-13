@@ -37,7 +37,7 @@ const shareImage = new URL(ogImage, site.siteUrl);
 
 const organization = {
   '@context': 'https://schema.org', '@type': 'Organization',
-  name: site.name, legalName: site.legalName, url: site.siteUrl, email: site.email,
+  name: site.name, legalName: site.legalName, url: site.siteUrl, email: site.email, telephone: site.phone,
   logo: new URL('/assets/brand/bldnex-symbol.svg', site.siteUrl).href,
   sameAs: [site.shuffoUrl],
 };

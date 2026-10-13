@@ -421,8 +421,27 @@ PreviewLog의 화면 분석 모델이 MLX 최적화 4bit 양자화 모델로 교
    - 메모리: 4bit 도입으로 피크 RSS가 약 3.8 GiB로 감소했으나, 내부 요구사항 문서(`SYSTEM_REQUIREMENTS.md`)의 "8 GB 기기 실측이 완료되기 전까지는 16 GB 권장 사양을 유지하고 8 GB 지원을 단정하지 않는다"는 규칙에 따라 **최소 8 GB · 16 GB 권장** 표기를 그대로 유지.
    - 지원 플랫폼: Apple Silicon M1 이상 전용 (MLX 프레임워크 전용 구동, Intel Mac 정식 제외 유지).
 
+## 2026-10-13 — 통신판매업신고번호 반영
 
+공식 통신판매업신고번호(`2026-경기여주-00296`)가 확정됨에 따라, 단일 진실 공급원인 기획 원문(`docs/BLDNEX_WEBSITE_PLAN.md`), 사이트 공통 메타데이터(`src/data/site.ts`), 사이트 푸터(`src/components/Footer.astro`), 개인정보처리방침(`src/data/privacy.ts`), 및 위키 맥락 문서(`docs/wiki/context.md`)에 공식 반영했습니다.
 
+1. **사이트 메타데이터 및 푸터**:
+   - `src/data/site.ts`: `mailOrderNumber: '2026-경기여주-00296'` 추가.
+   - `src/components/Footer.astro`: 푸터 하단 정보열에 `<span>통신판매업신고번호 {site.mailOrderNumber}</span>` 추가.
+   - `src/data/privacy.ts`: 개인정보 보호책임자 및 접수처 안내 테이블에 통신판매업신고번호 행 추가.
+2. **단일 진실 공급원 및 위키 동기화**:
+   - `docs/BLDNEX_WEBSITE_PLAN.md`: 확정된 사업 정보 테이블, 푸터 레이아웃 예시, 확인 체크리스트, 사이트 모델, 최종 확정 목록에 통신판매업신고번호 일괄 동기화.
+   - `docs/wiki/context.md`: 사업자 정보 항목에 통신판매업신고번호 추가.
 
+## 2026-10-13 — 대표 전화번호 반영 및 배포
 
+대표 공식 연락처(`010-5605-0939`)를 등록하고, 사이트 공통 메타데이터(`src/data/site.ts`), 사이트 푸터(`src/components/Footer.astro`), 개인정보처리방침(`src/data/privacy.ts`), 구조화 데이터(`src/layouts/BaseLayout.astro`), 단일 진실 공급원 기획서 및 Wiki Memory에 정식 반영하여 Cloudflare Pages에 배포했습니다.
+
+1. **사이트 메타데이터 및 컴포넌트**:
+   - `src/data/site.ts`: `phone: '010-5605-0939'` 추가.
+   - `src/components/Footer.astro`: 푸터 하단 정보열에 `<span>전화번호 {site.phone}</span>` 추가.
+   - `src/data/privacy.ts`: 개인정보 보호책임자/접수처 안내 테이블에 전화번호 행 추가.
+   - `src/layouts/BaseLayout.astro`: Organization Schema.org에 `telephone: site.phone` 추가.
+2. **단일 진실 공급원 및 문서 동기화**:
+   - `docs/BLDNEX_WEBSITE_PLAN.md` 및 `docs/wiki/context.md`: 대표 전화번호 일괄 동기화.
 

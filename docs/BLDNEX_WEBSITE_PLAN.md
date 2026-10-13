@@ -31,7 +31,9 @@ BLDNEX는 아이디어를 빠르게 검증 가능한 제품으로 만들고, 기
 | 회사명 | 빌드넥스 / BLDNEX |
 | 슬로건 | BUILD WHAT'S NEXT |
 | 사업자등록번호 | 374-02-03692 |
+| 통신판매업신고번호 | 2026-경기여주-00296 |
 | 대표 이메일 | BLDNEX.DEV@GMAIL.COM |
+| 대표 전화번호 | 010-5605-0939 |
 | 포지션 | 제품 개발 스튜디오 |
 | 핵심 고객 | 스타트업, 중소기업, 개인창업자 |
 | 주력 서비스 | 기업·브랜드 웹사이트, 웹앱/SaaS, 모바일 앱 |
@@ -136,7 +138,7 @@ FROM IDEA TO LAUNCH
 BLDNEX / BUILD WHAT'S NEXT
 PreviewLog · Shuffo · Privacy Policy
 About · Services · Works · Blog · Contact
-사업자등록번호 374-02-03692 · BLDNEX.DEV@GMAIL.COM
+사업자등록번호 374-02-03692 · 통신판매업신고번호 2026-경기여주-00296 · 전화번호 010-5605-0939 · BLDNEX.DEV@GMAIL.COM
 © BLDNEX. All rights reserved.
 ```
 
@@ -696,6 +698,8 @@ CREATE TABLE inquiry_files (
 - PreviewLog 연결 주소: `https://previewlog.bldnex.com` 확정
 - 문의 알림 수신 이메일: `BLDNEX.DEV@GMAIL.COM`
 - 사업자등록번호: `374-02-03692`
+- 통신판매업신고번호: `2026-경기여주-00296`
+- 대표 전화번호: `010-5605-0939`
 - Privacy Policy에 대표자명, 사업장 주소, 개인정보 보호책임자 정보 추가 필요
 
 추가로 로고를 받으면 포인트 컬러, favicon, OG 이미지, 헤더 대비를 확정한다.
@@ -762,7 +766,9 @@ export const site = {
   legalName: '빌드넥스',
   tagline: "BUILD WHAT'S NEXT",
   email: 'BLDNEX.DEV@GMAIL.COM',
+  phone: '010-5605-0939',
   businessNumber: '374-02-03692',
+  mailOrderNumber: '2026-경기여주-00296',
   siteUrl: 'https://bldnex.com',
   previewlogUrl: 'https://previewlog.bldnex.com',
   shuffoUrl: 'https://apps.apple.com/kr/app/shuffo/id6814380886',
@@ -1036,6 +1042,8 @@ D1·R2 바인딩 이름은 `DB`, `ASSETS`처럼 짧고 일관되게 유지한다
 - PreviewLog: `https://previewlog.bldnex.com`
 - 대표 이메일: `BLDNEX.DEV@GMAIL.COM`
 - 사업자등록번호: `374-02-03692`
+- 통신판매업신고번호: `2026-경기여주-00296`
+- 대표 전화번호: `010-5605-0939`
 - 공개 사이트 기술 방향: Astro + TypeScript + 선택적 React
 - 인프라 방향: Cloudflare Pages / Workers / D1 / R2
 

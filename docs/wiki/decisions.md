@@ -448,3 +448,17 @@ PreviewLog의 화면 분석 모델이 MLX 최적화 4bit 양자화 모델로 교
 ## 2026-10-13 — Shuffo 스토어 개발자 웹사이트와 `app-ads.txt` 호스트
 
 Shuffo의 App Store 개발자 웹사이트를 `https://bldnex.com`으로 정했습니다. AdMob은 스토어 개발자 웹사이트 호스트의 루트 `/app-ads.txt`로 소유권을 확인하므로, 이 사이트가 `public/app-ads.txt`에 `google.com, pub-3667866402702958, DIRECT, f08c47fec0942fa0`을 게시합니다. Shuffo Worker의 같은 경로는 유지하되 소유권 확인 기준은 `bldnex.com`입니다.
+
+## 2026-10-14 — PreviewLog v0.1.13 최신 제품 스크린샷 교체
+
+PreviewLog v0.1.13 최신 빌드의 실제 제품 캡처본으로 사이트 내 PreviewLog 제품 소개 스크린샷을 교체했습니다.
+
+1. **에셋 갱신 및 최적화**:
+   - `01-cut-summary.png` (1404×1009): `스크린샷-컷요약-v0.1.13.png`로 교체 및 WebP 최적화 생성.
+   - `02-dialogue-review.png` (1404×1006): `스크린샷-대사검토-v0.1.13.png`로 교체 및 WebP 최적화 생성.
+   - 향후 확장을 위해 출력물 스크린샷(`03-edit-reference.png`, `04-read-only-share.png` 및 WebP)도 에셋 디렉터리에 함께 확보.
+2. **반영 위치 및 화면 검증**:
+   - Works 목록 및 홈 카드(`WorkCard.astro`): 데스크톱 앱 창 목업 프레임(`.mockup-frame`) 내 대사 검토 화면 자동 갱신.
+   - PreviewLog 상세 페이지(`src/pages/works/[slug].astro`): `A CLOSER LOOK` 실물 화면 갤러리 2종(컷 요약, 대사 검토) 자동 갱신.
+   - 반응형 뷰포트(1440/768/390/360px) 레이아웃 정상 렌더링 및 `pnpm test`, `pnpm test:browser` 전체 통과.
+

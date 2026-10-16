@@ -462,3 +462,11 @@ PreviewLog v0.1.13 최신 빌드의 실제 제품 캡처본으로 사이트 내 
    - PreviewLog 상세 페이지(`src/pages/works/[slug].astro`): `A CLOSER LOOK` 실물 화면 갤러리 2종(컷 요약, 대사 검토) 자동 갱신.
    - 반응형 뷰포트(1440/768/390/360px) 레이아웃 정상 렌더링 및 `pnpm test`, `pnpm test:browser` 전체 통과.
 
+## 2026-10-16 — 홈 히어로 우상단 래디얼 그라데이션 전체 배경 확장
+
+기존 홈 히어로(`.hero.section-wrap`)에 직접 지정되어 있던 `background: radial-gradient(...)`가 `.section-wrap`의 최대 폭(`1240px`) 및 상단 헤더 경계(`88px`)에서 직각으로 잘려 배경과 경계선이 보이던 문제를 수정했습니다.
+
+1. **원인 및 해결 구조 (`src/styles/global.css`)**:
+   - `.hero`가 `.section-wrap`(`width: min(var(--max), calc(100% - 80px))`)을 함께 사용하므로, 요소 자체 배경에 그라데이션을 칠하면 좌우 여백과 헤더 하단 경계에서 반경 `800px`의 글로우가 클리핑되었습니다.
+   - `#main`에 `position: relative`를 부여하고 `.hero::before` 가상 요소를 `top: -88px; left: 0; right: 0; height: 1080px; z-index: -1; pointer-events: none;`으로 배치하여, 가로 스크롤(`100vw` 오버플로우) 유발 없이 뷰포트 전체 너비와 상단 스티키 헤더 뒤쪽 배경까지 그라데이션이 자연스럽게 퍼지도록 개선했습니다.
+   - 그라데이션 중심점을 `calc(50% + min(434px, 35%)) 256px`로 설정해 와이드 모니터에서도 히어로 콘텐츠 우상단 기준 위치를 일관되게 유지합니다.
